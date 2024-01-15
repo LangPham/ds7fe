@@ -14,7 +14,15 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: top;
+      object-position: bottom;
+    }
+
+    .gdu-name {
+      padding-top: 100px;
+      padding-bottom: 300px;
+      text-align: right;
+      display: block;
+      width: 100%;
     }
 
     .container {
