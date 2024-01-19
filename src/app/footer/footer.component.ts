@@ -9,7 +9,7 @@ import { FeatureID } from '../core/data/feature-authorization/feature-id';
 @Component({
   selector: 'ds-footer',
   styleUrls: ['footer.component.scss'],
-  templateUrl: 'footer.component.html'
+  templateUrl: 'footer.component.html',
 })
 export class FooterComponent {
   dateObj: number = Date.now();
@@ -24,9 +24,11 @@ export class FooterComponent {
 
   constructor(
     @Optional() private cookies: KlaroService,
-    private authorizationService: AuthorizationDataService,
+    private authorizationService: AuthorizationDataService
   ) {
-    this.showSendFeedback$ = this.authorizationService.isAuthorized(FeatureID.CanSendFeedback);
+    this.showSendFeedback$ = this.authorizationService.isAuthorized(
+      FeatureID.CanSendFeedback
+    );
   }
 
   showCookieSettings() {

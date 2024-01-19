@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'ds-context-help-toggle',
   templateUrl: './context-help-toggle.component.html',
-  styleUrls: ['./context-help-toggle.component.scss']
+  styleUrls: ['./context-help-toggle.component.scss'],
 })
 export class ContextHelpToggleComponent implements OnInit {
   buttonVisible$: Observable<boolean>;
@@ -19,19 +19,22 @@ export class ContextHelpToggleComponent implements OnInit {
 
   constructor(
     protected elRef: ElementRef,
-    protected contextHelpService: ContextHelpService,
-  ) {
-  }
+    protected contextHelpService: ContextHelpService
+  ) {}
 
   ngOnInit(): void {
-    this.buttonVisible$ = this.contextHelpService.tooltipCount$().pipe(map(x => x > 0));
-    this.subscriptions.push(this.buttonVisible$.subscribe((showContextHelpToggle: boolean) => {
-      if (showContextHelpToggle) {
-        this.elRef.nativeElement.classList.remove('d-none');
-      } else {
-        this.elRef.nativeElement.classList.add('d-none');
-      }
-    }));
+    this.buttonVisible$ = this.contextHelpService
+      .tooltipCount$()
+      .pipe(map((x) => x > 0));
+    this.subscriptions.push(
+      this.buttonVisible$.subscribe((showContextHelpToggle: boolean) => {
+        if (showContextHelpToggle) {
+          this.elRef.nativeElement.classList.remove('d-none');
+        } else {
+          this.elRef.nativeElement.classList.add('d-none');
+        }
+      })
+    );
   }
 
   onClick() {

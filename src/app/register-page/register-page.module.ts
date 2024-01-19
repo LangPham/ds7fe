@@ -21,14 +21,12 @@ import { ThemedRegisterEmailComponent } from './register-email/themed-register-e
     RegisterEmailComponent,
     ThemedRegisterEmailComponent,
     CreateProfileComponent,
-    ThemedCreateProfileComponent
+    ThemedCreateProfileComponent,
   ],
-  providers: []
+  providers: [],
 })
 
 /**
  * Module related to components used to register a new user
  */
-export class RegisterPageModule {
-
-}
+export class RegisterPageModule {}

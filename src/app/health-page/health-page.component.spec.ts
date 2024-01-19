@@ -8,7 +8,10 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { HealthPageComponent } from './health-page.component';
 import { HealthService } from './health.service';
-import { HealthInfoResponseObj, HealthResponseObj } from '../shared/mocks/health-endpoint.mocks';
+import {
+  HealthInfoResponseObj,
+  HealthResponseObj,
+} from '../shared/mocks/health-endpoint.mocks';
 import { RawRestResponse } from '../core/dspace-rest/raw-rest-response.model';
 import { TranslateLoaderMock } from '../shared/mocks/translate-loader.mock';
 
@@ -24,13 +27,13 @@ describe('HealthPageComponent', () => {
   const healthRestResponse$ = of({
     payload: HealthResponseObj,
     statusCode: 200,
-    statusText: 'OK'
+    statusText: 'OK',
   } as RawRestResponse);
 
   const healthInfoRestResponse$ = of({
     payload: HealthInfoResponseObj,
     statusCode: 200,
-    statusText: 'OK'
+    statusText: 'OK',
   } as RawRestResponse);
 
   beforeEach(async () => {
@@ -41,16 +44,13 @@ describe('HealthPageComponent', () => {
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
-        })
+            useClass: TranslateLoaderMock,
+          },
+        }),
       ],
-      declarations: [ HealthPageComponent ],
-      providers: [
-        { provide: HealthService, useValue: healthService }
-      ]
-    })
-    .compileComponents();
+      declarations: [HealthPageComponent],
+      providers: [{ provide: HealthService, useValue: healthService }],
+    }).compileComponents();
   });
 
   beforeEach(() => {

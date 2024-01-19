@@ -1,24 +1,19 @@
 import { Component, Input } from '@angular/core';
 import { MetadataRepresentation } from '../../../core/shared/metadata-representation/metadata-representation.model';
-import {
-  Observable,
-  zip as observableZip
-} from 'rxjs';
+import { Observable, zip as observableZip } from 'rxjs';
 import { RelationshipDataService } from '../../../core/data/relationship-data.service';
 import { MetadataValue } from '../../../core/shared/metadata.models';
 import { Item } from '../../../core/shared/item.model';
 import { AbstractIncrementalListComponent } from '../abstract-incremental-list/abstract-incremental-list.component';
 import { map } from 'rxjs/operators';
 import { getRemoteDataPayload } from '../../../core/shared/operators';
-import {
-  MetadatumRepresentation
-} from '../../../core/shared/metadata-representation/metadatum/metadatum-representation.model';
+import { MetadatumRepresentation } from '../../../core/shared/metadata-representation/metadatum/metadatum-representation.model';
 import { BrowseService } from '../../../core/browse/browse.service';
 import { BrowseDefinitionDataService } from '../../../core/browse/browse-definition-data.service';
 
 @Component({
   selector: 'ds-metadata-representation-list',
-  templateUrl: './metadata-representation-list.component.html'
+  templateUrl: './metadata-representation-list.component.html',
 })
 /**
  * This component is used for displaying metadata
@@ -26,7 +21,9 @@ import { BrowseDefinitionDataService } from '../../../core/browse/browse-definit
  * It expects an itemType to resolve the metadata to a an item
  * It expects a label to put on top of the list
  */
-export class MetadataRepresentationListComponent extends AbstractIncrementalListComponent<Observable<MetadataRepresentation[]>> {
+export class MetadataRepresentationListComponent extends AbstractIncrementalListComponent<
+  Observable<MetadataRepresentation[]>
+> {
   /**
    * The parent of the list of related items to display
    */
@@ -61,7 +58,7 @@ export class MetadataRepresentationListComponent extends AbstractIncrementalList
 
   constructor(
     public relationshipService: RelationshipDataService,
-    protected browseDefinitionDataService: BrowseDefinitionDataService,
+    protected browseDefinitionDataService: BrowseDefinitionDataService
   ) {
     super();
   }
@@ -71,7 +68,9 @@ export class MetadataRepresentationListComponent extends AbstractIncrementalList
    * @param page  The page to fetch
    */
   getPage(page: number): Observable<MetadataRepresentation[]> {
-    const metadata = this.parentItem.findMetadataSortedByPlace(this.metadataFields);
+    const metadata = this.parentItem.findMetadataSortedByPlace(
+      this.metadataFields
+    );
     this.total = metadata.length;
     return this.resolveMetadataRepresentations(metadata, page);
   }
@@ -81,26 +80,45 @@ export class MetadataRepresentationListComponent extends AbstractIncrementalList
    * @param metadata  The list of all metadata values
    * @param page      The page to return representations for
    */
-  resolveMetadataRepresentations(metadata: MetadataValue[], page: number): Observable<MetadataRepresentation[]> {
+  resolveMetadataRepresentations(
+    metadata: MetadataValue[],
+    page: number
+  ): Observable<MetadataRepresentation[]> {
     return observableZip(
       ...metadata
-        .slice((this.objects.length * this.incrementBy), (this.objects.length * this.incrementBy) + this.incrementBy)
+        .slice(
+          this.objects.length * this.incrementBy,
+          this.objects.length * this.incrementBy + this.incrementBy
+        )
         .map((metadatum: any) => Object.assign(new MetadataValue(), metadatum))
         .map((metadatum: MetadataValue) => {
           if (metadatum.isVirtual) {
-            return this.relationshipService.resolveMetadataRepresentation(metadatum, this.parentItem, this.itemType);
+            return this.relationshipService.resolveMetadataRepresentation(
+              metadatum,
+              this.parentItem,
+              this.itemType
+            );
           } else {
             // Check for a configured browse link and return a standard metadata representation
             let searchKeyArray: string[] = [];
             this.metadataFields.forEach((field: string) => {
-              searchKeyArray = searchKeyArray.concat(BrowseService.toSearchKeyArray(field));
+              searchKeyArray = searchKeyArray.concat(
+                BrowseService.toSearchKeyArray(field)
+              );
             });
-            return this.browseDefinitionDataService.findByFields(this.metadataFields).pipe(
-              getRemoteDataPayload(),
-              map((def) => Object.assign(new MetadatumRepresentation(this.itemType, def), metadatum))
-            );
+            return this.browseDefinitionDataService
+              .findByFields(this.metadataFields)
+              .pipe(
+                getRemoteDataPayload(),
+                map((def) =>
+                  Object.assign(
+                    new MetadatumRepresentation(this.itemType, def),
+                    metadatum
+                  )
+                )
+              );
           }
-        }),
+        })
     );
   }
 }

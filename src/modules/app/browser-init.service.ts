@@ -9,7 +9,11 @@ import { InitService } from '../../app/init.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../app/app.reducer';
 import { TransferState } from '@angular/platform-browser';
-import { APP_CONFIG, APP_CONFIG_STATE, AppConfig } from '../../config/app-config.interface';
+import {
+  APP_CONFIG,
+  APP_CONFIG_STATE,
+  AppConfig,
+} from '../../config/app-config.interface';
 import { DefaultAppConfig } from '../../config/default-app-config';
 import { extendEnvironmentWithAppConfig } from '../../config/config.util';
 import { environment } from '../../environments/environment';
@@ -39,7 +43,6 @@ import { ServerCheckGuard } from '../../app/core/server-check/server-check.guard
  */
 @Injectable()
 export class BrowserInitService extends InitService {
-
   sub: Subscription;
 
   constructor(
@@ -58,7 +61,7 @@ export class BrowserInitService extends InitService {
     protected themeService: ThemeService,
     protected menuService: MenuService,
     private rootDataService: RootDataService,
-    protected serverCheckGuard: ServerCheckGuard,
+    protected serverCheckGuard: ServerCheckGuard
   ) {
     super(
       store,
@@ -70,15 +73,16 @@ export class BrowserInitService extends InitService {
       metadata,
       breadcrumbsService,
       themeService,
-      menuService,
+      menuService
     );
   }
 
-  protected static resolveAppConfig(
-    transferState: TransferState,
-  ) {
+  protected static resolveAppConfig(transferState: TransferState) {
     if (transferState.hasKey<AppConfig>(APP_CONFIG_STATE)) {
-      const appConfig = transferState.get<AppConfig>(APP_CONFIG_STATE, new DefaultAppConfig());
+      const appConfig = transferState.get<AppConfig>(
+        APP_CONFIG_STATE,
+        new DefaultAppConfig()
+      );
       // extend environment with app config for browser
       extendEnvironmentWithAppConfig(environment, appConfig);
     }
@@ -120,10 +124,13 @@ export class BrowserInitService extends InitService {
     const state = this.transferState.get<any>(InitService.NGRX_STATE, null);
     this.transferState.remove(InitService.NGRX_STATE);
     this.store.dispatch(new StoreAction(StoreActionTypes.REHYDRATE, state));
-    return this.store.select(coreSelector).pipe(
-      find((core: any) => isNotEmpty(core)),
-      map(() => true)
-    ).toPromise();
+    return this.store
+      .select(coreSelector)
+      .pipe(
+        find((core: any) => isNotEmpty(core)),
+        map(() => true)
+      )
+      .toPromise();
   }
 
   private trackAuthTokenExpiration(): void {
@@ -150,15 +157,14 @@ export class BrowserInitService extends InitService {
    * @private
    */
   private externalAuthCheck() {
-
-    this.sub = this.authService.isExternalAuthentication().pipe(
-        filter((externalAuth: boolean) => externalAuth)
-      ).subscribe(() => {
+    this.sub = this.authService
+      .isExternalAuthentication()
+      .pipe(filter((externalAuth: boolean) => externalAuth))
+      .subscribe(() => {
         // Clear the transferState data.
         this.rootDataService.invalidateRootCache();
         this.authService.setExternalAuthStatus(false);
-      }
-    );
+      });
 
     this.closeAuthCheckSubscription();
   }
@@ -170,8 +176,8 @@ export class BrowserInitService extends InitService {
    */
   private closeAuthCheckSubscription() {
     firstValueFrom(this.authenticationReady$()).then(() => {
-        this.sub.unsubscribe();
-      });
+      this.sub.unsubscribe();
+    });
   }
 
   /**
@@ -182,5 +188,4 @@ export class BrowserInitService extends InitService {
     super.initRouteListeners();
     this.serverCheckGuard.listenForRouteChanges();
   }
-
 }

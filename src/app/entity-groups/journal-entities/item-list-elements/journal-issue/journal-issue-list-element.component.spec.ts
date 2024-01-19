@@ -15,22 +15,22 @@ const mockItem: Item = Object.assign(new Item(), {
     'dc.title': [
       {
         language: 'en_US',
-        value: 'This is just another title'
-      }
+        value: 'This is just another title',
+      },
     ],
     'publicationvolume.volumeNumber': [
       {
         language: 'en_US',
-        value: '1234'
-      }
+        value: '1234',
+      },
     ],
     'publicationissue.issueNumber': [
       {
         language: 'en_US',
-        value: '5678'
-      }
-    ]
-  }
+        value: '5678',
+      },
+    ],
+  },
 });
 
 describe('JournalIssueListElementComponent', () => {
@@ -48,10 +48,12 @@ describe('JournalIssueListElementComponent', () => {
         { provide: DSONameService, useValue: new DSONameServiceMock() },
         { provide: TruncatableService, useValue: truncatableServiceStub },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(JournalIssueListElementComponent, {
-      set: { changeDetection: ChangeDetectionStrategy.Default }
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(JournalIssueListElementComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
@@ -66,9 +68,10 @@ describe('JournalIssueListElementComponent', () => {
     });
 
     it(`should contain a JournalIssueListElementComponent`, () => {
-      const journalIssueListElement = fixture.debugElement.query(By.css(`ds-journal-issue-search-result-list-element`));
+      const journalIssueListElement = fixture.debugElement.query(
+        By.css(`ds-journal-issue-search-result-list-element`)
+      );
       expect(journalIssueListElement).not.toBeNull();
     });
   });
-
 });

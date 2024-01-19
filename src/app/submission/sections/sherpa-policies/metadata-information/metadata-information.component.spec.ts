@@ -19,13 +19,12 @@ describe('MetadataInformationComponent', () => {
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
+            useClass: TranslateLoaderMock,
+          },
         }),
       ],
-      declarations: [MetadataInformationComponent]
-    })
-      .compileComponents();
+      declarations: [MetadataInformationComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -43,5 +42,4 @@ describe('MetadataInformationComponent', () => {
   it('should show 4 rows', () => {
     expect(de.queryAll(By.css('.row')).length).toEqual(4);
   });
-
 });

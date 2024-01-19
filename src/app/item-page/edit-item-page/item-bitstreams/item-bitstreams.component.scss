@@ -18,6 +18,7 @@
 
 .drag-handle {
   visibility: hidden;
+
   &:hover {
     cursor: move;
   }
@@ -27,7 +28,8 @@
   cursor: move;
 }
 
-:host ::ng-deep .bitstream-row:hover .drag-handle, :host ::ng-deep .bitstream-row-drag-handle:focus .drag-handle {
+:host ::ng-deep .bitstream-row:hover .drag-handle,
+:host ::ng-deep .bitstream-row-drag-handle:focus .drag-handle {
   visibility: visible !important;
 }
 
@@ -46,7 +48,9 @@
 }
 
 .cdk-drop-list-dragging {
-  .bitstream-row-drag-handle, .drag-handle {
+
+  .bitstream-row-drag-handle,
+  .drag-handle {
     cursor: grabbing;
   }
 }

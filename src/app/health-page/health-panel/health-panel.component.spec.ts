@@ -26,15 +26,12 @@ describe('HealthPanelComponent', () => {
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
+            useClass: TranslateLoaderMock,
+          },
         }),
       ],
-      declarations: [
-        HealthPanelComponent,
-        ObjNgFor
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+      declarations: [HealthPanelComponent, ObjNgFor],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
 
@@ -50,8 +47,9 @@ describe('HealthPanelComponent', () => {
   });
 
   it('should render a panel for each component', () => {
-    const components = fixture.debugElement.queryAll(By.css('[data-test="component"]'));
+    const components = fixture.debugElement.queryAll(
+      By.css('[data-test="component"]')
+    );
     expect(components.length).toBe(5);
   });
-
 });

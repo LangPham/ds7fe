@@ -8,10 +8,6 @@ import { BrowseByComponent as BaseComponent } from '../../../../../app/shared/br
   styleUrls: ['../../../../../app/shared/browse-by/browse-by.component.scss'],
   // templateUrl: './browse-by.component.html',
   templateUrl: '../../../../../app/shared/browse-by/browse-by.component.html',
-  animations: [
-    fadeIn,
-    fadeInOut,
-  ],
+  animations: [fadeIn, fadeInOut],
 })
-export class BrowseByComponent extends BaseComponent {
-}
+export class BrowseByComponent extends BaseComponent {}

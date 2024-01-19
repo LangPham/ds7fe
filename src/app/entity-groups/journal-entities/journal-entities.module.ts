@@ -51,11 +51,9 @@ const ENTRY_COMPONENTS = [
     ItemSharedModule,
     SharedModule,
     ResultsBackButtonModule,
-    DsoPageModule
+    DsoPageModule,
   ],
-  declarations: [
-    ...ENTRY_COMPONENTS
-  ]
+  declarations: [...ENTRY_COMPONENTS],
 })
 export class JournalEntitiesModule {
   /**
@@ -65,8 +63,7 @@ export class JournalEntitiesModule {
   static withEntryComponents() {
     return {
       ngModule: JournalEntitiesModule,
-      providers: ENTRY_COMPONENTS.map((component) => ({provide: component}))
+      providers: ENTRY_COMPONENTS.map((component) => ({ provide: component })),
     };
   }
-
 }

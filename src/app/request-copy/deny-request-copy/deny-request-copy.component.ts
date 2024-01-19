@@ -4,7 +4,8 @@ import { map, switchMap } from 'rxjs/operators';
 import { ItemRequest } from '../../core/shared/item-request.model';
 import { Observable } from 'rxjs';
 import {
-  getFirstCompletedRemoteData, getFirstSucceededRemoteDataPayload
+  getFirstCompletedRemoteData,
+  getFirstSucceededRemoteDataPayload,
 } from '../../core/shared/operators';
 import { RemoteData } from '../../core/data/remote-data';
 import { AuthService } from '../../core/auth/auth.service';
@@ -23,7 +24,7 @@ import { redirectOn4xx } from '../../core/shared/authorized.operators';
 @Component({
   selector: 'ds-deny-request-copy',
   styleUrls: ['./deny-request-copy.component.scss'],
-  templateUrl: './deny-request-copy.component.html'
+  templateUrl: './deny-request-copy.component.html',
 })
 /**
  * Component for denying an item request
@@ -51,16 +52,14 @@ export class DenyRequestCopyComponent implements OnInit {
     private itemDataService: ItemDataService,
     private nameService: DSONameService,
     private itemRequestService: ItemRequestDataService,
-    private notificationsService: NotificationsService,
-  ) {
-
-  }
+    private notificationsService: NotificationsService
+  ) {}
 
   ngOnInit(): void {
     this.itemRequestRD$ = this.route.data.pipe(
       map((data) => data.request as RemoteData<ItemRequest>),
       getFirstCompletedRemoteData(),
-      redirectOn4xx(this.router, this.authService),
+      redirectOn4xx(this.router, this.authService)
     );
 
     const msgParams$ = observableCombineLatest([
@@ -79,14 +78,18 @@ export class DenyRequestCopyComponent implements OnInit {
               authorName: this.nameService.getName(user),
               authorEmail: user.email,
             });
-          }),
+          })
         );
-      }),
+      })
     );
 
-    this.subject$ = this.translateService.get('deny-request-copy.email.subject');
+    this.subject$ = this.translateService.get(
+      'deny-request-copy.email.subject'
+    );
     this.message$ = msgParams$.pipe(
-      switchMap((params) => this.translateService.get('deny-request-copy.email.message', params)),
+      switchMap((params) =>
+        this.translateService.get('deny-request-copy.email.message', params)
+      )
     );
   }
 
@@ -95,18 +98,26 @@ export class DenyRequestCopyComponent implements OnInit {
    * @param email Subject and contents of the message to send back to the user requesting the item
    */
   deny(email: RequestCopyEmail) {
-    this.itemRequestRD$.pipe(
-      getFirstSucceededRemoteDataPayload(),
-      switchMap((itemRequest: ItemRequest) => this.itemRequestService.deny(itemRequest.token, email)),
-      getFirstCompletedRemoteData()
-    ).subscribe((rd) => {
-      if (rd.hasSucceeded) {
-        this.notificationsService.success(this.translateService.get('deny-request-copy.success'));
-        this.router.navigateByUrl('/');
-      } else {
-        this.notificationsService.error(this.translateService.get('deny-request-copy.error'), rd.errorMessage);
-      }
-    });
+    this.itemRequestRD$
+      .pipe(
+        getFirstSucceededRemoteDataPayload(),
+        switchMap((itemRequest: ItemRequest) =>
+          this.itemRequestService.deny(itemRequest.token, email)
+        ),
+        getFirstCompletedRemoteData()
+      )
+      .subscribe((rd) => {
+        if (rd.hasSucceeded) {
+          this.notificationsService.success(
+            this.translateService.get('deny-request-copy.success')
+          );
+          this.router.navigateByUrl('/');
+        } else {
+          this.notificationsService.error(
+            this.translateService.get('deny-request-copy.error'),
+            rd.errorMessage
+          );
+        }
+      });
   }
-
 }

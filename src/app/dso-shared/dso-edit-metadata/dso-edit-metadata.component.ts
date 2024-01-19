@@ -1,4 +1,12 @@
-import { Component, Inject, Injector, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Injector,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { AlertType } from '../../shared/alert/alert-type';
 import { DSpaceObject } from '../../core/shared/dspace-object.model';
 import { DsoEditMetadataForm } from './dso-edit-metadata-form';
@@ -9,9 +17,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { RemoteData } from '../../core/data/remote-data';
 import { hasNoValue, hasValue } from '../../shared/empty.util';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import {
-  getFirstCompletedRemoteData,
-} from '../../core/shared/operators';
+import { getFirstCompletedRemoteData } from '../../core/shared/operators';
 import { UpdateDataService } from '../../core/data/update-data.service';
 import { ResourceType } from '../../core/shared/resource-type';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
@@ -41,7 +47,8 @@ export class DsoEditMetadataComponent implements OnInit, OnDestroy {
    * Reference to the component responsible for showing a metadata-field selector
    * Used to validate its contents (existing metadata field) before adding a new metadata value
    */
-  @ViewChild(MetadataFieldSelectorComponent) metadataFieldSelectorComponent: MetadataFieldSelectorComponent;
+  @ViewChild(MetadataFieldSelectorComponent)
+  metadataFieldSelectorComponent: MetadataFieldSelectorComponent;
 
   /**
    * Resolved update data-service for the given DSpaceObject (depending on its type, e.g. ItemDataService for an Item)
@@ -85,7 +92,8 @@ export class DsoEditMetadataComponent implements OnInit, OnDestroy {
   /**
    * Whether or not the metadata field is currently being validated
    */
-  loadingFieldValidation$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  loadingFieldValidation$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   /**
    * Combination of saving$ and loadingFieldValidation$
@@ -105,13 +113,17 @@ export class DsoEditMetadataComponent implements OnInit, OnDestroy {
    */
   dsoUpdateSubscription: Subscription;
 
-  constructor(protected route: ActivatedRoute,
-              protected notificationsService: NotificationsService,
-              protected translateService: TranslateService,
-              protected parentInjector: Injector,
-              protected arrayMoveChangeAnalyser: ArrayMoveChangeAnalyzer<number>,
-              @Inject(DATA_SERVICE_FACTORY) protected getDataServiceFor: (resourceType: ResourceType) => GenericConstructor<HALDataService<any>>) {
-  }
+  constructor(
+    protected route: ActivatedRoute,
+    protected notificationsService: NotificationsService,
+    protected translateService: TranslateService,
+    protected parentInjector: Injector,
+    protected arrayMoveChangeAnalyser: ArrayMoveChangeAnalyzer<number>,
+    @Inject(DATA_SERVICE_FACTORY)
+    protected getDataServiceFor: (
+      resourceType: ResourceType
+    ) => GenericConstructor<HALDataService<any>>
+  ) {}
 
   /**
    * Read the route (or parent route)'s data to retrieve the current DSpaceObject
@@ -119,21 +131,29 @@ export class DsoEditMetadataComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     if (hasNoValue(this.dso)) {
-      this.dsoUpdateSubscription = observableCombineLatest([this.route.data, this.route.parent.data]).pipe(
-        map(([data, parentData]: [Data, Data]) => Object.assign({}, data, parentData)),
-        map((data: any) => data.dso)
-      ).subscribe((rd: RemoteData<DSpaceObject>) => {
-        this.dso = rd.payload;
-        this.initDataService();
-        this.initForm();
-      });
+      this.dsoUpdateSubscription = observableCombineLatest([
+        this.route.data,
+        this.route.parent.data,
+      ])
+        .pipe(
+          map(([data, parentData]: [Data, Data]) =>
+            Object.assign({}, data, parentData)
+          ),
+          map((data: any) => data.dso)
+        )
+        .subscribe((rd: RemoteData<DSpaceObject>) => {
+          this.dso = rd.payload;
+          this.initDataService();
+          this.initForm();
+        });
     } else {
       this.initDataService();
       this.initForm();
     }
-    this.savingOrLoadingFieldValidation$ = observableCombineLatest([this.saving$, this.loadingFieldValidation$]).pipe(
-      map(([saving, loading]: [boolean, boolean]) => saving || loading),
-    );
+    this.savingOrLoadingFieldValidation$ = observableCombineLatest([
+      this.saving$,
+      this.loadingFieldValidation$,
+    ]).pipe(map(([saving, loading]: [boolean, boolean]) => saving || loading));
   }
 
   /**
@@ -150,7 +170,7 @@ export class DsoEditMetadataComponent implements OnInit, OnDestroy {
       const provider = this.getDataServiceFor(type);
       this.updateDataService = Injector.create({
         providers: [],
-        parent: this.parentInjector
+        parent: this.parentInjector,
       }).get(provider);
     }
     this.dsoType = type.value;
@@ -181,21 +201,31 @@ export class DsoEditMetadataComponent implements OnInit, OnDestroy {
    */
   submit(): void {
     this.saving$.next(true);
-    this.updateDataService.patch(this.dso, this.form.getOperations(this.arrayMoveChangeAnalyser)).pipe(
-      getFirstCompletedRemoteData()
-    ).subscribe((rd: RemoteData<DSpaceObject>) => {
-      this.saving$.next(false);
-      if (rd.hasFailed) {
-        this.notificationsService.error(this.translateService.instant(`${this.dsoType}.edit.metadata.notifications.error.title`), rd.errorMessage);
-      } else {
-        this.notificationsService.success(
-            this.translateService.instant(`${this.dsoType}.edit.metadata.notifications.saved.title`),
-            this.translateService.instant(`${this.dsoType}.edit.metadata.notifications.saved.content`)
-        );
-        this.dso = rd.payload;
-        this.initForm();
-      }
-    });
+    this.updateDataService
+      .patch(this.dso, this.form.getOperations(this.arrayMoveChangeAnalyser))
+      .pipe(getFirstCompletedRemoteData())
+      .subscribe((rd: RemoteData<DSpaceObject>) => {
+        this.saving$.next(false);
+        if (rd.hasFailed) {
+          this.notificationsService.error(
+            this.translateService.instant(
+              `${this.dsoType}.edit.metadata.notifications.error.title`
+            ),
+            rd.errorMessage
+          );
+        } else {
+          this.notificationsService.success(
+            this.translateService.instant(
+              `${this.dsoType}.edit.metadata.notifications.saved.title`
+            ),
+            this.translateService.instant(
+              `${this.dsoType}.edit.metadata.notifications.saved.content`
+            )
+          );
+          this.dso = rd.payload;
+          this.initForm();
+        }
+      });
   }
 
   /**
@@ -216,13 +246,15 @@ export class DsoEditMetadataComponent implements OnInit, OnDestroy {
   setMetadataField(): void {
     this.form.resetReinstatable();
     this.loadingFieldValidation$.next(true);
-    this.metadataFieldSelectorComponent.validate().subscribe((valid: boolean) => {
-      this.loadingFieldValidation$.next(false);
-      if (valid) {
-        this.form.setMetadataField(this.newMdField);
-        this.onValueSaved();
-      }
-    });
+    this.metadataFieldSelectorComponent
+      .validate()
+      .subscribe((valid: boolean) => {
+        this.loadingFieldValidation$.next(false);
+        if (valid) {
+          this.form.setMetadataField(this.newMdField);
+          this.onValueSaved();
+        }
+      });
   }
 
   /**
@@ -257,5 +289,4 @@ export class DsoEditMetadataComponent implements OnInit, OnDestroy {
       this.dsoUpdateSubscription.unsubscribe();
     }
   }
-
 }

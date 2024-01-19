@@ -43,9 +43,7 @@ import { ThemedItemStatusComponent } from './item-status/themed-item-status.comp
 
 import { ItemAccessControlComponent } from './item-access-control/item-access-control.component';
 import { ResultsBackButtonModule } from '../../shared/results-back-button/results-back-button.module';
-import {
-  AccessControlFormModule
-} from '../../shared/access-control-form-container/access-control-form.module';
+import { AccessControlFormModule } from '../../shared/access-control-form-container/access-control-form.module';
 
 /**
  * Module that contains all components related to the Edit Item page administrator functionality
@@ -95,15 +93,7 @@ import {
     ItemCurateComponent,
     ItemAccessControlComponent,
   ],
-  providers: [
-    BundleDataService,
-    IdentifierDataService,
-    ObjectValuesPipe
-  ],
-  exports: [
-    ItemOperationComponent,
-  ]
+  providers: [BundleDataService, IdentifierDataService, ObjectValuesPipe],
+  exports: [ItemOperationComponent],
 })
-export class EditItemPageModule {
-
-}
+export class EditItemPageModule {}

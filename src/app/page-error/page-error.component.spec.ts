@@ -13,23 +13,21 @@ describe('PageErrorComponent', () => {
   const activatedRouteStub = Object.assign(new ActivatedRouteStub(), {
     queryParams: observableOf({
       status: 401,
-      code: 'orcid.generic-error'
-    })
+      code: 'orcid.generic-error',
+    }),
   });
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageErrorComponent ],
+      declarations: [PageErrorComponent],
       imports: [
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
-        })
+            useClass: TranslateLoaderMock,
+          },
+        }),
       ],
-      providers: [
-        { provide: ActivatedRoute, useValue: activatedRouteStub },
-      ]
+      providers: [{ provide: ActivatedRoute, useValue: activatedRouteStub }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PageErrorComponent);
@@ -42,7 +40,9 @@ describe('PageErrorComponent', () => {
   });
 
   it('should show error for 401 unauthorized', () => {
-    const statusElement = fixture.debugElement.query(By.css('[data-test="status"]')).nativeElement;
+    const statusElement = fixture.debugElement.query(
+      By.css('[data-test="status"]')
+    ).nativeElement;
     expect(statusElement.innerHTML).toEqual('401');
   });
 });

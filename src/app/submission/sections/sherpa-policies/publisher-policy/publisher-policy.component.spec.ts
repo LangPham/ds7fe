@@ -18,20 +18,20 @@ describe('PublisherPolicyComponent', () => {
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
+            useClass: TranslateLoaderMock,
+          },
         }),
       ],
       declarations: [PublisherPolicyComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PublisherPolicyComponent);
     component = fixture.componentInstance;
     de = fixture.debugElement;
-    component.policy = SherpaDataResponse.sherpaResponse.journals[0].policies[0];
+    component.policy =
+      SherpaDataResponse.sherpaResponse.journals[0].policies[0];
     fixture.detectChanges();
   });
 

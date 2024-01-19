@@ -10,7 +10,10 @@ import { MembersListComponent } from './group-registry/group-form/members-list/m
 import { SubgroupsListComponent } from './group-registry/group-form/subgroup-list/subgroups-list.component';
 import { GroupsRegistryComponent } from './group-registry/groups-registry.component';
 import { FormModule } from '../shared/form/form.module';
-import { DYNAMIC_ERROR_MESSAGES_MATCHER, DynamicErrorMessagesMatcher } from '@ng-dynamic-forms/core';
+import {
+  DYNAMIC_ERROR_MESSAGES_MATCHER,
+  DynamicErrorMessagesMatcher,
+} from '@ng-dynamic-forms/core';
 import { AbstractControl } from '@angular/forms';
 import { BulkAccessComponent } from './bulk-access/bulk-access.component';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
@@ -22,10 +25,15 @@ import { AccessControlFormModule } from '../shared/access-control-form-container
 /**
  * Condition for displaying error messages on email form field
  */
-export const ValidateEmailErrorStateMatcher: DynamicErrorMessagesMatcher =
-  (control: AbstractControl, model: any, hasFocus: boolean) => {
-    return (control.touched && !hasFocus) || (control.errors?.emailTaken && hasFocus);
-  };
+export const ValidateEmailErrorStateMatcher: DynamicErrorMessagesMatcher = (
+  control: AbstractControl,
+  model: any,
+  hasFocus: boolean
+) => {
+  return (
+    (control.touched && !hasFocus) || (control.errors?.emailTaken && hasFocus)
+  );
+};
 
 @NgModule({
   imports: [
@@ -38,9 +46,7 @@ export const ValidateEmailErrorStateMatcher: DynamicErrorMessagesMatcher =
     SearchModule,
     AccessControlFormModule,
   ],
-  exports: [
-    MembersListComponent,
-  ],
+  exports: [MembersListComponent],
   declarations: [
     EPeopleRegistryComponent,
     EPersonFormComponent,
@@ -55,13 +61,11 @@ export const ValidateEmailErrorStateMatcher: DynamicErrorMessagesMatcher =
   providers: [
     {
       provide: DYNAMIC_ERROR_MESSAGES_MATCHER,
-      useValue: ValidateEmailErrorStateMatcher
+      useValue: ValidateEmailErrorStateMatcher,
     },
-  ]
+  ],
 })
 /**
  * This module handles all components related to the access control pages
  */
-export class AccessControlModule {
-
-}
+export class AccessControlModule {}

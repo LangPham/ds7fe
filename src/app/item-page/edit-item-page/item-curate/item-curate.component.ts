@@ -20,13 +20,13 @@ export class ItemCurateComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private dsoNameService: DSONameService,
+    private dsoNameService: DSONameService
   ) {}
 
   ngOnInit(): void {
     this.dsoRD$ = this.route.parent.data.pipe(
       take(1),
-      map((data) => data.dso),
+      map((data) => data.dso)
     );
 
     this.itemName$ = this.dsoRD$.pipe(

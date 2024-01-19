@@ -1,14 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { NO_ERRORS_SCHEMA, SimpleChange, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
 import { Observable, of as observableOf } from 'rxjs';
 import { RestResponse } from '../../../../core/cache/response.models';
-import { buildPaginatedList, PaginatedList } from '../../../../core/data/paginated-list.model';
+import {
+  buildPaginatedList,
+  PaginatedList,
+} from '../../../../core/data/paginated-list.model';
 import { RemoteData } from '../../../../core/data/remote-data';
 import { EPersonDataService } from '../../../../core/eperson/eperson-data.service';
 import { GroupDataService } from '../../../../core/eperson/group-data.service';
@@ -19,10 +32,13 @@ import { FormBuilderService } from '../../../../shared/form/builder/form-builder
 import { NotificationsService } from '../../../../shared/notifications/notifications.service';
 import { GroupMock } from '../../../../shared/testing/group-mock';
 import { ReviewersListComponent } from './reviewers-list.component';
-import { EPersonMock, EPersonMock2 } from '../../../../shared/testing/eperson.mock';
+import {
+  EPersonMock,
+  EPersonMock2,
+} from '../../../../shared/testing/eperson.mock';
 import {
   createSuccessfulRemoteDataObject$,
-  createNoContentRemoteDataObject$
+  createNoContentRemoteDataObject$,
 } from '../../../../shared/remote-data.utils';
 import { getMockTranslateService } from '../../../../shared/mocks/translate.service.mock';
 import { getMockFormBuilderService } from '../../../../shared/mocks/form-builder-service.mock';
@@ -56,15 +72,29 @@ describe('ReviewersListComponent', () => {
       epersonMembers: epersonMembers,
       epersonNonMembers: epersonNonMembers,
       // This method is used to get all the current members
-      findListByHref(_href: string): Observable<RemoteData<PaginatedList<EPerson>>> {
-        return createSuccessfulRemoteDataObject$(buildPaginatedList<EPerson>(new PageInfo(), groupsDataServiceStub.getEPersonMembers()));
+      findListByHref(
+        _href: string
+      ): Observable<RemoteData<PaginatedList<EPerson>>> {
+        return createSuccessfulRemoteDataObject$(
+          buildPaginatedList<EPerson>(
+            new PageInfo(),
+            groupsDataServiceStub.getEPersonMembers()
+          )
+        );
       },
       // This method is used to search across *non-members*
-      searchByScope(scope: string, query: string): Observable<RemoteData<PaginatedList<EPerson>>> {
+      searchByScope(
+        scope: string,
+        query: string
+      ): Observable<RemoteData<PaginatedList<EPerson>>> {
         if (query === '') {
-          return createSuccessfulRemoteDataObject$(buildPaginatedList(new PageInfo(), epersonNonMembers));
+          return createSuccessfulRemoteDataObject$(
+            buildPaginatedList(new PageInfo(), epersonNonMembers)
+          );
         }
-        return createSuccessfulRemoteDataObject$(buildPaginatedList(new PageInfo(), []));
+        return createSuccessfulRemoteDataObject$(
+          buildPaginatedList(new PageInfo(), [])
+        );
       },
       clearEPersonRequests() {
         // empty
@@ -74,7 +104,7 @@ describe('ReviewersListComponent', () => {
       },
       getEPeoplePageRouterLink(): string {
         return '/access-control/epeople';
-      }
+      },
     };
     groupsDataServiceStub = {
       activeGroup: activeGroup,
@@ -86,11 +116,14 @@ describe('ReviewersListComponent', () => {
       getEPersonMembers() {
         return this.epersonMembers;
       },
-      addMemberToGroup(parentGroup, epersonToAdd: EPerson): Observable<RestResponse> {
+      addMemberToGroup(
+        parentGroup,
+        epersonToAdd: EPerson
+      ): Observable<RestResponse> {
         // Add eperson to list of members
         this.epersonMembers = [...this.epersonMembers, epersonToAdd];
         // Remove eperson from list of non-members
-        this.epersonNonMembers.forEach( (eperson: EPerson, index: number) => {
+        this.epersonNonMembers.forEach((eperson: EPerson, index: number) => {
           if (eperson.id === epersonToAdd.id) {
             this.epersonNonMembers.splice(index, 1);
           }
@@ -106,9 +139,12 @@ describe('ReviewersListComponent', () => {
       getGroupEditPageRouterLink(group: Group): string {
         return '/access-control/groups/' + group.id;
       },
-      deleteMemberFromGroup(parentGroup, epersonToDelete: EPerson): Observable<RestResponse> {
+      deleteMemberFromGroup(
+        parentGroup,
+        epersonToDelete: EPerson
+      ): Observable<RestResponse> {
         // Remove eperson from list of members
-        this.epersonMembers.forEach( (eperson: EPerson, index: number) => {
+        this.epersonMembers.forEach((eperson: EPerson, index: number) => {
           if (eperson.id === epersonToDelete.id) {
             this.epersonMembers.splice(index, 1);
           }
@@ -126,31 +162,40 @@ describe('ReviewersListComponent', () => {
       },
       editGroup() {
         // empty
-      }
+      },
     };
     builderService = getMockFormBuilderService();
     translateService = getMockTranslateService();
 
     paginationService = new PaginationServiceStub();
     return TestBed.configureTestingModule({
-      imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, BrowserModule,
+      imports: [
+        CommonModule,
+        NgbModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserModule,
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
+            useClass: TranslateLoaderMock,
+          },
         }),
       ],
       declarations: [ReviewersListComponent],
-      providers: [ReviewersListComponent,
+      providers: [
+        ReviewersListComponent,
         { provide: EPersonDataService, useValue: ePersonDataServiceStub },
         { provide: GroupDataService, useValue: groupsDataServiceStub },
-        { provide: NotificationsService, useValue: new NotificationsServiceStub() },
+        {
+          provide: NotificationsService,
+          useValue: new NotificationsServiceStub(),
+        },
         { provide: FormBuilderService, useValue: builderService },
         { provide: Router, useValue: new RouterMock() },
         { provide: PaginationService, useValue: paginationService },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -166,22 +211,25 @@ describe('ReviewersListComponent', () => {
     fixture.debugElement.nativeElement.remove();
   }));
 
-
   describe('when no group is selected', () => {
     beforeEach(() => {
       component.ngOnChanges({
-        groupId: new SimpleChange(undefined, null, true)
+        groupId: new SimpleChange(undefined, null, true),
       });
       fixture.detectChanges();
     });
 
     it('should show no ePersons because no group is selected', () => {
-      const ePersonIdsFound = fixture.debugElement.queryAll(By.css('#ePeopleMembersOfGroup tr td:first-child'));
+      const ePersonIdsFound = fixture.debugElement.queryAll(
+        By.css('#ePeopleMembersOfGroup tr td:first-child')
+      );
       expect(ePersonIdsFound.length).toEqual(0);
       epersonMembers.map((ePerson: EPerson) => {
-        expect(ePersonIdsFound.find((foundEl) => {
-          return (foundEl.nativeElement.textContent.trim() === ePerson.uuid);
-        })).not.toBeTruthy();
+        expect(
+          ePersonIdsFound.find((foundEl) => {
+            return foundEl.nativeElement.textContent.trim() === ePerson.uuid;
+          })
+        ).not.toBeTruthy();
       });
     });
   });
@@ -189,22 +237,25 @@ describe('ReviewersListComponent', () => {
   describe('when a group is selected', () => {
     beforeEach(() => {
       component.ngOnChanges({
-        groupId: new SimpleChange(undefined, GroupMock.id, true)
+        groupId: new SimpleChange(undefined, GroupMock.id, true),
       });
       fixture.detectChanges();
     });
 
     it('should show all ePerson members of group', () => {
-      const ePersonIdsFound = fixture.debugElement.queryAll(By.css('#ePeopleMembersOfGroup tr td:first-child'));
+      const ePersonIdsFound = fixture.debugElement.queryAll(
+        By.css('#ePeopleMembersOfGroup tr td:first-child')
+      );
       expect(ePersonIdsFound.length).toEqual(1);
       epersonMembers.map((ePerson: EPerson) => {
-        expect(ePersonIdsFound.find((foundEl: DebugElement) => {
-          return (foundEl.nativeElement.textContent.trim() === ePerson.uuid);
-        })).toBeTruthy();
+        expect(
+          ePersonIdsFound.find((foundEl: DebugElement) => {
+            return foundEl.nativeElement.textContent.trim() === ePerson.uuid;
+          })
+        ).toBeTruthy();
       });
     });
   });
-
 
   it('should replace the value when a new member is added when multipleReviewers is false', () => {
     spyOn(component.selectedReviewersUpdated, 'emit');
@@ -214,7 +265,9 @@ describe('ReviewersListComponent', () => {
     component.addMemberToGroup(EPersonMock2);
 
     expect(component.selectedReviewers).toEqual([EPersonMock2]);
-    expect(component.selectedReviewersUpdated.emit).toHaveBeenCalledWith([EPersonMock2]);
+    expect(component.selectedReviewersUpdated.emit).toHaveBeenCalledWith([
+      EPersonMock2,
+    ]);
   });
 
   it('should add the value when a new member is added when multipleReviewers is true', () => {
@@ -225,7 +278,10 @@ describe('ReviewersListComponent', () => {
     component.addMemberToGroup(EPersonMock2);
 
     expect(component.selectedReviewers).toEqual([EPersonMock, EPersonMock2]);
-    expect(component.selectedReviewersUpdated.emit).toHaveBeenCalledWith([EPersonMock, EPersonMock2]);
+    expect(component.selectedReviewersUpdated.emit).toHaveBeenCalledWith([
+      EPersonMock,
+      EPersonMock2,
+    ]);
   });
 
   it('should delete the member when present', () => {
@@ -237,5 +293,4 @@ describe('ReviewersListComponent', () => {
     expect(component.selectedReviewers).toEqual([]);
     expect(component.selectedReviewersUpdated.emit).toHaveBeenCalledWith([]);
   });
-
 });

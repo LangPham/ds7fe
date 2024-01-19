@@ -13,7 +13,7 @@ import { MetadataService } from '../core/metadata/metadata.service';
 
 import { fadeInOut } from '../shared/animations/fade';
 import { hasValue } from '../shared/empty.util';
-import { getAllSucceededRemoteDataPayload} from '../core/shared/operators';
+import { getAllSucceededRemoteDataPayload } from '../core/shared/operators';
 import { AuthService } from '../core/auth/auth.service';
 import { AuthorizationDataService } from '../core/data/feature-authorization/authorization-data.service';
 import { FeatureID } from '../core/data/feature-authorization/feature-id';
@@ -26,7 +26,7 @@ import { DSONameService } from '../core/breadcrumbs/dso-name.service';
   styleUrls: ['./community-page.component.scss'],
   templateUrl: './community-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [fadeInOut]
+  animations: [fadeInOut],
 })
 /**
  * This component represents a detail page for a single community
@@ -59,10 +59,8 @@ export class CommunityPageComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private authorizationDataService: AuthorizationDataService,
-    public dsoNameService: DSONameService,
-  ) {
-
-  }
+    public dsoNameService: DSONameService
+  ) {}
 
   ngOnInit(): void {
     this.communityRD$ = this.route.data.pipe(
@@ -72,11 +70,14 @@ export class CommunityPageComponent implements OnInit {
     this.logoRD$ = this.communityRD$.pipe(
       map((rd: RemoteData<Community>) => rd.payload),
       filter((community: Community) => hasValue(community)),
-      mergeMap((community: Community) => community.logo));
+      mergeMap((community: Community) => community.logo)
+    );
     this.communityPageRoute$ = this.communityRD$.pipe(
       getAllSucceededRemoteDataPayload(),
       map((community) => getCommunityPageRoute(community.id))
     );
-    this.isCommunityAdmin$ = this.authorizationDataService.isAuthorized(FeatureID.IsCommunityAdmin);
+    this.isCommunityAdmin$ = this.authorizationDataService.isAuthorized(
+      FeatureID.IsCommunityAdmin
+    );
   }
 }

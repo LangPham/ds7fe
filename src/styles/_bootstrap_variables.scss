@@ -17,16 +17,16 @@ $enable-responsive-font-sizes: true;
 
 /** Bootstrap Variables **/
 /* Colors */
-$gray-700: #495057 !default;  // Bootstrap $gray-700
-$gray-100: #f8f9fa !default;  //           $gray-100
+$gray-700: #495057 !default; // Bootstrap $gray-700
+$gray-100: #f8f9fa !default; //           $gray-100
 
 /* Reassign color vars to semantic color scheme */
-$blue:   #2B4E72 !default;
-$green:  #94BA65 !default;
-$cyan:   #006666 !default;
+$blue: #2B4E72 !default;
+$green: #94BA65 !default;
+$cyan: #006666 !default;
 $yellow: #ec9433 !default;
-$red:    #CF4444 !default;
-$dark:   darken($blue, 17%) !default;
+$red: #CF4444 !default;
+$dark: darken($blue, 17%) !default;
 
 
 
@@ -38,8 +38,7 @@ $theme-colors: (
         warning: $yellow,
         danger: $red,
         light: $gray-100,
-        dark: $dark
-) !default;
+        dark: $dark) !default;
 /* Fonts */
 $link-color: map-get($theme-colors, info) !default;
 
@@ -50,7 +49,7 @@ $navbar-light-toggler-icon-bg: url("data:image/svg+xml;charset=utf8,<svg+viewBox
 
 $enable-shadows: true !default;
 
-$yiq-contrasted-threshold:  165 !default;
+$yiq-contrasted-threshold: 165 !default;
 
 $primary-bg: #{lighten(map-get($theme-colors, primary), 30%)} !default;
 $secondary-bg: #{lighten(map-get($theme-colors, secondary), 30%)} !default;

@@ -15,22 +15,32 @@ import { Location } from '@angular/common';
 
 @Component({
   selector: 'ds-workflow-item-delete',
-  templateUrl: '../workflow-item-action-page.component.html'
+  templateUrl: '../workflow-item-action-page.component.html',
 })
 /**
  * Component representing a page to delete a workflow item
  */
 export class WorkflowItemDeleteComponent extends WorkflowItemActionPageComponent {
-  constructor(protected route: ActivatedRoute,
-              protected workflowItemService: WorkflowItemDataService,
-              protected router: Router,
-              protected routeService: RouteService,
-              protected notificationsService: NotificationsService,
-              protected translationService: TranslateService,
-              protected requestService: RequestService,
-              protected location: Location,
+  constructor(
+    protected route: ActivatedRoute,
+    protected workflowItemService: WorkflowItemDataService,
+    protected router: Router,
+    protected routeService: RouteService,
+    protected notificationsService: NotificationsService,
+    protected translationService: TranslateService,
+    protected requestService: RequestService,
+    protected location: Location
   ) {
-    super(route, workflowItemService, router, routeService, notificationsService, translationService, requestService, location);
+    super(
+      route,
+      workflowItemService,
+      router,
+      routeService,
+      notificationsService,
+      translationService,
+      requestService,
+      location
+    );
   }
 
   /**

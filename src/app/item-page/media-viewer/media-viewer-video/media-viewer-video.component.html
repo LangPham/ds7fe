@@ -3,18 +3,24 @@
   [src]="medias[currentIndex].bitstream._links.content.href"
   id="singleVideo"
   [poster]="
-    medias[currentIndex].thumbnail ||
-    replacements[medias[currentIndex].format]
+    medias[currentIndex].thumbnail || replacements[medias[currentIndex].format]
   "
   preload="none"
   controls
 >
-  <ng-container *ngIf="getMediaCap(medias[currentIndex].bitstream.name, captions) as capInfos">
+  <ng-container
+    *ngIf="
+      getMediaCap(medias[currentIndex].bitstream.name, captions) as capInfos
+    "
+  >
     <ng-container *ngFor="let capInfo of capInfos">
-      <track [src]="capInfo.src" [label]="capInfo.langLabel" [srclang]="capInfo.srclang" />
+      <track
+        [src]="capInfo.src"
+        [label]="capInfo.langLabel"
+        [srclang]="capInfo.srclang"
+      />
     </ng-container>
   </ng-container>
-
 </video>
 <div class="buttons" *ngIf="medias?.length > 1">
   <button
@@ -22,7 +28,7 @@
     [disabled]="currentIndex === 0"
     (click)="prevMedia()"
   >
-    {{ "media-viewer.previous" | translate }}
+    {{ 'media-viewer.previous' | translate }}
   </button>
 
   <button
@@ -30,7 +36,7 @@
     [disabled]="currentIndex === medias.length - 1"
     (click)="nextMedia()"
   >
-    {{ "media-viewer.next" | translate }}
+    {{ 'media-viewer.next' | translate }}
   </button>
   <div ngbDropdown class="d-inline-block">
     <button
@@ -38,7 +44,7 @@
       id="dropdownBasic1"
       ngbDropdownToggle
     >
-      {{ "media-viewer.playlist" | translate }}
+      {{ 'media-viewer.playlist' | translate }}
     </button>
     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
       <button

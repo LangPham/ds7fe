@@ -35,13 +35,13 @@ describe('ProcessParametersComponent', () => {
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
-        })],
+            useClass: TranslateLoaderMock,
+          },
+        }),
+      ],
       declarations: [ProcessParametersComponent, ParameterSelectComponent],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -54,7 +54,6 @@ describe('ProcessParametersComponent', () => {
   });
 
   describe('when parameter values and script are initialized', () => {
-
     beforeEach(() => {
       initParametersAndScriptMockValues();
       component.parameterValues = mockParameterValues;
@@ -64,16 +63,20 @@ describe('ProcessParametersComponent', () => {
     });
 
     it(`should render a ${ParameterSelectComponent.name} for each parameter value`, () => {
-      const selectComponents = fixture.debugElement.queryAll(By.directive(ParameterSelectComponent));
+      const selectComponents = fixture.debugElement.queryAll(
+        By.directive(ParameterSelectComponent)
+      );
       expect(selectComponents.length).toBe(mockParameterValues.length);
     });
 
-    it('should not render a selector box if the parameter array is empty',() => {
+    it('should not render a selector box if the parameter array is empty', () => {
       fixture.componentInstance.script.parameters = [];
 
       fixture.detectChanges();
 
-      const formGroupComponent = fixture.debugElement.query(By.css('[data-testID=parameters-select-container]'));
+      const formGroupComponent = fixture.debugElement.query(
+        By.css('[data-testID=parameters-select-container]')
+      );
       expect(formGroupComponent).toBeFalsy();
     });
   });

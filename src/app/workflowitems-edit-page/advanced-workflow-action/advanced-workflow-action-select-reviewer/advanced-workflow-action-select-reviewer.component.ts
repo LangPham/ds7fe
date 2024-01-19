@@ -1,16 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
-import {
-  rendersAdvancedWorkflowTaskOption
-} from '../../../shared/mydspace-actions/claimed-task/switcher/claimed-task-actions-decorator';
+import { rendersAdvancedWorkflowTaskOption } from '../../../shared/mydspace-actions/claimed-task/switcher/claimed-task-actions-decorator';
 import { AdvancedWorkflowActionComponent } from '../advanced-workflow-action/advanced-workflow-action.component';
 import { WorkflowAction } from '../../../core/tasks/models/workflow-action-object.model';
-import {
-  SelectReviewerAdvancedWorkflowInfo
-} from '../../../core/tasks/models/select-reviewer-advanced-workflow-info.model';
-import {
-  EPersonListActionConfig
-} from '../../../access-control/group-registry/group-form/members-list/members-list.component';
+import { SelectReviewerAdvancedWorkflowInfo } from '../../../core/tasks/models/select-reviewer-advanced-workflow-info.model';
+import { EPersonListActionConfig } from '../../../access-control/group-registry/group-form/members-list/members-list.component';
 import { Subscription } from 'rxjs';
 import { EPerson } from '../../../core/eperson/models/eperson.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -23,7 +17,8 @@ import { ClaimedTaskDataService } from '../../../core/tasks/claimed-task-data.se
 import { RequestService } from '../../../core/data/request.service';
 import { hasValue } from '../../../shared/empty.util';
 
-export const ADVANCED_WORKFLOW_TASK_OPTION_SELECT_REVIEWER = 'submit_select_reviewer';
+export const ADVANCED_WORKFLOW_TASK_OPTION_SELECT_REVIEWER =
+  'submit_select_reviewer';
 export const ADVANCED_WORKFLOW_ACTION_SELECT_REVIEWER = 'selectrevieweraction';
 
 /**
@@ -35,8 +30,10 @@ export const ADVANCED_WORKFLOW_ACTION_SELECT_REVIEWER = 'selectrevieweraction';
   templateUrl: './advanced-workflow-action-select-reviewer.component.html',
   styleUrls: ['./advanced-workflow-action-select-reviewer.component.scss'],
 })
-export class AdvancedWorkflowActionSelectReviewerComponent extends AdvancedWorkflowActionComponent implements OnInit, OnDestroy {
-
+export class AdvancedWorkflowActionSelectReviewerComponent
+  extends AdvancedWorkflowActionComponent
+  implements OnInit, OnDestroy
+{
   multipleReviewers = true;
 
   selectedReviewers: EPerson[] = [];
@@ -63,13 +60,26 @@ export class AdvancedWorkflowActionSelectReviewerComponent extends AdvancedWorkf
     protected workflowActionService: WorkflowActionDataService,
     protected claimedTaskDataService: ClaimedTaskDataService,
     protected requestService: RequestService,
-    protected location: Location,
+    protected location: Location
   ) {
-    super(route, workflowItemService, router, routeService, notificationsService, translationService, workflowActionService, claimedTaskDataService, requestService, location);
+    super(
+      route,
+      workflowItemService,
+      router,
+      routeService,
+      notificationsService,
+      translationService,
+      workflowActionService,
+      claimedTaskDataService,
+      requestService,
+      location
+    );
   }
 
   ngOnDestroy(): void {
-    this.subs.forEach((subscription: Subscription) => subscription.unsubscribe());
+    this.subs.forEach((subscription: Subscription) =>
+      subscription.unsubscribe()
+    );
   }
 
   ngOnInit(): void {
@@ -84,7 +94,7 @@ export class AdvancedWorkflowActionSelectReviewerComponent extends AdvancedWorkf
         remove: {
           css: 'btn-outline-danger',
           disabled: false,
-          icon: 'fas fa-minus'
+          icon: 'fas fa-minus',
         },
       };
     } else {
@@ -97,17 +107,21 @@ export class AdvancedWorkflowActionSelectReviewerComponent extends AdvancedWorkf
         remove: {
           css: 'btn-primary',
           disabled: true,
-          icon: 'fas fa-check'
+          icon: 'fas fa-check',
         },
       };
     }
-    this.subs.push(this.workflowAction$.subscribe((workflowAction: WorkflowAction) => {
-      if (workflowAction) {
-        this.groupId = (workflowAction.advancedInfo as SelectReviewerAdvancedWorkflowInfo[])[0].group;
-      } else {
-        this.groupId = null;
-      }
-    }));
+    this.subs.push(
+      this.workflowAction$.subscribe((workflowAction: WorkflowAction) => {
+        if (workflowAction) {
+          this.groupId = (
+            workflowAction.advancedInfo as SelectReviewerAdvancedWorkflowInfo[]
+          )[0].group;
+        } else {
+          this.groupId = null;
+        }
+      })
+    );
   }
 
   getType(): string {
@@ -148,5 +162,4 @@ export class AdvancedWorkflowActionSelectReviewerComponent extends AdvancedWorkf
     }
     void this.router.navigate(['/mydspace'], { queryParams: queryParams });
   }
-
 }

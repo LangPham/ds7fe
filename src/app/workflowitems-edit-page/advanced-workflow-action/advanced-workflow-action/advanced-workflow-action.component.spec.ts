@@ -43,14 +43,8 @@ describe('AdvancedWorkflowActionComponent', () => {
     workflowItemDataService = new WorkflowItemDataServiceStub();
 
     await TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        RouterTestingModule,
-      ],
-      declarations: [
-        TestComponent,
-        MockComponent(DSOSelectorComponent),
-      ],
+      imports: [TranslateModule.forRoot(), RouterTestingModule],
+      declarations: [TestComponent, MockComponent(DSOSelectorComponent)],
       providers: [
         {
           provide: ActivatedRoute,
@@ -69,7 +63,10 @@ describe('AdvancedWorkflowActionComponent', () => {
         { provide: Location, useValue: location },
         { provide: NotificationsService, useValue: notificationService },
         { provide: RouteService, useValue: routeServiceStub },
-        { provide: WorkflowActionDataService, useValue: workflowActionDataService },
+        {
+          provide: WorkflowActionDataService,
+          useValue: workflowActionDataService,
+        },
         { provide: WorkflowItemDataService, useValue: workflowItemDataService },
         { provide: RequestService, useClass: RequestServiceStub },
       ],
@@ -85,27 +82,31 @@ describe('AdvancedWorkflowActionComponent', () => {
 
   describe('sendRequest', () => {
     it('should return true if the request succeeded', () => {
-      spyOn(claimedTaskDataService, 'submitTask').and.returnValue(observableOf(new ProcessTaskResponse(true, 200)));
+      spyOn(claimedTaskDataService, 'submitTask').and.returnValue(
+        observableOf(new ProcessTaskResponse(true, 200))
+      );
       spyOn(workflowActionDataService, 'findById');
 
       const result = component.sendRequest(workflowId);
 
       expect(claimedTaskDataService.submitTask).toHaveBeenCalledWith('1', {
-        'submit_test': true,
+        submit_test: true,
       });
       result.subscribe((value: boolean) => {
         expect(value).toBeTrue();
       });
     });
 
-    it('should return false if the request didn\'t succeeded', () => {
-      spyOn(claimedTaskDataService, 'submitTask').and.returnValue(observableOf(new ProcessTaskResponse(false, 404)));
+    it("should return false if the request didn't succeeded", () => {
+      spyOn(claimedTaskDataService, 'submitTask').and.returnValue(
+        observableOf(new ProcessTaskResponse(false, 404))
+      );
       spyOn(workflowActionDataService, 'findById');
 
       const result = component.sendRequest(workflowId);
 
       expect(claimedTaskDataService.submitTask).toHaveBeenCalledWith('1', {
-        'submit_test': true,
+        submit_test: true,
       });
       result.subscribe((value: boolean) => {
         expect(value).toBeFalse();
@@ -117,18 +118,16 @@ describe('AdvancedWorkflowActionComponent', () => {
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '',
-  template: ''
+  template: '',
 })
 class TestComponent extends AdvancedWorkflowActionComponent {
-
   createBody(): any {
     return {
-      'submit_test': true,
+      submit_test: true,
     };
   }
 
   getType(): string {
     return 'testaction';
   }
-
 }

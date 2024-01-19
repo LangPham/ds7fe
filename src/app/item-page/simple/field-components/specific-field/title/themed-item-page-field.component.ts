@@ -12,10 +12,8 @@ import { Item } from '../../../../../core/shared/item.model';
   templateUrl: '../../../../../shared/theme-support/themed.component.html',
 })
 export class ThemedItemPageTitleFieldComponent extends ThemedComponent<ItemPageTitleFieldComponent> {
-
-  protected inAndOutputNames: (keyof ItemPageTitleFieldComponent & keyof this)[] = [
-    'item',
-  ];
+  protected inAndOutputNames: (keyof ItemPageTitleFieldComponent &
+    keyof this)[] = ['item'];
 
   @Input() item: Item;
 
@@ -24,7 +22,9 @@ export class ThemedItemPageTitleFieldComponent extends ThemedComponent<ItemPageT
   }
 
   protected importThemedComponent(themeName: string): Promise<any> {
-    return import(`../../../../../../themes/${themeName}/app/item-page/simple/field-components/specific-field/title/item-page-title-field.component`);
+    return import(
+      `../../../../../../themes/${themeName}/app/item-page/simple/field-components/specific-field/title/item-page-title-field.component`
+    );
   }
 
   protected importUnthemedComponent(): Promise<any> {

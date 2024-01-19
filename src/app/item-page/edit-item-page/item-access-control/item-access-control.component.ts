@@ -9,18 +9,16 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'ds-item-access-control',
   templateUrl: './item-access-control.component.html',
-  styleUrls: [ './item-access-control.component.scss' ],
+  styleUrls: ['./item-access-control.component.scss'],
 })
 export class ItemAccessControlComponent implements OnInit {
-
   itemRD$: Observable<RemoteData<Item>>;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.itemRD$ = this.route.parent.parent.data.pipe(
-      map((data) => data.dso)
-    ).pipe(getFirstSucceededRemoteData()) as Observable<RemoteData<Item>>;
+    this.itemRD$ = this.route.parent.parent.data
+      .pipe(map((data) => data.dso))
+      .pipe(getFirstSucceededRemoteData()) as Observable<RemoteData<Item>>;
   }
-
 }

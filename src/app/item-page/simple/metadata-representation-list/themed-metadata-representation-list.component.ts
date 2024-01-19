@@ -9,7 +9,14 @@ import { Item } from '../../../core/shared/item.model';
   templateUrl: '../../../shared/theme-support/themed.component.html',
 })
 export class ThemedMetadataRepresentationListComponent extends ThemedComponent<MetadataRepresentationListComponent> {
-  protected inAndOutputNames: (keyof MetadataRepresentationListComponent & keyof this)[] = ['parentItem', 'itemType', 'metadataFields', 'label', 'incrementBy'];
+  protected inAndOutputNames: (keyof MetadataRepresentationListComponent &
+    keyof this)[] = [
+    'parentItem',
+    'itemType',
+    'metadataFields',
+    'label',
+    'incrementBy',
+  ];
 
   @Input() parentItem: Item;
 
@@ -26,7 +33,9 @@ export class ThemedMetadataRepresentationListComponent extends ThemedComponent<M
   }
 
   protected importThemedComponent(themeName: string): Promise<any> {
-    return import(`../../../../themes/${themeName}/app/item-page/simple/metadata-representation-list/metadata-representation-list.component`);
+    return import(
+      `../../../../themes/${themeName}/app/item-page/simple/metadata-representation-list/metadata-representation-list.component`
+    );
   }
 
   protected importUnthemedComponent(): Promise<any> {

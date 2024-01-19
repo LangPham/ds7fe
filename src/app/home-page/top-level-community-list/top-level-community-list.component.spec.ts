@@ -39,62 +39,49 @@ describe('TopLevelCommunityList Component', () => {
   let paginationService;
   let themeService;
 
-  const topCommList = [Object.assign(new Community(), {
-    id: '123456789-1',
-    metadata: {
-      'dc.title': [
-        { language: 'en_US', value: 'TopCommunity 1' }
-      ]
-    }
-  }),
+  const topCommList = [
+    Object.assign(new Community(), {
+      id: '123456789-1',
+      metadata: {
+        'dc.title': [{ language: 'en_US', value: 'TopCommunity 1' }],
+      },
+    }),
     Object.assign(new Community(), {
       id: '123456789-2',
       metadata: {
-        'dc.title': [
-          { language: 'en_US', value: 'TopCommunity 2' }
-        ]
-      }
+        'dc.title': [{ language: 'en_US', value: 'TopCommunity 2' }],
+      },
     }),
     Object.assign(new Community(), {
       id: '123456789-3',
       metadata: {
-        'dc.title': [
-          { language: 'en_US', value: 'TopCommunity 3' }
-        ]
-      }
+        'dc.title': [{ language: 'en_US', value: 'TopCommunity 3' }],
+      },
     }),
     Object.assign(new Community(), {
       id: '12345678942',
       metadata: {
-        'dc.title': [
-          { language: 'en_US', value: 'TopCommunity 4' }
-        ]
-      }
+        'dc.title': [{ language: 'en_US', value: 'TopCommunity 4' }],
+      },
     }),
     Object.assign(new Community(), {
       id: '123456789-5',
       metadata: {
-        'dc.title': [
-          { language: 'en_US', value: 'TopCommunity 5' }
-        ]
-      }
+        'dc.title': [{ language: 'en_US', value: 'TopCommunity 5' }],
+      },
     }),
     Object.assign(new Community(), {
       id: '123456789-6',
       metadata: {
-        'dc.title': [
-          { language: 'en_US', value: 'TopCommunity 6' }
-        ]
-      }
+        'dc.title': [{ language: 'en_US', value: 'TopCommunity 6' }],
+      },
     }),
     Object.assign(new Community(), {
       id: '123456789-7',
       metadata: {
-        'dc.title': [
-          { language: 'en_US', value: 'TopCommunity 7' }
-        ]
-      }
-    })
+        'dc.title': [{ language: 'en_US', value: 'TopCommunity 7' }],
+      },
+    }),
   ];
 
   communityDataServiceStub = {
@@ -107,13 +94,17 @@ describe('TopLevelCommunityList Component', () => {
       elementsPerPage = 5;
 
       const startPageIndex = (currentPage - 1) * elementsPerPage;
-      let endPageIndex = (currentPage * elementsPerPage);
+      let endPageIndex = currentPage * elementsPerPage;
       if (endPageIndex > topCommList.length) {
         endPageIndex = topCommList.length;
       }
-      return createSuccessfulRemoteDataObject$(buildPaginatedList(new PageInfo(), topCommList.slice(startPageIndex, endPageIndex)));
-
-    }
+      return createSuccessfulRemoteDataObject$(
+        buildPaginatedList(
+          new PageInfo(),
+          topCommList.slice(startPageIndex, endPageIndex)
+        )
+      );
+    },
   };
 
   paginationService = new PaginationServiceStub();
@@ -121,7 +112,7 @@ describe('TopLevelCommunityList Component', () => {
   themeService = getMockThemeService();
 
   const linkHeadService = jasmine.createSpyObj('linkHeadService', {
-    addTag: ''
+    addTag: '',
   });
 
   const groupDataService = jasmine.createSpyObj('groupsDataService', {
@@ -130,14 +121,17 @@ describe('TopLevelCommunityList Component', () => {
     getUUIDFromString: '',
   });
 
-  const configurationDataService = jasmine.createSpyObj('configurationDataService', {
-    findByPropertyName: createSuccessfulRemoteDataObject$(Object.assign(new ConfigurationProperty(), {
-      name: 'test',
-      values: [
-        'org.dspace.ctask.general.ProfileFormats = test'
-      ]
-    }))
-  });
+  const configurationDataService = jasmine.createSpyObj(
+    'configurationDataService',
+    {
+      findByPropertyName: createSuccessfulRemoteDataObject$(
+        Object.assign(new ConfigurationProperty(), {
+          name: 'test',
+          values: ['org.dspace.ctask.general.ProfileFormats = test'],
+        })
+      ),
+    }
+  );
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -146,7 +140,7 @@ describe('TopLevelCommunityList Component', () => {
         SharedModule,
         RouterTestingModule.withRoutes([]),
         NgbModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
       ],
       declarations: [TopLevelCommunityListComponent],
       providers: [
@@ -158,10 +152,16 @@ describe('TopLevelCommunityList Component', () => {
         { provide: ThemeService, useValue: themeService },
         { provide: GroupDataService, useValue: groupDataService },
         { provide: LinkHeadService, useValue: linkHeadService },
-        { provide: ConfigurationDataService, useValue: configurationDataService },
-        { provide: SearchConfigurationService, useValue: new SearchConfigurationServiceStub() },
+        {
+          provide: ConfigurationDataService,
+          useValue: configurationDataService,
+        },
+        {
+          provide: SearchConfigurationService,
+          useValue: new SearchConfigurationServiceStub(),
+        },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -169,21 +169,28 @@ describe('TopLevelCommunityList Component', () => {
     fixture = TestBed.createComponent(TopLevelCommunityListComponent);
     comp = fixture.componentInstance;
     fixture.detectChanges();
-
   });
-
 
   it('should display a list of top-communities', () => {
     waitForAsync(() => {
       const subComList = fixture.debugElement.queryAll(By.css('li'));
 
       expect(subComList.length).toEqual(5);
-      expect(subComList[0].nativeElement.textContent).toContain('TopCommunity 1');
-      expect(subComList[1].nativeElement.textContent).toContain('TopCommunity 2');
-      expect(subComList[2].nativeElement.textContent).toContain('TopCommunity 3');
-      expect(subComList[3].nativeElement.textContent).toContain('TopCommunity 4');
-      expect(subComList[4].nativeElement.textContent).toContain('TopCommunity 5');
+      expect(subComList[0].nativeElement.textContent).toContain(
+        'TopCommunity 1'
+      );
+      expect(subComList[1].nativeElement.textContent).toContain(
+        'TopCommunity 2'
+      );
+      expect(subComList[2].nativeElement.textContent).toContain(
+        'TopCommunity 3'
+      );
+      expect(subComList[3].nativeElement.textContent).toContain(
+        'TopCommunity 4'
+      );
+      expect(subComList[4].nativeElement.textContent).toContain(
+        'TopCommunity 5'
+      );
     });
   });
-
 });

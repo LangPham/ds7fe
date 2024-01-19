@@ -25,82 +25,89 @@ describe('ProfileClaimItemModalComponent', () => {
     metadata: {
       'person.email': [
         {
-          value: 'fake@email.com'
-        }
+          value: 'fake@email.com',
+        },
       ],
       'person.familyName': [
         {
-          value: 'Doe'
-        }
+          value: 'Doe',
+        },
       ],
       'person.givenName': [
         {
-          value: 'John'
-        }
-      ]
+          value: 'John',
+        },
+      ],
     },
     _links: {
       self: {
-        href: 'item-href'
-      }
-    }
+        href: 'item-href',
+      },
+    },
   });
   const item2: Item = Object.assign(new Item(), {
     uuid: 'c8279647-1acc-41ae-b036-951d5f65649b',
     metadata: {
       'person.email': [
         {
-          value: 'fake2@email.com'
-        }
+          value: 'fake2@email.com',
+        },
       ],
       'dc.title': [
         {
-          value: 'John, Doe'
-        }
-      ]
+          value: 'John, Doe',
+        },
+      ],
     },
     _links: {
       self: {
-        href: 'item-href'
-      }
-    }
+        href: 'item-href',
+      },
+    },
   });
   const item3: Item = Object.assign(new Item(), {
     uuid: 'c8279647-1acc-41ae-b036-951d5f65649b',
     metadata: {
       'person.email': [
         {
-          value: 'fake3@email.com'
-        }
+          value: 'fake3@email.com',
+        },
       ],
       'dc.title': [
         {
-          value: 'John, Doe'
-        }
-      ]
+          value: 'John, Doe',
+        },
+      ],
     },
     _links: {
       self: {
-        href: 'item-href'
-      }
-    }
+        href: 'item-href',
+      },
+    },
   });
 
-  const searchResult1 = Object.assign(new ItemSearchResult(), { indexableObject: item1 });
-  const searchResult2 = Object.assign(new ItemSearchResult(), { indexableObject: item2 });
-  const searchResult3 = Object.assign(new ItemSearchResult(), { indexableObject: item3 });
+  const searchResult1 = Object.assign(new ItemSearchResult(), {
+    indexableObject: item1,
+  });
+  const searchResult2 = Object.assign(new ItemSearchResult(), {
+    indexableObject: item2,
+  });
+  const searchResult3 = Object.assign(new ItemSearchResult(), {
+    indexableObject: item3,
+  });
 
   const searchResult = Object.assign(new SearchObjects(), {
-    page: [searchResult1, searchResult2, searchResult3]
+    page: [searchResult1, searchResult2, searchResult3],
   });
   const emptySearchResult = Object.assign(new SearchObjects(), {
-    page: []
+    page: [],
   });
   const searchResultRD = createSuccessfulRemoteDataObject(searchResult);
-  const emptySearchResultRD = createSuccessfulRemoteDataObject(emptySearchResult);
+  const emptySearchResultRD =
+    createSuccessfulRemoteDataObject(emptySearchResult);
 
   const profileClaimService = jasmine.createSpyObj('profileClaimService', {
-    searchForSuggestions: jasmine.createSpy('searchForSuggestions')
+    searchForSuggestions: jasmine.createSpy('searchForSuggestions'),
   });
 
   beforeEach(waitForAsync(() => {
@@ -111,11 +118,10 @@ describe('ProfileClaimItemModalComponent', () => {
         { provide: NgbActiveModal, useValue: {} },
         { provide: ActivatedRoute, useValue: {} },
         { provide: Router, useValue: new RouterStub() },
-        { provide: ProfileClaimService, useValue: profileClaimService }
+        { provide: ProfileClaimService, useValue: profileClaimService },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -124,9 +130,10 @@ describe('ProfileClaimItemModalComponent', () => {
   });
 
   describe('when there are suggestions', () => {
-
     beforeEach(() => {
-      profileClaimService.searchForSuggestions.and.returnValue(of(searchResultRD));
+      profileClaimService.searchForSuggestions.and.returnValue(
+        of(searchResultRD)
+      );
       fixture.detectChanges();
     });
 
@@ -173,9 +180,10 @@ describe('ProfileClaimItemModalComponent', () => {
   });
 
   describe('when there are not suggestions', () => {
-
     beforeEach(() => {
-      profileClaimService.searchForSuggestions.and.returnValue(of(emptySearchResultRD));
+      profileClaimService.searchForSuggestions.and.returnValue(
+        of(emptySearchResultRD)
+      );
       fixture.detectChanges();
     });
 

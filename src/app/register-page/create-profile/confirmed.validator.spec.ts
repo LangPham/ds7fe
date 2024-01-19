@@ -6,17 +6,18 @@ describe('ConfirmedValidator', () => {
   let passwordForm;
 
   beforeEach(waitForAsync(() => {
-
-    passwordForm = (new UntypedFormBuilder()).group({
-      password: new UntypedFormControl('', {}),
-      confirmPassword: new UntypedFormControl('', {})
-    }, {
-      validator: ConfirmedValidator('password', 'confirmPassword')
-    });
+    passwordForm = new UntypedFormBuilder().group(
+      {
+        password: new UntypedFormControl('', {}),
+        confirmPassword: new UntypedFormControl('', {}),
+      },
+      {
+        validator: ConfirmedValidator('password', 'confirmPassword'),
+      }
+    );
   }));
 
   it('should validate that the password and confirm password match', fakeAsync(() => {
-
     passwordForm.get('password').patchValue('test-password');
     passwordForm.get('confirmPassword').patchValue('test-password-mismatch');
 

@@ -1,9 +1,15 @@
-import { Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import {
   DynamicFormControlModel,
   DynamicFormService,
   DynamicInputModel,
-  DynamicTextAreaModel
+  DynamicTextAreaModel,
 } from '@ng-dynamic-forms/core';
 import { Community } from '../../core/shared/community.model';
 import { ComColFormComponent } from '../../shared/comcol/comcol-forms/comcol-form/comcol-form.component';
@@ -20,10 +26,16 @@ import { environment } from '../../../environments/environment';
  */
 @Component({
   selector: 'ds-community-form',
-  styleUrls: ['../../shared/comcol/comcol-forms/comcol-form/comcol-form.component.scss'],
-  templateUrl: '../../shared/comcol/comcol-forms/comcol-form/comcol-form.component.html'
+  styleUrls: [
+    '../../shared/comcol/comcol-forms/comcol-form/comcol-form.component.scss',
+  ],
+  templateUrl:
+    '../../shared/comcol/comcol-forms/comcol-form/comcol-form.component.html',
 })
-export class CommunityFormComponent extends ComColFormComponent<Community> implements OnChanges {
+export class CommunityFormComponent
+  extends ComColFormComponent<Community>
+  implements OnChanges
+{
   /**
    * @type {Community} A new community when a community is being created, an existing Input community when a community is being edited
    */
@@ -44,10 +56,10 @@ export class CommunityFormComponent extends ComColFormComponent<Community> imple
       name: 'dc.title',
       required: true,
       validators: {
-        required: null
+        required: null,
       },
       errorMessages: {
-        required: 'Please enter a name for this title'
+        required: 'Please enter a name for this title',
       },
     }),
     new DynamicTextAreaModel({
@@ -72,20 +84,29 @@ export class CommunityFormComponent extends ComColFormComponent<Community> imple
     }),
   ];
 
-  public constructor(protected formService: DynamicFormService,
-                     protected translate: TranslateService,
-                     protected notificationsService: NotificationsService,
-                     protected authService: AuthService,
-                     protected dsoService: CommunityDataService,
-                     protected requestService: RequestService,
-                     protected objectCache: ObjectCacheService) {
-    super(formService, translate, notificationsService, authService, requestService, objectCache);
+  public constructor(
+    protected formService: DynamicFormService,
+    protected translate: TranslateService,
+    protected notificationsService: NotificationsService,
+    protected authService: AuthService,
+    protected dsoService: CommunityDataService,
+    protected requestService: RequestService,
+    protected objectCache: ObjectCacheService
+  ) {
+    super(
+      formService,
+      translate,
+      notificationsService,
+      authService,
+      requestService,
+      objectCache
+    );
   }
 
   ngOnChanges(changes: SimpleChanges) {
     const dsoChange: SimpleChange = changes.dso;
     if (this.dso && dsoChange && !dsoChange.isFirstChange()) {
-       super.ngOnInit();
+      super.ngOnInit();
     }
   }
 }

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 
 import { Observable, of as observableOf, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -21,9 +21,8 @@ import { WorkspaceitemSectionIdentifiersObject } from '../../../core/submission/
 @Component({
   selector: 'ds-submission-section-identifiers',
   templateUrl: './section-identifiers.component.html',
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
 })
-
 @renderSectionFor(SectionsType.Identifiers)
 export class SubmissionSectionIdentifiersComponent extends SectionModelComponent {
   /**
@@ -42,7 +41,8 @@ export class SubmissionSectionIdentifiersComponent extends SectionModelComponent
    * Observable identifierData subject
    * @type {Observable<WorkspaceitemSectionIdentifiersObject>}
    */
-  public identifierData$: Observable<WorkspaceitemSectionIdentifiersObject> = new Observable<WorkspaceitemSectionIdentifiersObject>();
+  public identifierData$: Observable<WorkspaceitemSectionIdentifiersObject> =
+    new Observable<WorkspaceitemSectionIdentifiersObject>();
 
   /**
    * Array to track all subscriptions and unsubscribe them onDestroy
@@ -62,17 +62,20 @@ export class SubmissionSectionIdentifiersComponent extends SectionModelComponent
    * @param {SectionDataObject} injectedSectionData
    * @param {string} injectedSubmissionId
    */
-  constructor(protected translate: TranslateService,
-              protected sectionService: SectionsService,
-              protected submissionService: SubmissionService,
-              @Inject('collectionIdProvider') public injectedCollectionId: string,
-              @Inject('sectionDataProvider') public injectedSectionData: SectionDataObject,
-              @Inject('submissionIdProvider') public injectedSubmissionId: string) {
+  constructor(
+    protected translate: TranslateService,
+    protected sectionService: SectionsService,
+    protected submissionService: SubmissionService,
+    @Inject('collectionIdProvider') public injectedCollectionId: string,
+    @Inject('sectionDataProvider')
+    public injectedSectionData: SectionDataObject,
+    @Inject('submissionIdProvider') public injectedSubmissionId: string
+  ) {
     super(injectedCollectionId, injectedSectionData, injectedSubmissionId);
   }
 
   ngOnInit() {
-      super.ngOnInit();
+    super.ngOnInit();
   }
 
   /**
@@ -114,8 +117,10 @@ export class SubmissionSectionIdentifiersComponent extends SectionModelComponent
    * and as an observable so it can update in real-time.
    */
   getIdentifierData() {
-    return this.sectionService.getSectionData(this.submissionId, this.sectionData.id, this.sectionData.sectionType) as
-      Observable<WorkspaceitemSectionIdentifiersObject>;
+    return this.sectionService.getSectionData(
+      this.submissionId,
+      this.sectionData.id,
+      this.sectionData.sectionType
+    ) as Observable<WorkspaceitemSectionIdentifiersObject>;
   }
-
 }

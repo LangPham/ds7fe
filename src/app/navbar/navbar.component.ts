@@ -20,7 +20,7 @@ import { isAuthenticated } from '../core/auth/selectors';
   selector: 'ds-navbar',
   styleUrls: ['./navbar.component.scss'],
   templateUrl: './navbar.component.html',
-  animations: [slideMobileNav]
+  animations: [slideMobileNav],
 })
 export class NavbarComponent extends MenuComponent {
   /**
@@ -37,14 +37,15 @@ export class NavbarComponent extends MenuComponent {
 
   public isXsOrSm$: Observable<boolean>;
 
-  constructor(protected menuService: MenuService,
+  constructor(
+    protected menuService: MenuService,
     protected injector: Injector,
-              public windowService: HostWindowService,
-              public browseService: BrowseService,
-              public authorizationService: AuthorizationDataService,
-              public route: ActivatedRoute,
-              protected themeService: ThemeService,
-              private store: Store<AppState>,
+    public windowService: HostWindowService,
+    public browseService: BrowseService,
+    public authorizationService: AuthorizationDataService,
+    public route: ActivatedRoute,
+    protected themeService: ThemeService,
+    private store: Store<AppState>
   ) {
     super(menuService, injector, authorizationService, route, themeService);
   }

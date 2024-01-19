@@ -37,71 +37,56 @@ describe('CommunityPageSubCommunityListComponent Component', () => {
   let themeService;
   let subCommList = [];
 
-  const subcommunities = [Object.assign(new Community(), {
-    id: '123456789-1',
-    metadata: {
-      'dc.title': [
-        { language: 'en_US', value: 'SubCommunity 1' }
-      ]
-    }
-  }),
+  const subcommunities = [
+    Object.assign(new Community(), {
+      id: '123456789-1',
+      metadata: {
+        'dc.title': [{ language: 'en_US', value: 'SubCommunity 1' }],
+      },
+    }),
     Object.assign(new Community(), {
       id: '123456789-2',
       metadata: {
-        'dc.title': [
-          { language: 'en_US', value: 'SubCommunity 2' }
-        ]
-      }
+        'dc.title': [{ language: 'en_US', value: 'SubCommunity 2' }],
+      },
     }),
     Object.assign(new Community(), {
       id: '123456789-3',
       metadata: {
-        'dc.title': [
-          { language: 'en_US', value: 'SubCommunity 3' }
-        ]
-      }
+        'dc.title': [{ language: 'en_US', value: 'SubCommunity 3' }],
+      },
     }),
     Object.assign(new Community(), {
       id: '12345678942',
       metadata: {
-        'dc.title': [
-          { language: 'en_US', value: 'SubCommunity 4' }
-        ]
-      }
+        'dc.title': [{ language: 'en_US', value: 'SubCommunity 4' }],
+      },
     }),
     Object.assign(new Community(), {
       id: '123456789-5',
       metadata: {
-        'dc.title': [
-          { language: 'en_US', value: 'SubCommunity 5' }
-        ]
-      }
+        'dc.title': [{ language: 'en_US', value: 'SubCommunity 5' }],
+      },
     }),
     Object.assign(new Community(), {
       id: '123456789-6',
       metadata: {
-        'dc.title': [
-          { language: 'en_US', value: 'SubCommunity 6' }
-        ]
-      }
+        'dc.title': [{ language: 'en_US', value: 'SubCommunity 6' }],
+      },
     }),
     Object.assign(new Community(), {
       id: '123456789-7',
       metadata: {
-        'dc.title': [
-          { language: 'en_US', value: 'SubCommunity 7' }
-        ]
-      }
-    })
+        'dc.title': [{ language: 'en_US', value: 'SubCommunity 7' }],
+      },
+    }),
   ];
 
   const mockCommunity = Object.assign(new Community(), {
     id: '123456789',
     metadata: {
-      'dc.title': [
-        { language: 'en_US', value: 'Test title' }
-      ]
-    }
+      'dc.title': [{ language: 'en_US', value: 'Test title' }],
+    },
   });
 
   communityDataServiceStub = {
@@ -114,17 +99,21 @@ describe('CommunityPageSubCommunityListComponent Component', () => {
       elementsPerPage = 5;
 
       const startPageIndex = (currentPage - 1) * elementsPerPage;
-      let endPageIndex = (currentPage * elementsPerPage);
+      let endPageIndex = currentPage * elementsPerPage;
       if (endPageIndex > subCommList.length) {
         endPageIndex = subCommList.length;
       }
-      return createSuccessfulRemoteDataObject$(buildPaginatedList(new PageInfo(), subCommList.slice(startPageIndex, endPageIndex)));
-
-    }
+      return createSuccessfulRemoteDataObject$(
+        buildPaginatedList(
+          new PageInfo(),
+          subCommList.slice(startPageIndex, endPageIndex)
+        )
+      );
+    },
   };
 
   const linkHeadService = jasmine.createSpyObj('linkHeadService', {
-    addTag: ''
+    addTag: '',
   });
 
   const groupDataService = jasmine.createSpyObj('groupsDataService', {
@@ -133,14 +122,17 @@ describe('CommunityPageSubCommunityListComponent Component', () => {
     getUUIDFromString: '',
   });
 
-  const configurationDataService = jasmine.createSpyObj('configurationDataService', {
-    findByPropertyName: createSuccessfulRemoteDataObject$(Object.assign(new ConfigurationProperty(), {
-      name: 'test',
-      values: [
-        'org.dspace.ctask.general.ProfileFormats = test'
-      ]
-    }))
-  });
+  const configurationDataService = jasmine.createSpyObj(
+    'configurationDataService',
+    {
+      findByPropertyName: createSuccessfulRemoteDataObject$(
+        Object.assign(new ConfigurationProperty(), {
+          name: 'test',
+          values: ['org.dspace.ctask.general.ProfileFormats = test'],
+        })
+      ),
+    }
+  );
 
   const paginationService = new PaginationServiceStub();
 
@@ -153,7 +145,7 @@ describe('CommunityPageSubCommunityListComponent Component', () => {
         SharedModule,
         RouterTestingModule.withRoutes([]),
         NgbModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
       ],
       declarations: [CommunityPageSubCommunityListComponent],
       providers: [
@@ -164,10 +156,16 @@ describe('CommunityPageSubCommunityListComponent Component', () => {
         { provide: ThemeService, useValue: themeService },
         { provide: GroupDataService, useValue: groupDataService },
         { provide: LinkHeadService, useValue: linkHeadService },
-        { provide: ConfigurationDataService, useValue: configurationDataService },
-        { provide: SearchConfigurationService, useValue: new SearchConfigurationServiceStub() },
+        {
+          provide: ConfigurationDataService,
+          useValue: configurationDataService,
+        },
+        {
+          provide: SearchConfigurationService,
+          useValue: new SearchConfigurationServiceStub(),
+        },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -175,9 +173,7 @@ describe('CommunityPageSubCommunityListComponent Component', () => {
     fixture = TestBed.createComponent(CommunityPageSubCommunityListComponent);
     comp = fixture.componentInstance;
     comp.community = mockCommunity;
-
   });
-
 
   it('should display a list of sub-communities', () => {
     waitForAsync(() => {
@@ -186,11 +182,21 @@ describe('CommunityPageSubCommunityListComponent Component', () => {
 
       const subComList = fixture.debugElement.queryAll(By.css('li'));
       expect(subComList.length).toEqual(5);
-      expect(subComList[0].nativeElement.textContent).toContain('SubCommunity 1');
-      expect(subComList[1].nativeElement.textContent).toContain('SubCommunity 2');
-      expect(subComList[2].nativeElement.textContent).toContain('SubCommunity 3');
-      expect(subComList[3].nativeElement.textContent).toContain('SubCommunity 4');
-      expect(subComList[4].nativeElement.textContent).toContain('SubCommunity 5');
+      expect(subComList[0].nativeElement.textContent).toContain(
+        'SubCommunity 1'
+      );
+      expect(subComList[1].nativeElement.textContent).toContain(
+        'SubCommunity 2'
+      );
+      expect(subComList[2].nativeElement.textContent).toContain(
+        'SubCommunity 3'
+      );
+      expect(subComList[3].nativeElement.textContent).toContain(
+        'SubCommunity 4'
+      );
+      expect(subComList[4].nativeElement.textContent).toContain(
+        'SubCommunity 5'
+      );
     });
   });
 

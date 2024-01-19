@@ -1,17 +1,17 @@
 import {
-    ChangeDetectorRef,
-    Component,
-    Input,
-    OnChanges,
-    OnDestroy,
-    OnInit,
-    SimpleChanges,
-    ViewChild
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { DynamicFormControlModel, } from '@ng-dynamic-forms/core';
+import { DynamicFormControlModel } from '@ng-dynamic-forms/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SectionUploadService } from '../section-upload.service';
@@ -36,8 +36,9 @@ import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal-config';
   styleUrls: ['./section-upload-file.component.scss'],
   templateUrl: './section-upload-file.component.html',
 })
-export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit, OnDestroy {
-
+export class SubmissionSectionUploadFileComponent
+  implements OnChanges, OnInit, OnDestroy
+{
   /**
    * The list of available access condition
    * @type {Array}
@@ -98,8 +99,8 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit, 
    * The [[SubmissionSectionUploadFileEditComponent]] reference
    * @type {SubmissionSectionUploadFileEditComponent}
    */
-  @ViewChild(SubmissionSectionUploadFileEditComponent) fileEditComp: SubmissionSectionUploadFileEditComponent;
-
+  @ViewChild(SubmissionSectionUploadFileEditComponent)
+  fileEditComp: SubmissionSectionUploadFileEditComponent;
 
   /**
    * The bitstream's metadata data
@@ -169,7 +170,7 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit, 
     private operationsBuilder: JsonPatchOperationsBuilder,
     private operationsService: SubmissionJsonPatchOperationsService,
     private submissionService: SubmissionService,
-    private uploadService: SectionUploadService,
+    private uploadService: SectionUploadService
   ) {
     this.readMode = true;
   }
@@ -185,9 +186,8 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit, 
           .getFileData(this.submissionId, this.sectionId, this.fileId)
           .pipe(filter((bitstream) => isNotUndefined(bitstream)))
           .subscribe((bitstream) => {
-              this.fileData = bitstream;
-            }
-          )
+            this.fileData = bitstream;
+          })
       );
     }
   }
@@ -197,7 +197,12 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit, 
    */
   ngOnInit() {
     this.formId = this.formService.getUniqueId(this.fileId);
-    this.pathCombiner = new JsonPatchOperationPathCombiner('sections', this.sectionId, 'files', this.fileIndex);
+    this.pathCombiner = new JsonPatchOperationPathCombiner(
+      'sections',
+      this.sectionId,
+      'files',
+      this.fileIndex
+    );
     this.loadFormMetadata();
   }
 
@@ -205,14 +210,12 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit, 
    * Show confirmation dialog for delete
    */
   public confirmDelete(content) {
-    this.modalService.open(content).result.then(
-      (result) => {
-        if (result === 'ok') {
-          this.processingDelete$.next(true);
-          this.deleteFile();
-        }
+    this.modalService.open(content).result.then((result) => {
+      if (result === 'ok') {
+        this.processingDelete$.next(true);
+        this.deleteFile();
       }
-    );
+    });
   }
 
   /**
@@ -222,22 +225,26 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit, 
    */
   public getBitstream(): Bitstream {
     return Object.assign(new Bitstream(), {
-      uuid: this.fileData.uuid
+      uuid: this.fileData.uuid,
     });
   }
 
   editBitstreamData() {
-
     const options: NgbModalOptions = {
       size: 'xl',
       backdrop: 'static',
     };
 
-    const activeModal = this.modalService.open(SubmissionSectionUploadFileEditComponent, options);
+    const activeModal = this.modalService.open(
+      SubmissionSectionUploadFileEditComponent,
+      options
+    );
 
-    activeModal.componentInstance.availableAccessConditionOptions = this.availableAccessConditionOptions;
+    activeModal.componentInstance.availableAccessConditionOptions =
+      this.availableAccessConditionOptions;
     activeModal.componentInstance.collectionId = this.collectionId;
-    activeModal.componentInstance.collectionPolicyType = this.collectionPolicyType;
+    activeModal.componentInstance.collectionPolicyType =
+      this.collectionPolicyType;
     activeModal.componentInstance.configMetadataForm = this.configMetadataForm;
     activeModal.componentInstance.fileData = this.fileData;
     activeModal.componentInstance.fileId = this.fileId;
@@ -247,7 +254,6 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit, 
     activeModal.componentInstance.formMetadata = this.formMetadata;
     activeModal.componentInstance.pathCombiner = this.pathCombiner;
     activeModal.componentInstance.submissionId = this.submissionId;
-
   }
 
   ngOnDestroy(): void {
@@ -255,7 +261,9 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit, 
   }
 
   unsubscribeAll() {
-    this.subscriptions.filter((sub) => hasValue(sub)).forEach((sub) => sub.unsubscribe());
+    this.subscriptions
+      .filter((sub) => hasValue(sub))
+      .forEach((sub) => sub.unsubscribe());
   }
 
   protected loadFormMetadata() {
@@ -265,8 +273,7 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit, 
           this.formMetadata.push(metadatum.metadata);
         });
       });
-    }
-    );
+    });
   }
 
   /**
@@ -274,15 +281,22 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit, 
    */
   protected deleteFile() {
     this.operationsBuilder.remove(this.pathCombiner.getPath());
-    this.subscriptions.push(this.operationsService.jsonPatchByResourceID(
-      this.submissionService.getSubmissionObjectLinkName(),
-      this.submissionId,
-      this.pathCombiner.rootElement,
-      this.pathCombiner.subRootElement)
-      .subscribe(() => {
-        this.uploadService.removeUploadedFile(this.submissionId, this.sectionId, this.fileId);
-        this.processingDelete$.next(false);
-      }));
+    this.subscriptions.push(
+      this.operationsService
+        .jsonPatchByResourceID(
+          this.submissionService.getSubmissionObjectLinkName(),
+          this.submissionId,
+          this.pathCombiner.rootElement,
+          this.pathCombiner.subRootElement
+        )
+        .subscribe(() => {
+          this.uploadService.removeUploadedFile(
+            this.submissionId,
+            this.sectionId,
+            this.fileId
+          );
+          this.processingDelete$.next(false);
+        })
+    );
   }
-
 }

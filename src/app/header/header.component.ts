@@ -23,9 +23,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     protected menuService: MenuService,
-    protected windowService: HostWindowService,
-  ) {
-  }
+    protected windowService: HostWindowService
+  ) {}
 
   ngOnInit(): void {
     this.isXsOrSm$ = this.windowService.isXsOrSm();

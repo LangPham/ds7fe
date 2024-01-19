@@ -13,10 +13,7 @@ import { ResearchEntitiesModule } from '../entity-groups/research-entities/resea
 import { ThemedSearchPageComponent } from './themed-search-page.component';
 import { SearchModule } from '../shared/search/search.module';
 
-const components = [
-  SearchPageComponent,
-  ThemedSearchPageComponent
-];
+const components = [SearchPageComponent, ThemedSearchPageComponent];
 
 @NgModule({
   imports: [
@@ -26,20 +23,19 @@ const components = [
     CoreModule.forRoot(),
     StatisticsModule.forRoot(),
     JournalEntitiesModule.withEntryComponents(),
-    ResearchEntitiesModule.withEntryComponents()
+    ResearchEntitiesModule.withEntryComponents(),
   ],
   declarations: components,
   providers: [
     SidebarService,
     SearchFilterService,
     ConfigurationSearchPageGuard,
-    SearchConfigurationService
+    SearchConfigurationService,
   ],
-  exports: components
+  exports: components,
 })
 
 /**
  * This module handles all components and pipes that are necessary for the search page
  */
-export class SearchPageModule {
-}
+export class SearchPageModule {}

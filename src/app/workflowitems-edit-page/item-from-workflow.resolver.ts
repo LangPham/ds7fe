@@ -10,12 +10,14 @@ import { SubmissionObjectResolver } from '../core/submission/resolver/submission
  * This class represents a resolver that requests a specific item before the route is activated
  */
 @Injectable()
-export class ItemFromWorkflowResolver extends SubmissionObjectResolver<Item> implements Resolve<RemoteData<Item>>  {
+export class ItemFromWorkflowResolver
+  extends SubmissionObjectResolver<Item>
+  implements Resolve<RemoteData<Item>>
+{
   constructor(
     private workflowItemService: WorkflowItemDataService,
     protected store: Store<any>
   ) {
     super(workflowItemService, store);
   }
-
 }

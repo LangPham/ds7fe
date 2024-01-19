@@ -16,9 +16,12 @@ describe('SupervisionOrderGroupSelectorComponent', () => {
 
   const modalStub = jasmine.createSpyObj('modalStub', ['close']);
 
-  const supervisionOrderDataService: any = jasmine.createSpyObj('supervisionOrderDataService', {
-    create: of(new SupervisionOrder())
-  });
+  const supervisionOrderDataService: any = jasmine.createSpyObj(
+    'supervisionOrderDataService',
+    {
+      create: of(new SupervisionOrder()),
+    }
+  );
 
   const selectedOrderType = 'NONE';
   const itemUUID = 'itemUUID1234';
@@ -35,18 +38,19 @@ describe('SupervisionOrderGroupSelectorComponent', () => {
       declarations: [SupervisionOrderGroupSelectorComponent],
       providers: [
         { provide: NgbActiveModal, useValue: modalStub },
-        { provide: SupervisionOrderDataService, useValue: supervisionOrderDataService },
+        {
+          provide: SupervisionOrderDataService,
+          useValue: supervisionOrderDataService,
+        },
         { provide: NotificationsService, useValue: {} },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
-
   }));
 
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SupervisionOrderGroupSelectorComponent);
     component = fixture.componentInstance;
-
   }));
 
   beforeEach(() => {
@@ -64,7 +68,11 @@ describe('SupervisionOrderGroupSelectorComponent', () => {
   it('should call create for supervision order', () => {
     component.save();
     fixture.detectChanges();
-    expect(supervisionOrderDataService.create).toHaveBeenCalledWith(supervisionDataObject, itemUUID, selectedGroup.uuid, selectedOrderType);
+    expect(supervisionOrderDataService.create).toHaveBeenCalledWith(
+      supervisionDataObject,
+      itemUUID,
+      selectedGroup.uuid,
+      selectedOrderType
+    );
   });
-
 });

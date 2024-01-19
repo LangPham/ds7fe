@@ -11,7 +11,10 @@ import { hasValue, isNotEmpty } from '../../empty.util';
 import { dateToString, stringToNgbDateStruct } from '../../date.util';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { getAllSucceededRemoteData, getFirstSucceededRemoteDataPayload } from '../../../core/shared/operators';
+import {
+  getAllSucceededRemoteData,
+  getFirstSucceededRemoteDataPayload,
+} from '../../../core/shared/operators';
 import { DSONameService } from '../../../core/breadcrumbs/dso-name.service';
 import { RemoteData } from '../../../core/data/remote-data';
 import { DSpaceObject } from '../../../core/shared/dspace-object.model';
@@ -45,16 +48,17 @@ export class ResourcePolicyEntryComponent implements OnInit {
     protected dsoNameService: DSONameService,
     protected groupService: GroupDataService,
     protected route: ActivatedRoute,
-    protected router: Router,
-  ) {
-  }
+    protected router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.epersonName$ = this.getName$(this.entry.policy.eperson);
     this.groupName$ = this.getName$(this.entry.policy.group);
   }
 
-  private getName$(dso$: Observable<RemoteData<DSpaceObject>>): Observable<string> {
+  private getName$(
+    dso$: Observable<RemoteData<DSpaceObject>>
+  ): Observable<string> {
     return dso$.pipe(
       getAllSucceededRemoteData(),
       map((rd: RemoteData<DSpaceObject>) => {
@@ -62,7 +66,7 @@ export class ResourcePolicyEntryComponent implements OnInit {
           return this.dsoNameService.getName(rd.payload);
         }
         return undefined;
-      }),
+      })
     );
   }
 
@@ -92,11 +96,14 @@ export class ResourcePolicyEntryComponent implements OnInit {
    * Redirect to group edit page
    */
   redirectToGroupEditPage(): void {
-    this.groupService.findByHref(this.entry.policy._links.group.href, false).pipe(
-      getFirstSucceededRemoteDataPayload(),
-      map((group: Group) => group.id),
-    ).subscribe((groupUUID) => {
-      void this.router.navigate([getGroupEditRoute(groupUUID)]);
-    });
+    this.groupService
+      .findByHref(this.entry.policy._links.group.href, false)
+      .pipe(
+        getFirstSucceededRemoteDataPayload(),
+        map((group: Group) => group.id)
+      )
+      .subscribe((groupUUID) => {
+        void this.router.navigate([getGroupEditRoute(groupUUID)]);
+      });
   }
 }

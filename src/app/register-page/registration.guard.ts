@@ -1,4 +1,9 @@
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { EpersonRegistrationService } from '../core/data/eperson-registration.service';
@@ -8,7 +13,7 @@ import { getFirstCompletedRemoteData } from '../core/shared/operators';
 import { redirectOn4xx } from '../core/shared/authorized.operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 /**
  * A guard responsible for redirecting to 4xx pages upon retrieving a Registration object
@@ -16,10 +21,11 @@ import { redirectOn4xx } from '../core/shared/authorized.operators';
  * The reason this is a guard and not a resolver, is because it has to run before the EndUserAgreementCookieGuard
  */
 export class RegistrationGuard implements CanActivate {
-  constructor(private epersonRegistrationService: EpersonRegistrationService,
-              private router: Router,
-              private authService: AuthService) {
-  }
+  constructor(
+    private epersonRegistrationService: EpersonRegistrationService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   /**
    * Can the user activate the route? Returns true if the provided token resolves to an existing Registration, false if
@@ -28,7 +34,10 @@ export class RegistrationGuard implements CanActivate {
    * @param route
    * @param state
    */
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> {
     const token = route.params.token;
     return this.epersonRegistrationService.searchByToken(token).pipe(
       getFirstCompletedRemoteData(),
@@ -36,8 +45,7 @@ export class RegistrationGuard implements CanActivate {
       map((rd) => {
         route.data = { ...route.data, registration: rd };
         return rd.hasSucceeded;
-      }),
+      })
     );
   }
-
 }

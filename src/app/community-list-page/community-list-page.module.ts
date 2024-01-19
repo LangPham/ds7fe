@@ -8,12 +8,11 @@ import { ThemedCommunityListPageComponent } from './themed-community-list-page.c
 import { ThemedCommunityListComponent } from './community-list/themed-community-list.component';
 import { CdkTreeModule } from '@angular/cdk/tree';
 
-
 const DECLARATIONS = [
   CommunityListPageComponent,
   CommunityListComponent,
   ThemedCommunityListPageComponent,
-  ThemedCommunityListComponent
+  ThemedCommunityListComponent,
 ];
 /**
  * The page which houses a title and the community list, as described in community-list.component
@@ -25,14 +24,7 @@ const DECLARATIONS = [
     CommunityListPageRoutingModule,
     CdkTreeModule,
   ],
-  declarations: [
-    ...DECLARATIONS
-  ],
-  exports: [
-    ...DECLARATIONS,
-    CdkTreeModule,
-  ],
+  declarations: [...DECLARATIONS],
+  exports: [...DECLARATIONS, CdkTreeModule],
 })
-export class CommunityListPageModule {
-
-}
+export class CommunityListPageModule {}

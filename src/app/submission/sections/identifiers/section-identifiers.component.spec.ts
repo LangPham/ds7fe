@@ -2,7 +2,12 @@ import { ChangeDetectorRef, Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  inject,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -25,7 +30,10 @@ import { FormService } from '../../../shared/form/form.service';
 import { SubmissionFormsConfigDataService } from '../../../core/config/submission-forms-config-data.service';
 import { SectionDataObject } from '../models/section-data.model';
 import { SectionsType } from '../sections-type';
-import { mockSubmissionCollectionId, mockSubmissionId } from '../../../shared/mocks/submission.mock';
+import {
+  mockSubmissionCollectionId,
+  mockSubmissionId,
+} from '../../../shared/mocks/submission.mock';
 import { JsonPatchOperationPathCombiner } from '../../../core/json-patch/builder/json-patch-operation-path-combiner';
 import { SubmissionSectionIdentifiersComponent } from './section-identifiers.component';
 import { CollectionDataService } from '../../../core/data/collection-data.service';
@@ -46,14 +54,14 @@ function getMockSubmissionFormsConfigService(): SubmissionFormsConfigDataService
     getConfigAll: jasmine.createSpy('getConfigAll'),
     getConfigByHref: jasmine.createSpy('getConfigByHref'),
     getConfigByName: jasmine.createSpy('getConfigByName'),
-    getConfigBySearch: jasmine.createSpy('getConfigBySearch')
+    getConfigBySearch: jasmine.createSpy('getConfigBySearch'),
   });
 }
 
 function getMockCollectionDataService(): CollectionDataService {
   return jasmine.createSpyObj('CollectionDataService', {
     findById: jasmine.createSpy('findById'),
-    findByHref: jasmine.createSpy('findByHref')
+    findByHref: jasmine.createSpy('findByHref'),
   });
 }
 
@@ -64,28 +72,29 @@ const mockItem = Object.assign(new Item(), {
     'dc.title': [
       {
         language: null,
-        value: 'mockmatch'
-      }
-    ]
+        value: 'mockmatch',
+      },
+    ],
   },
 });
 
 // Mock identifier data to use with tests
 const identifierData: WorkspaceitemSectionIdentifiersObject = {
-  identifiers: [{
-    value: 'https://doi.org/10.33515/dspace-61',
-    identifierType: 'doi',
-    identifierStatus: 'TO_BE_REGISTERED',
-    type: 'identifier'
-  },
-  {
-    value: '123456789/418',
-    identifierType: 'handle',
-    identifierStatus: null,
-    type: 'identifier'
-  }
+  identifiers: [
+    {
+      value: 'https://doi.org/10.33515/dspace-61',
+      identifierType: 'doi',
+      identifierStatus: 'TO_BE_REGISTERED',
+      type: 'identifier',
+    },
+    {
+      value: '123456789/418',
+      identifierType: 'handle',
+      identifierStatus: null,
+      type: 'identifier',
+    },
   ],
-  displayTypes: ['doi', 'handle']
+  displayTypes: ['doi', 'handle'],
 };
 
 // Mock section object to use with tests
@@ -99,7 +108,7 @@ const sectionObject: SectionDataObject = {
   header: 'submission.sections.submit.progressbar.identifiers',
   id: 'identifiers',
   sectionType: SectionsType.Identifiers,
-  sectionVisibility: null
+  sectionVisibility: null,
 };
 
 describe('SubmissionSectionIdentifiersComponent test suite', () => {
@@ -129,9 +138,12 @@ describe('SubmissionSectionIdentifiersComponent test suite', () => {
       {
         key: 'dc.title',
         language: 'en_US',
-        value: 'Community 1-Collection 1'
-      }],
-    license: createSuccessfulRemoteDataObject$(Object.assign(new License(), { text: licenseText }))
+        value: 'Community 1-Collection 1',
+      },
+    ],
+    license: createSuccessfulRemoteDataObject$(
+      Object.assign(new License(), { text: licenseText })
+    ),
   });
   const paginationService = new PaginationServiceStub();
 
@@ -153,11 +165,20 @@ describe('SubmissionSectionIdentifiersComponent test suite', () => {
         VarDirective,
       ],
       providers: [
-        { provide: CollectionDataService, useValue: getMockCollectionDataService() },
-        { provide: SectionFormOperationsService, useValue: getMockFormOperationsService() },
+        {
+          provide: CollectionDataService,
+          useValue: getMockCollectionDataService(),
+        },
+        {
+          provide: SectionFormOperationsService,
+          useValue: getMockFormOperationsService(),
+        },
         { provide: FormService, useValue: getMockFormService() },
         { provide: JsonPatchOperationsBuilder, useValue: jsonPatchOpBuilder },
-        { provide: SubmissionFormsConfigDataService, useValue: getMockSubmissionFormsConfigService() },
+        {
+          provide: SubmissionFormsConfigDataService,
+          useValue: getMockSubmissionFormsConfigService(),
+        },
         { provide: NotificationsService, useClass: NotificationsServiceStub },
         { provide: SectionsService, useClass: SectionsServiceStub },
         { provide: SubmissionService, useClass: SubmissionServiceStub },
@@ -167,10 +188,12 @@ describe('SubmissionSectionIdentifiersComponent test suite', () => {
         { provide: PaginationService, useValue: paginationService },
         ChangeDetectorRef,
         FormBuilderService,
-        SubmissionSectionIdentifiersComponent
+        SubmissionSectionIdentifiersComponent,
       ],
-      schemas: [NO_ERRORS_SCHEMA]
-    }).compileComponents().then();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .compileComponents()
+      .then();
   }));
 
   // First test to check the correct component creation
@@ -180,11 +203,18 @@ describe('SubmissionSectionIdentifiersComponent test suite', () => {
 
     // synchronous beforeEach
     beforeEach(() => {
-      sectionsServiceStub.isSectionReadOnly.and.returnValue(observableOf(false));
+      sectionsServiceStub.isSectionReadOnly.and.returnValue(
+        observableOf(false)
+      );
       sectionsServiceStub.getSectionErrors.and.returnValue(observableOf([]));
-      sectionsServiceStub.getSectionData.and.returnValue(observableOf(identifierData));
+      sectionsServiceStub.getSectionData.and.returnValue(
+        observableOf(identifierData)
+      );
       const html = `<ds-submission-section-identifiers></ds-submission-section-identifiers>`;
-      testFixture = createTestComponent(html, TestComponent) as ComponentFixture<TestComponent>;
+      testFixture = createTestComponent(
+        html,
+        TestComponent
+      ) as ComponentFixture<TestComponent>;
       testComp = testFixture.componentInstance;
     });
 
@@ -192,9 +222,12 @@ describe('SubmissionSectionIdentifiersComponent test suite', () => {
       testFixture.destroy();
     });
 
-    it('should create SubmissionSectionIdentifiersComponent', inject([SubmissionSectionIdentifiersComponent], (idComp: SubmissionSectionIdentifiersComponent) => {
-      expect(idComp).toBeDefined();
-    }));
+    it('should create SubmissionSectionIdentifiersComponent', inject(
+      [SubmissionSectionIdentifiersComponent],
+      (idComp: SubmissionSectionIdentifiersComponent) => {
+        expect(idComp).toBeDefined();
+      }
+    ));
   });
 
   describe('', () => {
@@ -207,7 +240,10 @@ describe('SubmissionSectionIdentifiersComponent test suite', () => {
       formBuilderService = TestBed.inject(FormBuilderService);
       formOperationsService = TestBed.inject(SectionFormOperationsService);
       collectionDataService = TestBed.inject(CollectionDataService);
-      compAsAny.pathCombiner = new JsonPatchOperationPathCombiner('sections', sectionObject.id);
+      compAsAny.pathCombiner = new JsonPatchOperationPathCombiner(
+        'sections',
+        sectionObject.id
+      );
     });
 
     afterEach(() => {
@@ -218,12 +254,20 @@ describe('SubmissionSectionIdentifiersComponent test suite', () => {
 
     // Test initialisation of the submission section
     it('Should init section properly', () => {
-      collectionDataService.findById.and.returnValue(createSuccessfulRemoteDataObject$(mockCollection));
+      collectionDataService.findById.and.returnValue(
+        createSuccessfulRemoteDataObject$(mockCollection)
+      );
       sectionsServiceStub.getSectionErrors.and.returnValue(observableOf([]));
-      sectionsServiceStub.isSectionReadOnly.and.returnValue(observableOf(false));
-      compAsAny.submissionService.getSubmissionScope.and.returnValue(SubmissionScopeType.WorkspaceItem);
+      sectionsServiceStub.isSectionReadOnly.and.returnValue(
+        observableOf(false)
+      );
+      compAsAny.submissionService.getSubmissionScope.and.returnValue(
+        SubmissionScopeType.WorkspaceItem
+      );
       spyOn(comp, 'getSectionStatus').and.returnValue(observableOf(true));
-      spyOn(comp, 'getIdentifierData').and.returnValue(observableOf(identifierData));
+      spyOn(comp, 'getIdentifierData').and.returnValue(
+        observableOf(identifierData)
+      );
       expect(comp.isLoading).toBeTruthy();
       comp.onSectionInit();
       fixture.detectChanges();
@@ -234,25 +278,26 @@ describe('SubmissionSectionIdentifiersComponent test suite', () => {
     // These are very simple as we don't really have a 'false' state unless we're still loading
     it('Should return TRUE if the isLoading is FALSE', () => {
       compAsAny.isLoading = false;
-      expect(compAsAny.getSectionStatus()).toBeObservable(cold('(a|)', {
-        a: true
-      }));
+      expect(compAsAny.getSectionStatus()).toBeObservable(
+        cold('(a|)', {
+          a: true,
+        })
+      );
     });
     it('Should return FALSE if the identifier data is missing handle', () => {
       compAsAny.isLoadin = true;
-      expect(compAsAny.getSectionStatus()).toBeObservable(cold('(a|)', {
-        a: false
-      }));
+      expect(compAsAny.getSectionStatus()).toBeObservable(
+        cold('(a|)', {
+          a: false,
+        })
+      );
     });
   });
-
 });
 
 // declare a test component
 @Component({
   selector: 'ds-test-cmp',
-  template: ``
+  template: ``,
 })
-class TestComponent {
-
-}
+class TestComponent {}

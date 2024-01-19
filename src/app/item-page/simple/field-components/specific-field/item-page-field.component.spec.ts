@@ -5,7 +5,10 @@ import { Item } from '../../../../core/shared/item.model';
 import { TranslateLoaderMock } from '../../../../shared/mocks/translate-loader.mock';
 import { ItemPageFieldComponent } from './item-page-field.component';
 import { MetadataValuesComponent } from '../../../field-components/metadata-values/metadata-values.component';
-import { MetadataMap, MetadataValue } from '../../../../core/shared/metadata.models';
+import {
+  MetadataMap,
+  MetadataValue,
+} from '../../../../core/shared/metadata.models';
 import { createSuccessfulRemoteDataObject$ } from '../../../../shared/remote-data.utils';
 import { createPaginatedList } from '../../../../shared/testing/utils.test';
 import { environment } from '../../../../../environments/environment';
@@ -29,12 +32,11 @@ const mockDateIssuedField = 'dc.date.issued';
 const mockFields = [mockField, mockAuthorField, mockDateIssuedField];
 
 describe('ItemPageFieldComponent', () => {
-
   let appConfig = Object.assign({}, environment, {
     markdown: {
       enabled: false,
       mathjax: false,
-    }
+    },
   });
 
   const buildTestEnvironment = async () => {
@@ -44,20 +46,25 @@ describe('ItemPageFieldComponent', () => {
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
+            useClass: TranslateLoaderMock,
+          },
         }),
         SharedModule,
       ],
       providers: [
         { provide: APP_CONFIG, useValue: appConfig },
-        { provide: BrowseDefinitionDataService, useValue: BrowseDefinitionDataServiceStub }
+        {
+          provide: BrowseDefinitionDataService,
+          useValue: BrowseDefinitionDataServiceStub,
+        },
       ],
       declarations: [ItemPageFieldComponent, MetadataValuesComponent],
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(ItemPageFieldComponent, {
-      set: { changeDetection: ChangeDetectionStrategy.Default }
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(ItemPageFieldComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
     markdownSpy = spyOn(MarkdownPipe.prototype, 'transform');
     fixture = TestBed.createComponent(ItemPageFieldComponent);
     comp = fixture.componentInstance;
@@ -73,14 +80,12 @@ describe('ItemPageFieldComponent', () => {
   }));
 
   describe('when markdown is disabled in the environment config', () => {
-
     beforeEach(waitForAsync(async () => {
       appConfig.markdown.enabled = false;
       await buildTestEnvironment();
     }));
 
     describe('and markdown is disabled in this component', () => {
-
       beforeEach(() => {
         comp.enableMarkdown = false;
         fixture.detectChanges();
@@ -92,7 +97,6 @@ describe('ItemPageFieldComponent', () => {
     });
 
     describe('and markdown is enabled in this component', () => {
-
       beforeEach(() => {
         comp.enableMarkdown = true;
         fixture.detectChanges();
@@ -105,14 +109,12 @@ describe('ItemPageFieldComponent', () => {
   });
 
   describe('when markdown is enabled in the environment config', () => {
-
     beforeEach(waitForAsync(async () => {
       appConfig.markdown.enabled = true;
       await buildTestEnvironment();
     }));
 
     describe('and markdown is disabled in this component', () => {
-
       beforeEach(() => {
         comp.enableMarkdown = false;
         fixture.detectChanges();
@@ -124,7 +126,6 @@ describe('ItemPageFieldComponent', () => {
     });
 
     describe('and markdown is enabled in this component', () => {
-
       beforeEach(() => {
         comp.enableMarkdown = true;
         fixture.detectChanges();
@@ -134,7 +135,6 @@ describe('ItemPageFieldComponent', () => {
         expect(markdownSpy).toHaveBeenCalled();
       });
     });
-
   });
 
   describe('test rendering of configured browse links', () => {
@@ -143,7 +143,10 @@ describe('ItemPageFieldComponent', () => {
     });
     waitForAsync(() => {
       it('should have a browse link', () => {
-        expect(fixture.debugElement.query(By.css('a.ds-browse-link')).nativeElement.innerHTML).toContain(mockValue);
+        expect(
+          fixture.debugElement.query(By.css('a.ds-browse-link')).nativeElement
+            .innerHTML
+        ).toContain(mockValue);
       });
     });
   });
@@ -155,7 +158,10 @@ describe('ItemPageFieldComponent', () => {
     });
     waitForAsync(() => {
       it('should have a rendered (non-browse) link since the value matches ^test', () => {
-        expect(fixture.debugElement.query(By.css('a.ds-simple-metadata-link')).nativeElement.innerHTML).toContain(mockValue);
+        expect(
+          fixture.debugElement.query(By.css('a.ds-simple-metadata-link'))
+            .nativeElement.innerHTML
+        ).toContain(mockValue);
       });
     });
   });
@@ -167,24 +173,29 @@ describe('ItemPageFieldComponent', () => {
     });
     beforeEach(waitForAsync(() => {
       it('should NOT have a rendered (non-browse) link since the value matches ^test', () => {
-        expect(fixture.debugElement.query(By.css('a.ds-simple-metadata-link'))).toBeNull();
+        expect(
+          fixture.debugElement.query(By.css('a.ds-simple-metadata-link'))
+        ).toBeNull();
       });
     }));
   });
-
-
 });
 
-export function mockItemWithMetadataFieldsAndValue(fields: string[], value: string): Item {
+export function mockItemWithMetadataFieldsAndValue(
+  fields: string[],
+  value: string
+): Item {
   const item = Object.assign(new Item(), {
     bundles: createSuccessfulRemoteDataObject$(createPaginatedList([])),
-    metadata: new MetadataMap()
+    metadata: new MetadataMap(),
   });
   fields.forEach((field: string) => {
-    item.metadata[field] = [{
-      language: 'en_US',
-      value: value
-    }] as MetadataValue[];
+    item.metadata[field] = [
+      {
+        language: 'en_US',
+        value: value,
+      },
+    ] as MetadataValue[];
   });
   return item;
 }

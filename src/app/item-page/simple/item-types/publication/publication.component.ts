@@ -14,6 +14,4 @@ import { ItemComponent } from '../shared/item.component';
   templateUrl: './publication.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PublicationComponent extends ItemComponent {
-
-}
+export class PublicationComponent extends ItemComponent {}

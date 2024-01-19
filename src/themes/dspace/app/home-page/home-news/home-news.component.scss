@@ -5,7 +5,7 @@
     color: white;
     position: relative;
 
-    .background-image > img {
+    .background-image>img {
       background-color: var(--bs-info);
       position: absolute;
       z-index: -1;
@@ -29,7 +29,8 @@
       position: relative;
       text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 
-      &:before, &:after {
+      &:before,
+      &:after {
         content: '';
         display: block;
         width: var(--ds-banner-background-gradient-width);
@@ -77,5 +78,3 @@
     }
   }
 }
-
-

@@ -14,36 +14,39 @@ let fixture: ComponentFixture<MetadataValuesComponent>;
 const mockMetadata = [
   {
     language: 'en_US',
-    value: '1234'
+    value: '1234',
   },
   {
     language: 'en_US',
-    value: 'a publisher'
+    value: 'a publisher',
   },
   {
     language: 'en_US',
-    value: 'desc'
-  }] as MetadataValue[];
+    value: 'desc',
+  },
+] as MetadataValue[];
 const mockSeperator = '<br/>';
 const mockLabel = 'fake.message';
 
 describe('MetadataValuesComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot({
-        loader: {
-          provide: TranslateLoader,
-          useClass: TranslateLoaderMock
-        },
-      })],
-      providers: [
-        { provide: APP_CONFIG, useValue: environment },
+      imports: [
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateLoaderMock,
+          },
+        }),
       ],
+      providers: [{ provide: APP_CONFIG, useValue: environment }],
       declarations: [MetadataValuesComponent],
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(MetadataValuesComponent, {
-      set: {changeDetection: ChangeDetectionStrategy.Default}
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(MetadataValuesComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
@@ -69,8 +72,7 @@ describe('MetadataValuesComponent', () => {
   });
 
   it('should correctly detect a pattern on string containing "test"', () => {
-    const mdValue = {value: 'This is a test value'} as MetadataValue;
+    const mdValue = { value: 'This is a test value' } as MetadataValue;
     expect(comp.hasLink(mdValue)).toBe(true);
   });
-
 });

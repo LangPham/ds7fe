@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  rendersAdvancedWorkflowTaskOption
-} from '../../../shared/mydspace-actions/claimed-task/switcher/claimed-task-actions-decorator';
+import { rendersAdvancedWorkflowTaskOption } from '../../../shared/mydspace-actions/claimed-task/switcher/claimed-task-actions-decorator';
 import { AdvancedWorkflowActionComponent } from '../advanced-workflow-action/advanced-workflow-action.component';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  Validators,
+} from '@angular/forms';
 import { WorkflowAction } from '../../../core/tasks/models/workflow-action-object.model';
 import { RatingAdvancedWorkflowInfo } from '../../../core/tasks/models/rating-advanced-workflow-info.model';
 
@@ -20,8 +22,10 @@ export const ADVANCED_WORKFLOW_ACTION_RATING = 'scorereviewaction';
   styleUrls: ['./advanced-workflow-action-rating.component.scss'],
   preserveWhitespaces: false,
 })
-export class AdvancedWorkflowActionRatingComponent extends AdvancedWorkflowActionComponent implements OnInit {
-
+export class AdvancedWorkflowActionRatingComponent
+  extends AdvancedWorkflowActionComponent
+  implements OnInit
+{
   ratingForm: UntypedFormGroup;
 
   ngOnInit(): void {
@@ -63,8 +67,12 @@ export class AdvancedWorkflowActionRatingComponent extends AdvancedWorkflowActio
     return ADVANCED_WORKFLOW_ACTION_RATING;
   }
 
-  getAdvancedInfo(workflowAction: WorkflowAction | null): RatingAdvancedWorkflowInfo | null {
-    return workflowAction ? (workflowAction.advancedInfo[0] as RatingAdvancedWorkflowInfo) : null;
+  getAdvancedInfo(
+    workflowAction: WorkflowAction | null
+  ): RatingAdvancedWorkflowInfo | null {
+    return workflowAction
+      ? (workflowAction.advancedInfo[0] as RatingAdvancedWorkflowInfo)
+      : null;
   }
 
   /**
@@ -73,7 +81,9 @@ export class AdvancedWorkflowActionRatingComponent extends AdvancedWorkflowActio
    * @param formControlName The input field
    */
   isInvalid(formControlName: string): boolean {
-    return this.ratingForm.get(formControlName).touched && !this.ratingForm.get(formControlName).valid;
+    return (
+      this.ratingForm.get(formControlName).touched &&
+      !this.ratingForm.get(formControlName).valid
+    );
   }
-
 }

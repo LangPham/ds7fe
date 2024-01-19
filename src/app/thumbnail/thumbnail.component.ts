@@ -62,9 +62,8 @@ export class ThumbnailComponent implements OnChanges {
   constructor(
     protected auth: AuthService,
     protected authorizationService: AuthorizationDataService,
-    protected fileService: FileService,
-  ) {
-  }
+    protected fileService: FileService
+  ) {}
 
   /**
    * Resolve the thumbnail.
@@ -114,37 +113,47 @@ export class ThumbnailComponent implements OnChanges {
     const thumbnail = this.bitstream;
     const thumbnailSrc = thumbnail?._links?.content?.href;
 
-    if (!this.retriedWithToken && hasValue(thumbnailSrc) && src === thumbnailSrc) {
+    if (
+      !this.retriedWithToken &&
+      hasValue(thumbnailSrc) &&
+      src === thumbnailSrc
+    ) {
       // the thumbnail may have failed to load because it's restricted
       //   → retry with an authorization token
       //     only do this once; fall back to the default if it still fails
       this.retriedWithToken = true;
 
-      this.auth.isAuthenticated().pipe(
-        switchMap((isLoggedIn) => {
-          if (isLoggedIn) {
-            return this.authorizationService.isAuthorized(FeatureID.CanDownload, thumbnail.self);
+      this.auth
+        .isAuthenticated()
+        .pipe(
+          switchMap((isLoggedIn) => {
+            if (isLoggedIn) {
+              return this.authorizationService.isAuthorized(
+                FeatureID.CanDownload,
+                thumbnail.self
+              );
+            } else {
+              return observableOf(false);
+            }
+          }),
+          switchMap((isAuthorized) => {
+            if (isAuthorized) {
+              return this.fileService.retrieveFileDownloadLink(thumbnailSrc);
+            } else {
+              return observableOf(null);
+            }
+          })
+        )
+        .subscribe((url: string) => {
+          if (hasValue(url)) {
+            // If we got a URL, try to load it
+            //   (if it still fails this method will be called again, and we'll fall back to the default)
+            // Otherwise, fall back to the default image right now
+            this.setSrc(url);
           } else {
-            return observableOf(false);
+            this.setSrc(this.defaultImage);
           }
-        }),
-        switchMap((isAuthorized) => {
-          if (isAuthorized) {
-            return this.fileService.retrieveFileDownloadLink(thumbnailSrc);
-          } else {
-            return observableOf(null);
-          }
-        })
-      ).subscribe((url: string) => {
-        if (hasValue(url)) {
-          // If we got a URL, try to load it
-          //   (if it still fails this method will be called again, and we'll fall back to the default)
-          // Otherwise, fall back to the default image right now
-          this.setSrc(url);
-        } else {
-          this.setSrc(this.defaultImage);
-        }
-      });
+        });
     } else {
       if (src !== this.defaultImage) {
         // we failed to get thumbnail (possibly retried with a token but failed again)

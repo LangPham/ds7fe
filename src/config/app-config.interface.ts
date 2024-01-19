@@ -43,7 +43,7 @@ interface AppConfig extends Config {
   themes: ThemeConfig[];
   mediaViewer: MediaViewerConfig;
   bundle: BundleConfig;
-  actuators: ActuatorsConfig
+  actuators: ActuatorsConfig;
   info: InfoConfig;
   markdown: MarkdownConfig;
   vocabularies: FilterVocabularyConfig[];
@@ -58,8 +58,4 @@ const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');
 
 const APP_CONFIG_STATE = makeStateKey<AppConfig>('APP_CONFIG_STATE');
 
-export {
-  AppConfig,
-  APP_CONFIG,
-  APP_CONFIG_STATE
-};
+export { AppConfig, APP_CONFIG, APP_CONFIG_STATE };

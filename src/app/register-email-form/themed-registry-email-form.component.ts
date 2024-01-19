@@ -11,26 +11,24 @@ import { RegisterEmailFormComponent } from './register-email-form.component';
   templateUrl: '../shared/theme-support/themed.component.html',
 })
 export class ThemedRegisterEmailFormComponent extends ThemedComponent<RegisterEmailFormComponent> {
-
   @Input() MESSAGE_PREFIX: string;
 
   @Input() typeRequest: string;
 
-  protected inAndOutputNames: (keyof RegisterEmailFormComponent & keyof this)[] = [
-    'MESSAGE_PREFIX',
-    'typeRequest',
-  ];
+  protected inAndOutputNames: (keyof RegisterEmailFormComponent &
+    keyof this)[] = ['MESSAGE_PREFIX', 'typeRequest'];
 
   protected getComponentName(): string {
     return 'RegisterEmailFormComponent';
   }
 
   protected importThemedComponent(themeName: string): Promise<any> {
-    return import(`../../themes/${themeName}/app/register-email-form/register-email-form.component`);
+    return import(
+      `../../themes/${themeName}/app/register-email-form/register-email-form.component`
+    );
   }
 
   protected importUnthemedComponent(): Promise<any> {
     return import('./register-email-form.component');
   }
-
 }

@@ -9,20 +9,17 @@ import { AlertType } from '../../../../shared/alert/alert-type';
 @Component({
   selector: 'ds-publisher-policy',
   templateUrl: './publisher-policy.component.html',
-  styleUrls: ['./publisher-policy.component.scss']
+  styleUrls: ['./publisher-policy.component.scss'],
 })
 export class PublisherPolicyComponent {
-
   /**
    * Policy to show information from
    */
   @Input() policy: Policy;
-
 
   /**
    * The AlertType enumeration
    * @type {AlertType}
    */
   public AlertTypeEnum = AlertType;
-
 }

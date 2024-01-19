@@ -1,4 +1,10 @@
-import { Component, ComponentFactoryResolver, ElementRef, ViewChild, OnInit } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  ElementRef,
+  ViewChild,
+  OnInit,
+} from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, mergeMap, take, tap } from 'rxjs/operators';
@@ -7,18 +13,14 @@ import { Item } from '../../../../../core/shared/item.model';
 import { ViewMode } from '../../../../../core/shared/view-mode.model';
 import {
   getListableObjectComponent,
-  listableObjectComponent
+  listableObjectComponent,
 } from '../../../../../shared/object-collection/shared/listable-object/listable-object.decorator';
 import { Context } from '../../../../../core/shared/context.model';
-import {
-  SearchResultGridElementComponent
-} from '../../../../../shared/object-grid/search-result-grid-element/search-result-grid-element.component';
+import { SearchResultGridElementComponent } from '../../../../../shared/object-grid/search-result-grid-element/search-result-grid-element.component';
 import { TruncatableService } from '../../../../../shared/truncatable/truncatable.service';
 import { BitstreamDataService } from '../../../../../core/data/bitstream-data.service';
 import { GenericConstructor } from '../../../../../core/shared/generic-constructor';
-import {
-  ListableObjectDirective
-} from '../../../../../shared/object-collection/shared/listable-object/listable-object.directive';
+import { ListableObjectDirective } from '../../../../../shared/object-collection/shared/listable-object/listable-object.directive';
 import { WorkspaceItem } from '../../../../../core/submission/models/workspaceitem.model';
 import { LinkService } from '../../../../../core/cache/builders/link.service';
 import { followLink } from '../../../../../shared/utils/follow-link-config.model';
@@ -26,11 +28,9 @@ import { RemoteData } from '../../../../../core/data/remote-data';
 import {
   getAllSucceededRemoteData,
   getFirstCompletedRemoteData,
-  getRemoteDataPayload
+  getRemoteDataPayload,
 } from '../../../../../core/shared/operators';
-import {
-  WorkspaceItemSearchResult
-} from '../../../../../shared/object-collection/shared/workspace-item-search-result.model';
+import { WorkspaceItemSearchResult } from '../../../../../shared/object-collection/shared/workspace-item-search-result.model';
 import { ThemeService } from '../../../../../shared/theme-support/theme.service';
 import { DSpaceObject } from '../../../../../core/shared/dspace-object.model';
 import { SupervisionOrder } from '../../../../../core/supervision-order/models/supervision-order.model';
@@ -38,17 +38,29 @@ import { PaginatedList } from '../../../../../core/data/paginated-list.model';
 import { SupervisionOrderDataService } from '../../../../../core/supervision-order/supervision-order-data.service';
 import { DSONameService } from '../../../../../core/breadcrumbs/dso-name.service';
 
-@listableObjectComponent(WorkspaceItemSearchResult, ViewMode.GridElement, Context.AdminWorkflowSearch)
+@listableObjectComponent(
+  WorkspaceItemSearchResult,
+  ViewMode.GridElement,
+  Context.AdminWorkflowSearch
+)
 @Component({
   selector: 'ds-workflow-item-search-result-admin-workflow-grid-element',
-  styleUrls: ['./workspace-item-search-result-admin-workflow-grid-element.component.scss'],
-  templateUrl: './workspace-item-search-result-admin-workflow-grid-element.component.html'
+  styleUrls: [
+    './workspace-item-search-result-admin-workflow-grid-element.component.scss',
+  ],
+  templateUrl:
+    './workspace-item-search-result-admin-workflow-grid-element.component.html',
 })
 /**
  * The component for displaying a grid element for an workflow item on the admin workflow search page
  */
-export class WorkspaceItemSearchResultAdminWorkflowGridElementComponent extends SearchResultGridElementComponent<WorkspaceItemSearchResult, WorkspaceItem> implements OnInit {
-
+export class WorkspaceItemSearchResultAdminWorkflowGridElementComponent
+  extends SearchResultGridElementComponent<
+    WorkspaceItemSearchResult,
+    WorkspaceItem
+  >
+  implements OnInit
+{
   /**
    * The item linked to the workspace item
    */
@@ -62,12 +74,14 @@ export class WorkspaceItemSearchResultAdminWorkflowGridElementComponent extends 
   /**
    * The supervision orders linked to the workflow item
    */
-  public supervisionOrder$: BehaviorSubject<SupervisionOrder[]> = new BehaviorSubject<SupervisionOrder[]>([]);
+  public supervisionOrder$: BehaviorSubject<SupervisionOrder[]> =
+    new BehaviorSubject<SupervisionOrder[]>([]);
 
   /**
    * Directive used to render the dynamic component in
    */
-  @ViewChild(ListableObjectDirective, { static: true }) listableObjectDirective: ListableObjectDirective;
+  @ViewChild(ListableObjectDirective, { static: true })
+  listableObjectDirective: ListableObjectDirective;
 
   /**
    * The html child that contains the badges html
@@ -86,7 +100,7 @@ export class WorkspaceItemSearchResultAdminWorkflowGridElementComponent extends 
     protected truncatableService: TruncatableService,
     private themeService: ThemeService,
     protected bitstreamDataService: BitstreamDataService,
-    protected supervisionOrderDataService: SupervisionOrderDataService,
+    protected supervisionOrderDataService: SupervisionOrderDataService
   ) {
     super(dsoNameService, truncatableService, bitstreamDataService);
   }
@@ -98,36 +112,41 @@ export class WorkspaceItemSearchResultAdminWorkflowGridElementComponent extends 
   ngOnInit(): void {
     super.ngOnInit();
     this.dso = this.linkService.resolveLink(this.dso, followLink('item'));
-    this.item$ = (this.dso.item as Observable<RemoteData<Item>>).pipe(getAllSucceededRemoteData(), getRemoteDataPayload());
-    this.item$.pipe(take(1)).subscribe((item: Item) => {
-        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.getComponent(item));
-
-        const viewContainerRef = this.listableObjectDirective.viewContainerRef;
-        viewContainerRef.clear();
-
-        const componentRef = viewContainerRef.createComponent(
-          componentFactory,
-          0,
-          undefined,
-          [
-            [this.badges.nativeElement],
-            [this.buttons.nativeElement]
-          ]);
-        (componentRef.instance as any).object = item;
-        (componentRef.instance as any).index = this.index;
-        (componentRef.instance as any).linkType = this.linkType;
-        (componentRef.instance as any).listID = this.listID;
-        componentRef.changeDetectorRef.detectChanges();
-      }
+    this.item$ = (this.dso.item as Observable<RemoteData<Item>>).pipe(
+      getAllSucceededRemoteData(),
+      getRemoteDataPayload()
     );
+    this.item$.pipe(take(1)).subscribe((item: Item) => {
+      const componentFactory =
+        this.componentFactoryResolver.resolveComponentFactory(
+          this.getComponent(item)
+        );
 
-    this.item$.pipe(
-      take(1),
-      tap((item: Item) => this.itemId = item.id),
-      mergeMap((item: Item) => this.retrieveSupervisorOrders(item.id))
-    ).subscribe((supervisionOrderList: SupervisionOrder[]) => {
-      this.supervisionOrder$.next(supervisionOrderList);
+      const viewContainerRef = this.listableObjectDirective.viewContainerRef;
+      viewContainerRef.clear();
+
+      const componentRef = viewContainerRef.createComponent(
+        componentFactory,
+        0,
+        undefined,
+        [[this.badges.nativeElement], [this.buttons.nativeElement]]
+      );
+      (componentRef.instance as any).object = item;
+      (componentRef.instance as any).index = this.index;
+      (componentRef.instance as any).linkType = this.linkType;
+      (componentRef.instance as any).listID = this.listID;
+      componentRef.changeDetectorRef.detectChanges();
     });
+
+    this.item$
+      .pipe(
+        take(1),
+        tap((item: Item) => (this.itemId = item.id)),
+        mergeMap((item: Item) => this.retrieveSupervisorOrders(item.id))
+      )
+      .subscribe((supervisionOrderList: SupervisionOrder[]) => {
+        this.supervisionOrder$.next(supervisionOrderList);
+      });
   }
 
   /**
@@ -135,9 +154,13 @@ export class WorkspaceItemSearchResultAdminWorkflowGridElementComponent extends 
    * @returns {GenericConstructor<Component>}
    */
   private getComponent(item: Item): GenericConstructor<Component> {
-    return getListableObjectComponent(item.getRenderTypes(), ViewMode.GridElement, undefined, this.themeService.getThemeName());
+    return getListableObjectComponent(
+      item.getRenderTypes(),
+      ViewMode.GridElement,
+      undefined,
+      this.themeService.getThemeName()
+    );
   }
-
 
   /**
    * Retrieve the list of SupervisionOrder object related to the given item
@@ -146,12 +169,14 @@ export class WorkspaceItemSearchResultAdminWorkflowGridElementComponent extends 
    * @private
    */
   private retrieveSupervisorOrders(itemId): Observable<SupervisionOrder[]> {
-    return this.supervisionOrderDataService.searchByItem(
-      itemId, false, true, followLink('group')
-    ).pipe(
-      getFirstCompletedRemoteData(),
-      map((soRD: RemoteData<PaginatedList<SupervisionOrder>>) => soRD.hasSucceeded && !soRD.hasNoContent ? soRD.payload.page : [])
-    );
+    return this.supervisionOrderDataService
+      .searchByItem(itemId, false, true, followLink('group'))
+      .pipe(
+        getFirstCompletedRemoteData(),
+        map((soRD: RemoteData<PaginatedList<SupervisionOrder>>) =>
+          soRD.hasSucceeded && !soRD.hasNoContent ? soRD.payload.page : []
+        )
+      );
   }
 
   reloadObject(dso: DSpaceObject) {

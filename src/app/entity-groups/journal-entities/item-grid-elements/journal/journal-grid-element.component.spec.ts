@@ -14,33 +14,35 @@ import { DSONameService } from '../../../../core/breadcrumbs/dso-name.service';
 import { DSONameServiceMock } from '../../../../shared/mocks/dso-name.service.mock';
 
 const mockItem = Object.assign(new Item(), {
-  bundles: createSuccessfulRemoteDataObject$(buildPaginatedList(new PageInfo(), [])),
+  bundles: createSuccessfulRemoteDataObject$(
+    buildPaginatedList(new PageInfo(), [])
+  ),
   metadata: {
     'dc.title': [
       {
         language: 'en_US',
-        value: 'This is just another title'
-      }
+        value: 'This is just another title',
+      },
     ],
     'creativework.editor': [
       {
         language: 'en_US',
-        value: 'Smith, Donald'
-      }
+        value: 'Smith, Donald',
+      },
     ],
     'creativework.publisher': [
       {
         language: 'en_US',
-        value: 'A company'
-      }
+        value: 'A company',
+      },
     ],
     'dc.description': [
       {
         language: 'en_US',
-        value: 'This is the description'
-      }
-    ]
-  }
+        value: 'This is the description',
+      },
+    ],
+  },
 });
 
 describe('JournalGridElementComponent', () => {
@@ -59,10 +61,12 @@ describe('JournalGridElementComponent', () => {
         { provide: DSONameService, useValue: new DSONameServiceMock() },
         { provide: TruncatableService, useValue: truncatableServiceStub },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(JournalGridElementComponent, {
-      set: { changeDetection: ChangeDetectionStrategy.Default }
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(JournalGridElementComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
@@ -77,7 +81,9 @@ describe('JournalGridElementComponent', () => {
     });
 
     it(`should contain a JournalGridElementComponent`, () => {
-      const journalGridElement = fixture.debugElement.query(By.css(`ds-journal-search-result-grid-element`));
+      const journalGridElement = fixture.debugElement.query(
+        By.css(`ds-journal-search-result-grid-element`)
+      );
       expect(journalGridElement).not.toBeNull();
     });
   });

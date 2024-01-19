@@ -11,8 +11,8 @@ import { AppConfig } from './config/app-config.interface';
 import { extendEnvironmentWithAppConfig } from './config/config.util';
 import { enableProdMode } from '@angular/core';
 
-const bootstrap = () => platformBrowserDynamic()
-  .bootstrapModule(BrowserAppModule, {});
+const bootstrap = () =>
+  platformBrowserDynamic().bootstrapModule(BrowserAppModule, {});
 
 /**
  * We use this to determine have been serven SSR HTML or not.
@@ -20,7 +20,8 @@ const bootstrap = () => platformBrowserDynamic()
  * At this point, {@link environment} may not be in sync with the configuration.
  * Therefore, we cannot depend on it to determine how to bootstrap the app.
  */
-const hasTransferState = document.querySelector('script#dspace-angular-state') !== null;
+const hasTransferState =
+  document.querySelector('script#dspace-angular-state') !== null;
 
 const main = () => {
   if (environment.production) {

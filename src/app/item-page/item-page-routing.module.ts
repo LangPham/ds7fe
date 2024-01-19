@@ -7,7 +7,11 @@ import { VersionResolver } from './version-page/version.resolver';
 import { DSOBreadcrumbsService } from '../core/breadcrumbs/dso-breadcrumbs.service';
 import { LinkService } from '../core/cache/builders/link.service';
 import { UploadBitstreamComponent } from './bitstreams/upload/upload-bitstream.component';
-import { ITEM_EDIT_PATH, ORCID_PATH, UPLOAD_BITSTREAM_PATH } from './item-page-routing-paths';
+import {
+  ITEM_EDIT_PATH,
+  ORCID_PATH,
+  UPLOAD_BITSTREAM_PATH,
+} from './item-page-routing-paths';
 import { ItemPageAdministratorGuard } from './item-page-administrator.guard';
 import { LinkMenuItemModel } from '../shared/menu/menu-item/models/link.model';
 import { ThemedItemPageComponent } from './simple/themed-item-page.component';
@@ -28,7 +32,7 @@ import { DSOEditMenuResolver } from '../shared/dso-page/dso-edit-menu.resolver';
         resolve: {
           dso: ItemPageResolver,
           breadcrumb: ItemBreadcrumbResolver,
-          menu: DSOEditMenuResolver
+          menu: DSOEditMenuResolver,
         },
         runGuardsAndResolvers: 'always',
         children: [
@@ -43,13 +47,15 @@ import { DSOEditMenuResolver } from '../shared/dso-page/dso-edit-menu.resolver';
           },
           {
             path: ITEM_EDIT_PATH,
-            loadChildren: () => import('./edit-item-page/edit-item-page.module')
-              .then((m) => m.EditItemPageModule),
+            loadChildren: () =>
+              import('./edit-item-page/edit-item-page.module').then(
+                (m) => m.EditItemPageModule
+              ),
           },
           {
             path: UPLOAD_BITSTREAM_PATH,
             component: UploadBitstreamComponent,
-            canActivate: [AuthenticatedGuard]
+            canActivate: [AuthenticatedGuard],
           },
           {
             path: REQUEST_COPY_MODULE_PATH,
@@ -58,22 +64,24 @@ import { DSOEditMenuResolver } from '../shared/dso-page/dso-edit-menu.resolver';
           {
             path: ORCID_PATH,
             component: OrcidPageComponent,
-            canActivate: [AuthenticatedGuard, OrcidPageGuard]
-          }
+            canActivate: [AuthenticatedGuard, OrcidPageGuard],
+          },
         ],
         data: {
           menu: {
-            public: [{
-              id: 'statistics_item_:id',
-              active: true,
-              visible: true,
-              index: 2,
-              model: {
-                type: MenuItemType.LINK,
-                text: 'menu.section.statistics',
-                link: 'statistics/items/:id/',
-              } as LinkMenuItemModel,
-            }],
+            public: [
+              {
+                id: 'statistics_item_:id',
+                active: true,
+                visible: true,
+                index: 2,
+                model: {
+                  type: MenuItemType.LINK,
+                  text: 'menu.section.statistics',
+                  link: 'statistics/items/:id/',
+                } as LinkMenuItemModel,
+              },
+            ],
           },
         },
       },
@@ -86,10 +94,10 @@ import { DSOEditMenuResolver } from '../shared/dso-page/dso-edit-menu.resolver';
             resolve: {
               dso: VersionResolver,
             },
-          }
+          },
         ],
-      }
-    ])
+      },
+    ]),
   ],
   providers: [
     ItemPageResolver,
@@ -98,10 +106,7 @@ import { DSOEditMenuResolver } from '../shared/dso-page/dso-edit-menu.resolver';
     LinkService,
     ItemPageAdministratorGuard,
     VersionResolver,
-    OrcidPageGuard
-  ]
-
+    OrcidPageGuard,
+  ],
 })
-export class ItemPageRoutingModule {
-
-}
+export class ItemPageRoutingModule {}

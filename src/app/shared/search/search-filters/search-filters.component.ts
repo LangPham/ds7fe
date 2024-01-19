@@ -17,7 +17,6 @@ import { hasValue } from '../../empty.util';
   selector: 'ds-search-filters',
   styleUrls: ['./search-filters.component.scss'],
   templateUrl: './search-filters.component.html',
-
 })
 
 /**
@@ -73,14 +72,19 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
     private searchService: SearchService,
     private filterService: SearchFilterService,
     private router: Router,
-    @Inject(SEARCH_CONFIG_SERVICE) private searchConfigService: SearchConfigurationService) {
-  }
+    @Inject(SEARCH_CONFIG_SERVICE)
+    private searchConfigService: SearchConfigurationService
+  ) {}
 
   ngOnInit(): void {
-    this.clearParams = this.searchConfigService.getCurrentFrontendFilters().pipe(map((filters) => {
-      Object.keys(filters).forEach((f) => filters[f] = null);
-      return filters;
-    }));
+    this.clearParams = this.searchConfigService
+      .getCurrentFrontendFilters()
+      .pipe(
+        map((filters) => {
+          Object.keys(filters).forEach((f) => (filters[f] = null));
+          return filters;
+        })
+      );
     this.searchLink = this.getSearchLink();
   }
 

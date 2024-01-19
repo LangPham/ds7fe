@@ -40,57 +40,57 @@ let mockRelationshipService;
 
 const environmentUseThumbs = {
   browseBy: {
-    showThumbnails: true
-  }
+    showThumbnails: true,
+  },
 };
 
 const enviromentNoThumbs = {
   browseBy: {
-    showThumbnails: false
-  }
+    showThumbnails: false,
+  },
 };
 
 function init() {
-  mockItemWithMetadata = Object.assign(
-    new ItemSearchResult(),
-    {
-      indexableObject: Object.assign(new Item(), {
-        bundles: createSuccessfulRemoteDataObject$(buildPaginatedList(undefined, [])),
-        metadata: {
-          'dc.title': [
-            {
-              language: 'en_US',
-              value: 'This is just another title'
-            }
-          ],
-          'person.jobTitle': [
-            {
-              language: 'en_US',
-              value: 'Developer'
-            }
-          ]
-        }
-      })
-    });
-  mockItemWithoutMetadata = Object.assign(
-    new ItemSearchResult(),
-    {
-      indexableObject: Object.assign(new Item(), {
-        bundles: createSuccessfulRemoteDataObject$(buildPaginatedList(undefined, [])),
-        metadata: {
-          'dc.title': [
-            {
-              language: 'en_US',
-              value: 'This is just another title'
-            }
-          ]
-        }
-      })
-    });
+  mockItemWithMetadata = Object.assign(new ItemSearchResult(), {
+    indexableObject: Object.assign(new Item(), {
+      bundles: createSuccessfulRemoteDataObject$(
+        buildPaginatedList(undefined, [])
+      ),
+      metadata: {
+        'dc.title': [
+          {
+            language: 'en_US',
+            value: 'This is just another title',
+          },
+        ],
+        'person.jobTitle': [
+          {
+            language: 'en_US',
+            value: 'Developer',
+          },
+        ],
+      },
+    }),
+  });
+  mockItemWithoutMetadata = Object.assign(new ItemSearchResult(), {
+    indexableObject: Object.assign(new Item(), {
+      bundles: createSuccessfulRemoteDataObject$(
+        buildPaginatedList(undefined, [])
+      ),
+      metadata: {
+        'dc.title': [
+          {
+            language: 'en_US',
+            value: 'This is just another title',
+          },
+        ],
+      },
+    }),
+  });
 
   nameVariant = 'Doe J.';
   mockRelationshipService = {
-    getNameVariant: () => observableOf(nameVariant)
+    getNameVariant: () => observableOf(nameVariant),
   };
 }
 
@@ -98,12 +98,15 @@ describe('PersonSearchResultListElementSubmissionComponent', () => {
   const mockBitstreamDataService = {
     getThumbnailFor(item: Item): Observable<RemoteData<Bitstream>> {
       return createSuccessfulRemoteDataObject$(new Bitstream());
-    }
+    },
   };
   beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
-      declarations: [PersonSearchResultListSubmissionElementComponent, TruncatePipe],
+      declarations: [
+        PersonSearchResultListSubmissionElementComponent,
+        TruncatePipe,
+      ],
       providers: [
         { provide: TruncatableService, useValue: {} },
         { provide: RelationshipDataService, useValue: mockRelationshipService },
@@ -112,7 +115,7 @@ describe('PersonSearchResultListElementSubmissionComponent', () => {
         { provide: NgbModal, useValue: {} },
         { provide: ItemDataService, useValue: {} },
         { provide: SelectableListService, useValue: {} },
-        { provide: Store, useValue: {}},
+        { provide: Store, useValue: {} },
         { provide: ObjectCacheService, useValue: {} },
         { provide: UUIDService, useValue: {} },
         { provide: RemoteDataBuildService, useValue: {} },
@@ -122,19 +125,22 @@ describe('PersonSearchResultListElementSubmissionComponent', () => {
         { provide: DSOChangeAnalyzer, useValue: {} },
         { provide: DefaultChangeAnalyzer, useValue: {} },
         { provide: BitstreamDataService, useValue: mockBitstreamDataService },
-        { provide: APP_CONFIG, useValue: environmentUseThumbs }
+        { provide: APP_CONFIG, useValue: environmentUseThumbs },
       ],
 
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(PersonSearchResultListSubmissionElementComponent, {
-      set: { changeDetection: ChangeDetectionStrategy.Default }
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(PersonSearchResultListSubmissionElementComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
-    fixture = TestBed.createComponent(PersonSearchResultListSubmissionElementComponent);
+    fixture = TestBed.createComponent(
+      PersonSearchResultListSubmissionElementComponent
+    );
     personListElementComponent = fixture.componentInstance;
-
   }));
 
   describe('When the item has a job title', () => {
@@ -144,7 +150,9 @@ describe('PersonSearchResultListElementSubmissionComponent', () => {
     });
 
     it('should show the job title span', () => {
-      const jobTitleField = fixture.debugElement.query(By.css('span.item-list-job-title'));
+      const jobTitleField = fixture.debugElement.query(
+        By.css('span.item-list-job-title')
+      );
       expect(jobTitleField).not.toBeNull();
     });
   });
@@ -156,7 +164,9 @@ describe('PersonSearchResultListElementSubmissionComponent', () => {
     });
 
     it('should not show the job title span', () => {
-      const jobTitleField = fixture.debugElement.query(By.css('span.item-list-job-title'));
+      const jobTitleField = fixture.debugElement.query(
+        By.css('span.item-list-job-title')
+      );
       expect(jobTitleField).toBeNull();
     });
   });
@@ -178,12 +188,15 @@ describe('PersonSearchResultListElementSubmissionComponent', () => {
   const mockBitstreamDataService = {
     getThumbnailFor(item: Item): Observable<RemoteData<Bitstream>> {
       return createSuccessfulRemoteDataObject$(new Bitstream());
-    }
+    },
   };
   beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
-      declarations: [PersonSearchResultListSubmissionElementComponent, TruncatePipe],
+      declarations: [
+        PersonSearchResultListSubmissionElementComponent,
+        TruncatePipe,
+      ],
       providers: [
         { provide: TruncatableService, useValue: {} },
         { provide: RelationshipDataService, useValue: mockRelationshipService },
@@ -192,7 +205,7 @@ describe('PersonSearchResultListElementSubmissionComponent', () => {
         { provide: NgbModal, useValue: {} },
         { provide: ItemDataService, useValue: {} },
         { provide: SelectableListService, useValue: {} },
-        { provide: Store, useValue: {}},
+        { provide: Store, useValue: {} },
         { provide: ObjectCacheService, useValue: {} },
         { provide: UUIDService, useValue: {} },
         { provide: RemoteDataBuildService, useValue: {} },
@@ -202,19 +215,22 @@ describe('PersonSearchResultListElementSubmissionComponent', () => {
         { provide: DSOChangeAnalyzer, useValue: {} },
         { provide: DefaultChangeAnalyzer, useValue: {} },
         { provide: BitstreamDataService, useValue: mockBitstreamDataService },
-        { provide: APP_CONFIG, useValue: enviromentNoThumbs }
+        { provide: APP_CONFIG, useValue: enviromentNoThumbs },
       ],
 
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(PersonSearchResultListSubmissionElementComponent, {
-      set: { changeDetection: ChangeDetectionStrategy.Default }
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(PersonSearchResultListSubmissionElementComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
-    fixture = TestBed.createComponent(PersonSearchResultListSubmissionElementComponent);
+    fixture = TestBed.createComponent(
+      PersonSearchResultListSubmissionElementComponent
+    );
     personListElementComponent = fixture.componentInstance;
-
   }));
 
   describe('When the environment is not set to show thumbnails', () => {

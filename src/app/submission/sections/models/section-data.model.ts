@@ -6,7 +6,6 @@ import { SubmissionSectionError } from '../../objects/submission-section-error.m
  * An interface to represent section model
  */
 export interface SectionDataObject {
-
   /**
    * The section configuration url
    */

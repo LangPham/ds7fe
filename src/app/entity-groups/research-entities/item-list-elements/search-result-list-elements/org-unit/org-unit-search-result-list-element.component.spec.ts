@@ -25,18 +25,19 @@ const mockItemWithMetadata: ItemSearchResult = Object.assign(
         'dc.title': [
           {
             language: 'en_US',
-            value: 'This is just another title'
-          }
+            value: 'This is just another title',
+          },
         ],
         'dc.description': [
           {
             language: 'en_US',
-            value: 'A description about the OrgUnit'
-          }
-        ]
-      }
-    })
-  });
+            value: 'A description about the OrgUnit',
+          },
+        ],
+      },
+    }),
+  }
+);
 const mockItemWithoutMetadata: ItemSearchResult = Object.assign(
   new ItemSearchResult(),
   {
@@ -46,52 +47,55 @@ const mockItemWithoutMetadata: ItemSearchResult = Object.assign(
         'dc.title': [
           {
             language: 'en_US',
-            value: 'This is just another title'
-          }
-        ]
-      }
-    })
-  });
+            value: 'This is just another title',
+          },
+        ],
+      },
+    }),
+  }
+);
 
 const environmentUseThumbs = {
   browseBy: {
-    showThumbnails: true
-  }
+    showThumbnails: true,
+  },
 };
 
 const enviromentNoThumbs = {
   browseBy: {
-    showThumbnails: false
-  }
+    showThumbnails: false,
+  },
 };
 
 describe('OrgUnitSearchResultListElementComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot({
+      imports: [
+        TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
-        }
-      )],
-      declarations: [ OrgUnitSearchResultListElementComponent , TruncatePipe],
+            useClass: TranslateLoaderMock,
+          },
+        }),
+      ],
+      declarations: [OrgUnitSearchResultListElementComponent, TruncatePipe],
       providers: [
         { provide: TruncatableService, useValue: {} },
         { provide: DSONameService, useClass: DSONameServiceMock },
-        { provide: APP_CONFIG, useValue: environmentUseThumbs }
+        { provide: APP_CONFIG, useValue: environmentUseThumbs },
       ],
 
-      schemas: [ NO_ERRORS_SCHEMA ]
-    }).overrideComponent(OrgUnitSearchResultListElementComponent, {
-      set: { changeDetection: ChangeDetectionStrategy.Default }
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(OrgUnitSearchResultListElementComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(OrgUnitSearchResultListElementComponent);
     orgUnitListElementComponent = fixture.componentInstance;
-
   }));
 
   describe('with environment.browseBy.showThumbnails set to true', () => {
@@ -104,7 +108,9 @@ describe('OrgUnitSearchResultListElementComponent', () => {
     });
 
     it('should add thumbnail element', () => {
-      const thumbnailElement = fixture.debugElement.query(By.css('ds-thumbnail'));
+      const thumbnailElement = fixture.debugElement.query(
+        By.css('ds-thumbnail')
+      );
       expect(thumbnailElement).toBeTruthy();
     });
   });
@@ -116,7 +122,9 @@ describe('OrgUnitSearchResultListElementComponent', () => {
     });
 
     it('should show the description span', () => {
-      const orgUnitDescriptionField = fixture.debugElement.query(By.css('span.item-list-org-unit-description'));
+      const orgUnitDescriptionField = fixture.debugElement.query(
+        By.css('span.item-list-org-unit-description')
+      );
       expect(orgUnitDescriptionField).not.toBeNull();
     });
   });
@@ -128,34 +136,38 @@ describe('OrgUnitSearchResultListElementComponent', () => {
     });
 
     it('should not show the description span', () => {
-      const orgUnitDescriptionField = fixture.debugElement.query(By.css('span.item-list-org-unit-description'));
+      const orgUnitDescriptionField = fixture.debugElement.query(
+        By.css('span.item-list-org-unit-description')
+      );
       expect(orgUnitDescriptionField).toBeNull();
     });
   });
 });
 
 describe('OrgUnitSearchResultListElementComponent', () => {
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot({
+      imports: [
+        TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
-        }
-      )],
+            useClass: TranslateLoaderMock,
+          },
+        }),
+      ],
       declarations: [OrgUnitSearchResultListElementComponent, TruncatePipe],
       providers: [
-        {provide: TruncatableService, useValue: {}},
-        {provide: DSONameService, useClass: DSONameServiceMock},
-        { provide: APP_CONFIG, useValue: enviromentNoThumbs }
+        { provide: TruncatableService, useValue: {} },
+        { provide: DSONameService, useClass: DSONameServiceMock },
+        { provide: APP_CONFIG, useValue: enviromentNoThumbs },
       ],
 
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(OrgUnitSearchResultListElementComponent, {
-      set: {changeDetection: ChangeDetectionStrategy.Default}
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(OrgUnitSearchResultListElementComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
@@ -165,13 +177,14 @@ describe('OrgUnitSearchResultListElementComponent', () => {
 
   describe('with environment.browseBy.showThumbnails set to false', () => {
     beforeEach(() => {
-
       orgUnitListElementComponent.object = mockItemWithMetadata;
       fixture.detectChanges();
     });
 
     it('should not add thumbnail element', () => {
-      const thumbnailElement = fixture.debugElement.query(By.css('ds-thumbnail'));
+      const thumbnailElement = fixture.debugElement.query(
+        By.css('ds-thumbnail')
+      );
       expect(thumbnailElement).toBeNull();
     });
   });

@@ -24,9 +24,12 @@ describe('WorkspaceitemsDeletePageComponent', () => {
   let component: WorkspaceItemsDeletePageComponent;
   let fixture: ComponentFixture<WorkspaceItemsDeletePageComponent>;
 
-  const workspaceitemDataServiceSpy = jasmine.createSpyObj('WorkspaceitemDataService', {
-    delete: observableOf(createSuccessfulRemoteDataObject({}))
-  });
+  const workspaceitemDataServiceSpy = jasmine.createSpyObj(
+    'WorkspaceitemDataService',
+    {
+      delete: observableOf(createSuccessfulRemoteDataObject({})),
+    }
+  );
 
   const wsi = new WorkspaceItem();
   wsi.id = '1234';
@@ -37,15 +40,12 @@ describe('WorkspaceitemsDeletePageComponent', () => {
     get: () => observableOf('test-message'),
     onLangChange: new EventEmitter(),
     onTranslationChange: new EventEmitter(),
-    onDefaultLangChange: new EventEmitter()
+    onDefaultLangChange: new EventEmitter(),
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgbModalModule,
-        TranslateModule.forRoot()
-      ],
+      imports: [NgbModalModule, TranslateModule.forRoot()],
       declarations: [WorkspaceItemsDeletePageComponent],
       providers: [
         {
@@ -92,7 +92,9 @@ describe('WorkspaceitemsDeletePageComponent', () => {
   });
 
   it('should delete the target workspace item', () => {
-    spyOn((component as any).modalService, 'open').and.returnValue({result: Promise.resolve('ok')});
+    spyOn((component as any).modalService, 'open').and.returnValue({
+      result: Promise.resolve('ok'),
+    });
     component.confirmDelete(By.css('#delete-modal'));
     fixture.detectChanges();
     expect((component as any).modalService.open).toHaveBeenCalled();
@@ -100,6 +102,8 @@ describe('WorkspaceitemsDeletePageComponent', () => {
 
   it('should call workspaceItemService.delete', () => {
     component.sendDeleteRequest();
-    expect((component as any).workspaceItemService.delete).toHaveBeenCalledWith('1234');
+    expect((component as any).workspaceItemService.delete).toHaveBeenCalledWith(
+      '1234'
+    );
   });
 });

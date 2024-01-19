@@ -9,7 +9,7 @@ import { WorkspaceItemsDeletePageComponent } from './workspaceitems-delete-page.
 @Component({
   selector: 'ds-themed-workspace-items-delete',
   styleUrls: [],
-  templateUrl: './../../shared/theme-support/themed.component.html'
+  templateUrl: './../../shared/theme-support/themed.component.html',
 })
 export class ThemedWorkspaceItemsDeletePageComponent extends ThemedComponent<WorkspaceItemsDeletePageComponent> {
   protected getComponentName(): string {
@@ -17,7 +17,9 @@ export class ThemedWorkspaceItemsDeletePageComponent extends ThemedComponent<Wor
   }
 
   protected importThemedComponent(themeName: string): Promise<any> {
-    return import(`../../../themes/${themeName}/app/workflowitems-edit-page/workflow-item-delete/workflow-item-delete.component`);
+    return import(
+      `../../../themes/${themeName}/app/workflowitems-edit-page/workflow-item-delete/workflow-item-delete.component`
+    );
   }
 
   protected importUnthemedComponent(): Promise<any> {

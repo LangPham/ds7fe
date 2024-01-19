@@ -20,30 +20,36 @@ describe('ItemPageAbstractFieldComponent', () => {
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
+            useClass: TranslateLoaderMock,
+          },
         }),
         SharedModule,
       ],
       providers: [
         { provide: APP_CONFIG, useValue: environment },
-        { provide: BrowseDefinitionDataService, useValue: BrowseDefinitionDataServiceStub }
+        {
+          provide: BrowseDefinitionDataService,
+          useValue: BrowseDefinitionDataServiceStub,
+        },
       ],
       declarations: [ItemPageAbstractFieldComponent],
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(ItemPageAbstractFieldComponent, {
-      set: { changeDetection: ChangeDetectionStrategy.Default }
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(ItemPageAbstractFieldComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
-
     fixture = TestBed.createComponent(ItemPageAbstractFieldComponent);
     comp = fixture.componentInstance;
     fixture.detectChanges();
   }));
 
   it('should render a ds-metadata-values', () => {
-    expect(fixture.debugElement.query(By.css('ds-metadata-values'))).not.toBeNull();
+    expect(
+      fixture.debugElement.query(By.css('ds-metadata-values'))
+    ).not.toBeNull();
   });
 });

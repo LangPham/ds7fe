@@ -18,13 +18,12 @@ describe('HealthStatusComponent', () => {
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
-        })
+            useClass: TranslateLoaderMock,
+          },
+        }),
       ],
-      declarations: [ HealthStatusComponent ]
-    })
-    .compileComponents();
+      declarations: [HealthStatusComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

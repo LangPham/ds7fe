@@ -27,10 +27,7 @@ export class MediaViewerVideoComponent {
     audio: './assets/images/replacement_audio.svg',
   };
 
-  constructor(
-    public dsoNameService: DSONameService,
-  ) {
-  }
+  constructor(public dsoNameService: DSONameService) {}
 
   /**
    * This method check if there is caption file for the media
@@ -44,16 +41,21 @@ export class MediaViewerVideoComponent {
    */
   getMediaCap(name: string, captions: Bitstream[]): CaptionInfo[] {
     const capInfos: CaptionInfo[] = [];
-    const filteredCapMedias: Bitstream[] = captions
-      .filter((media: Bitstream) => media.name.substring(0, (media.name.length - 7)).toLowerCase() === name.toLowerCase());
+    const filteredCapMedias: Bitstream[] = captions.filter(
+      (media: Bitstream) =>
+        media.name.substring(0, media.name.length - 7).toLowerCase() ===
+        name.toLowerCase()
+    );
 
     for (const media of filteredCapMedias) {
       let srclang: string = media.name.slice(-6, -4).toLowerCase();
-      capInfos.push(new CaptionInfo(
-        media._links.content.href,
-        srclang,
-        languageHelper[srclang],
-      ));
+      capInfos.push(
+        new CaptionInfo(
+          media._links.content.href,
+          srclang,
+          languageHelper[srclang]
+        )
+      );
     }
     return capInfos;
   }

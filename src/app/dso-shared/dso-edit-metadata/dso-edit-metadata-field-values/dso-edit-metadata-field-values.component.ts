@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DsoEditMetadataChangeType, DsoEditMetadataForm, DsoEditMetadataValue } from '../dso-edit-metadata-form';
+import {
+  DsoEditMetadataChangeType,
+  DsoEditMetadataForm,
+  DsoEditMetadataValue,
+} from '../dso-edit-metadata-form';
 import { Observable } from 'rxjs/internal/Observable';
 import { DSpaceObject } from '../../../core/shared/dspace-object.model';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
@@ -70,10 +74,12 @@ export class DsoEditMetadataFieldValuesComponent {
     // Move the value within its field
     moveItemInArray(this.form.fields[this.mdField], dragIndex, dropIndex);
     // Update all the values in this field their place property
-    this.form.fields[this.mdField].forEach((value: DsoEditMetadataValue, index: number) => {
-      value.newValue.place = index;
-      value.confirmChanges();
-    });
+    this.form.fields[this.mdField].forEach(
+      (value: DsoEditMetadataValue, index: number) => {
+        value.newValue.place = index;
+        value.confirmChanges();
+      }
+    );
     // Update the form statuses
     this.form.resetReinstatable();
     this.valueSaved.emit();

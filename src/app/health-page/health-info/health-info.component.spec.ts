@@ -20,17 +20,13 @@ describe('HealthInfoComponent', () => {
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
-        })
+            useClass: TranslateLoaderMock,
+          },
+        }),
       ],
-      declarations: [
-        HealthInfoComponent,
-        ObjNgFor
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      declarations: [HealthInfoComponent, ObjNgFor],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -45,7 +41,9 @@ describe('HealthInfoComponent', () => {
   });
 
   it('should create info component properly', () => {
-    const components = fixture.debugElement.queryAll(By.css('[data-test="info-component"]'));
+    const components = fixture.debugElement.queryAll(
+      By.css('[data-test="info-component"]')
+    );
     expect(components.length).toBe(3);
   });
 });

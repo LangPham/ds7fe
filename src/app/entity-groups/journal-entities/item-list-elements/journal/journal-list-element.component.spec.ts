@@ -15,16 +15,16 @@ const mockItem: Item = Object.assign(new Item(), {
     'dc.title': [
       {
         language: 'en_US',
-        value: 'This is just another title'
-      }
+        value: 'This is just another title',
+      },
     ],
     'creativeworkseries.issn': [
       {
         language: 'en_US',
-        value: '1234'
-      }
-    ]
-  }
+        value: '1234',
+      },
+    ],
+  },
 });
 
 describe('JournalListElementComponent', () => {
@@ -42,10 +42,12 @@ describe('JournalListElementComponent', () => {
         { provide: DSONameService, useValue: new DSONameServiceMock() },
         { provide: TruncatableService, useValue: truncatableServiceStub },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(JournalListElementComponent, {
-      set: { changeDetection: ChangeDetectionStrategy.Default }
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(JournalListElementComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
@@ -60,7 +62,9 @@ describe('JournalListElementComponent', () => {
     });
 
     it(`should contain a JournalListElementComponent`, () => {
-      const journalListElement = fixture.debugElement.query(By.css(`ds-journal-search-result-list-element`));
+      const journalListElement = fixture.debugElement.query(
+        By.css(`ds-journal-search-result-list-element`)
+      );
       expect(journalListElement).not.toBeNull();
     });
   });

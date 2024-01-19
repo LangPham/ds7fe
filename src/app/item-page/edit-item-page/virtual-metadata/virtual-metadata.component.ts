@@ -1,13 +1,20 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import {Observable} from 'rxjs';
-import {Item} from '../../../core/shared/item.model';
-import {MetadataValue} from '../../../core/shared/metadata.models';
-import {ObjectUpdatesService} from '../../../core/data/object-updates/object-updates.service';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { Observable } from 'rxjs';
+import { Item } from '../../../core/shared/item.model';
+import { MetadataValue } from '../../../core/shared/metadata.models';
+import { ObjectUpdatesService } from '../../../core/data/object-updates/object-updates.service';
 import { APP_CONFIG, AppConfig } from '../../../../config/app-config.interface';
 
 @Component({
   selector: 'ds-virtual-metadata',
-  templateUrl: './virtual-metadata.component.html'
+  templateUrl: './virtual-metadata.component.html',
 })
 /**
  * Component that lists both items of a relationship, along with their virtual metadata of the relationship.
@@ -15,7 +22,6 @@ import { APP_CONFIG, AppConfig } from '../../../../config/app-config.interface';
  * Each item has a checkbox to indicate whether its virtual metadata should be saved as real metadata.
  */
 export class VirtualMetadataComponent implements OnInit {
-
   /**
    * The current url of this page
    */
@@ -59,11 +65,14 @@ export class VirtualMetadataComponent implements OnInit {
     return [this.leftItem, this.rightItem];
   }
 
-  public virtualMetadata: Map<string, VirtualMetadata[]> = new Map<string, VirtualMetadata[]>();
+  public virtualMetadata: Map<string, VirtualMetadata[]> = new Map<
+    string,
+    VirtualMetadata[]
+  >();
 
   constructor(
     protected objectUpdatesService: ObjectUpdatesService,
-    @Inject(APP_CONFIG) protected appConfig: AppConfig,
+    @Inject(APP_CONFIG) protected appConfig: AppConfig
   ) {
     this.showThumbnails = this.appConfig.browseBy.showThumbnails;
   }
@@ -73,12 +82,15 @@ export class VirtualMetadataComponent implements OnInit {
    * @param item  the item to get the virtual metadata for
    */
   getVirtualMetadata(item: Item): VirtualMetadata[] {
-
     return Object.entries(item.metadata)
       .map(([key, value]) =>
         value
-          .filter((metadata: MetadataValue) =>
-            !key.startsWith('relation') && metadata.authority && metadata.authority.endsWith(this.relationshipId))
+          .filter(
+            (metadata: MetadataValue) =>
+              !key.startsWith('relation') &&
+              metadata.authority &&
+              metadata.authority.endsWith(this.relationshipId)
+          )
           .map((metadata: MetadataValue) => {
             return {
               metadataField: key,
@@ -95,7 +107,12 @@ export class VirtualMetadataComponent implements OnInit {
    * @param selected  whether or not to save the virtual metadata as real metadata
    */
   setSelectedVirtualMetadataItem(item: Item, selected: boolean) {
-    this.objectUpdatesService.setSelectedVirtualMetadata(this.url, this.relationshipId, item.uuid, selected);
+    this.objectUpdatesService.setSelectedVirtualMetadata(
+      this.url,
+      this.relationshipId,
+      item.uuid,
+      selected
+    );
   }
 
   /**
@@ -103,7 +120,11 @@ export class VirtualMetadataComponent implements OnInit {
    * @param item  the item for which to check whether the virtual metadata is selected to be saved as real metadata
    */
   isSelectedVirtualMetadataItem(item: Item): Observable<boolean> {
-    return this.objectUpdatesService.isSelectedVirtualMetadata(this.url, this.relationshipId, item.uuid);
+    return this.objectUpdatesService.isSelectedVirtualMetadata(
+      this.url,
+      this.relationshipId,
+      item.uuid
+    );
   }
 
   /**

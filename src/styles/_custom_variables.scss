@@ -3,14 +3,14 @@
 
   --ds-button-height: #{$input-btn-padding-y * 2 + $input-btn-line-height + calculateRem($input-btn-border-width*2)};
 
-  --ds-card-height-percentage:98%;
-  --ds-card-thumbnail-height:240px;
+  --ds-card-height-percentage: 98%;
+  --ds-card-thumbnail-height: 240px;
   --ds-dropdown-menu-max-height: 200px;
   --ds-drop-zone-area-height: 44px;
   --ds-drop-zone-area-z-index: 1025;
   --ds-drop-zone-area-inner-z-index: 1021;
-  --ds-login-logo-height:72px;
-  --ds-login-logo-width:72px;
+  --ds-login-logo-height: 72px;
+  --ds-login-logo-width: 72px;
   --ds-submission-header-z-index: 1001;
   --ds-submission-footer-z-index: 999;
 

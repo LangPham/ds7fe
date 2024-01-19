@@ -17,8 +17,8 @@ export class CommunityAccessControlComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.itemRD$ = this.route.parent.parent.data.pipe(
-      map((data) => data.dso)
-    ).pipe(getFirstSucceededRemoteData()) as Observable<RemoteData<Community>>;
+    this.itemRD$ = this.route.parent.parent.data
+      .pipe(map((data) => data.dso))
+      .pipe(getFirstSucceededRemoteData()) as Observable<RemoteData<Community>>;
   }
 }

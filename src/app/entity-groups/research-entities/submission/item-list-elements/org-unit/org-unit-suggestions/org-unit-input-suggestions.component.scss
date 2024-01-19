@@ -1,5 +1,6 @@
 form {
     z-index: 1;
+
     &:before {
         pointer-events: none; // prevent the icon from ‘catching‘ the click
         position: absolute;

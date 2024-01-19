@@ -8,8 +8,14 @@ import { RelationshipDataService } from '../../../core/data/relationship-data.se
 import { DSONameService } from '../../../core/breadcrumbs/dso-name.service';
 import { of } from 'rxjs/internal/observable/of';
 import { ItemMetadataRepresentation } from '../../../core/shared/metadata-representation/item/item-metadata-representation.model';
-import { MetadataValue, VIRTUAL_METADATA_PREFIX } from '../../../core/shared/metadata.models';
-import { DsoEditMetadataChangeType, DsoEditMetadataValue } from '../dso-edit-metadata-form';
+import {
+  MetadataValue,
+  VIRTUAL_METADATA_PREFIX,
+} from '../../../core/shared/metadata.models';
+import {
+  DsoEditMetadataChangeType,
+  DsoEditMetadataValue,
+} from '../dso-edit-metadata-form';
 import { By } from '@angular/platform-browser';
 
 const EDIT_BTN = 'edit';
@@ -30,7 +36,9 @@ describe('DsoEditMetadataValueComponent', () => {
 
   function initServices(): void {
     relationshipService = jasmine.createSpyObj('relationshipService', {
-      resolveMetadataRepresentation: of(new ItemMetadataRepresentation(metadataValue)),
+      resolveMetadataRepresentation: of(
+        new ItemMetadataRepresentation(metadataValue)
+      ),
     });
     dsoNameService = jasmine.createSpyObj('dsoNameService', {
       getName: 'Related Name',
@@ -55,7 +63,7 @@ describe('DsoEditMetadataValueComponent', () => {
         { provide: RelationshipDataService, useValue: relationshipService },
         { provide: DSONameService, useValue: dsoNameService },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -68,7 +76,9 @@ describe('DsoEditMetadataValueComponent', () => {
   });
 
   it('should not show a badge', () => {
-    expect(fixture.debugElement.query(By.css('ds-themed-type-badge'))).toBeNull();
+    expect(
+      fixture.debugElement.query(By.css('ds-themed-type-badge'))
+    ).toBeNull();
   });
 
   describe('when no changes have been made', () => {
@@ -134,7 +144,9 @@ describe('DsoEditMetadataValueComponent', () => {
     });
 
     it('should show a badge', () => {
-      expect(fixture.debugElement.query(By.css('ds-themed-type-badge'))).toBeTruthy();
+      expect(
+        fixture.debugElement.query(By.css('ds-themed-type-badge'))
+      ).toBeTruthy();
     });
 
     assertButton(EDIT_BTN, true, true);
@@ -144,7 +156,11 @@ describe('DsoEditMetadataValueComponent', () => {
     assertButton(DRAG_BTN, true, false);
   });
 
-  function assertButton(name: string, exists: boolean, disabled: boolean = false): void {
+  function assertButton(
+    name: string,
+    exists: boolean,
+    disabled: boolean = false
+  ): void {
     describe(`${name} button`, () => {
       let btn: DebugElement;
 

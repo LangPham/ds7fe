@@ -1,5 +1,12 @@
 import { filter, map } from 'rxjs/operators';
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -30,10 +37,12 @@ import { LinkHeadService } from '../../core/services/link-head.service';
   styleUrls: ['./full-item-page.component.scss'],
   templateUrl: './full-item-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [fadeInOut]
+  animations: [fadeInOut],
 })
-export class FullItemPageComponent extends ItemPageComponent implements OnInit, OnDestroy {
-
+export class FullItemPageComponent
+  extends ItemPageComponent
+  implements OnInit, OnDestroy
+{
   itemRD$: BehaviorSubject<RemoteData<Item>>;
 
   metadata$: Observable<MetadataMap>;
@@ -55,9 +64,19 @@ export class FullItemPageComponent extends ItemPageComponent implements OnInit, 
     protected responseService: ServerResponseService,
     protected signpostingDataService: SignpostingDataService,
     protected linkHeadService: LinkHeadService,
-    @Inject(PLATFORM_ID) protected platformId: string,
+    @Inject(PLATFORM_ID) protected platformId: string
   ) {
-    super(route, router, items, authService, authorizationService, responseService, signpostingDataService, linkHeadService, platformId);
+    super(
+      route,
+      router,
+      items,
+      authService,
+      authorizationService,
+      responseService,
+      signpostingDataService,
+      linkHeadService,
+      platformId
+    );
   }
 
   /*** AoT inheritance fix, will hopefully be resolved in the near future **/
@@ -66,9 +85,11 @@ export class FullItemPageComponent extends ItemPageComponent implements OnInit, 
     this.metadata$ = this.itemRD$.pipe(
       map((rd: RemoteData<Item>) => rd.payload),
       filter((item: Item) => hasValue(item)),
-      map((item: Item) => item.metadata),);
+      map((item: Item) => item.metadata)
+    );
 
-    this.subs.push(this.route.data.subscribe((data: Data) => {
+    this.subs.push(
+      this.route.data.subscribe((data: Data) => {
         this.fromSubmissionObject = hasValue(data.wfi) || hasValue(data.wsi);
       })
     );
@@ -82,6 +103,8 @@ export class FullItemPageComponent extends ItemPageComponent implements OnInit, 
   }
 
   ngOnDestroy() {
-    this.subs.filter((sub) => hasValue(sub)).forEach((sub) => sub.unsubscribe());
+    this.subs
+      .filter((sub) => hasValue(sub))
+      .forEach((sub) => sub.unsubscribe());
   }
 }

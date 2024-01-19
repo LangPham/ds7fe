@@ -12,20 +12,18 @@ describe('PublicationInformationComponent', () => {
   let fixture: ComponentFixture<PublicationInformationComponent>;
   let de: DebugElement;
 
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
+            useClass: TranslateLoaderMock,
+          },
         }),
       ],
-      declarations: [PublicationInformationComponent]
-    })
-      .compileComponents();
+      declarations: [PublicationInformationComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -43,5 +41,4 @@ describe('PublicationInformationComponent', () => {
   it('should show 6 rows', () => {
     expect(de.queryAll(By.css('.row')).length).toEqual(6);
   });
-
 });

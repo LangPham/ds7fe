@@ -10,18 +10,22 @@ import { MenuID } from '../../shared/menu/menu-id.model';
 @Component({
   selector: 'ds-navbar-section',
   templateUrl: './navbar-section.component.html',
-  styleUrls: ['./navbar-section.component.scss']
+  styleUrls: ['./navbar-section.component.scss'],
 })
 @rendersSectionForMenu(MenuID.PUBLIC, false)
-export class NavbarSectionComponent extends MenuSectionComponent implements OnInit {
+export class NavbarSectionComponent
+  extends MenuSectionComponent
+  implements OnInit
+{
   /**
    * This section resides in the Public Navbar
    */
   menuID = MenuID.PUBLIC;
 
-  constructor(@Inject('sectionDataProvider') menuSection,
-              protected menuService: MenuService,
-              protected injector: Injector
+  constructor(
+    @Inject('sectionDataProvider') menuSection,
+    protected menuService: MenuService,
+    protected injector: Injector
   ) {
     super(menuSection, menuService, injector);
   }

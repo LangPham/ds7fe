@@ -11,10 +11,9 @@ import { SelectableListService } from '../../shared/object-list/selectable-list/
 @Component({
   selector: 'ds-bulk-access',
   templateUrl: './bulk-access.component.html',
-  styleUrls: ['./bulk-access.component.scss']
+  styleUrls: ['./bulk-access.component.scss'],
 })
 export class BulkAccessComponent implements OnInit {
-
   /**
    * The selection list id
    */
@@ -23,7 +22,9 @@ export class BulkAccessComponent implements OnInit {
   /**
    * The list of the objects already selected
    */
-  objectsSelected$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
+  objectsSelected$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(
+    []
+  );
 
   /**
    * Array to track all subscriptions and unsubscribe them onDestroy
@@ -38,15 +39,19 @@ export class BulkAccessComponent implements OnInit {
   constructor(
     private bulkAccessControlService: BulkAccessControlService,
     private selectableListService: SelectableListService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.subs.push(
-      this.selectableListService.getSelectableList(this.listId).pipe(
-        distinctUntilChanged(),
-        map((list: SelectableListState) => this.generateIdListBySelectedElements(list))
-      ).subscribe(this.objectsSelected$)
+      this.selectableListService
+        .getSelectableList(this.listId)
+        .pipe(
+          distinctUntilChanged(),
+          map((list: SelectableListState) =>
+            this.generateIdListBySelectedElements(list)
+          )
+        )
+        .subscribe(this.objectsSelected$)
     );
   }
 
@@ -74,13 +79,12 @@ export class BulkAccessComponent implements OnInit {
     const { file } = this.bulkAccessControlService.createPayloadFile({
       bitstreamAccess,
       itemAccess,
-      state: settings.state
+      state: settings.state,
     });
 
-    this.bulkAccessControlService.executeScript(
-      this.objectsSelected$.value || [],
-      file
-    ).subscribe();
+    this.bulkAccessControlService
+      .executeScript(this.objectsSelected$.value || [], file)
+      .subscribe();
   }
 
   /**
@@ -88,7 +92,9 @@ export class BulkAccessComponent implements OnInit {
    * @param list
    * @private
    */
-  private generateIdListBySelectedElements(list: SelectableListState): string[] {
+  private generateIdListBySelectedElements(
+    list: SelectableListState
+  ): string[] {
     return list?.selection?.map((entry: any) => entry.indexableObject.uuid);
   }
 }

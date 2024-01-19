@@ -6,7 +6,10 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HealthInfoComponentComponent } from './health-info-component.component';
-import { HealthInfoComponentOne, HealthInfoComponentTwo } from '../../../shared/mocks/health-endpoint.mocks';
+import {
+  HealthInfoComponentOne,
+  HealthInfoComponentTwo,
+} from '../../../shared/mocks/health-endpoint.mocks';
 import { ObjNgFor } from '../../../shared/utils/object-ngfor.pipe';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateLoaderMock } from '../../../shared/mocks/translate-loader.mock';
@@ -24,16 +27,12 @@ describe('HealthInfoComponentComponent', () => {
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
-        })
+            useClass: TranslateLoaderMock,
+          },
+        }),
       ],
-      declarations: [
-        HealthInfoComponentComponent,
-        ObjNgFor
-      ]
-    })
-      .compileComponents();
+      declarations: [HealthInfoComponentComponent, ObjNgFor],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -54,12 +53,15 @@ describe('HealthInfoComponentComponent', () => {
     });
 
     it('should display property', () => {
-      const properties = fixture.debugElement.queryAll(By.css('[data-test="property"]'));
+      const properties = fixture.debugElement.queryAll(
+        By.css('[data-test="property"]')
+      );
       expect(properties.length).toBe(14);
-      const components = fixture.debugElement.queryAll(By.css('[data-test="info-component"]'));
+      const components = fixture.debugElement.queryAll(
+        By.css('[data-test="info-component"]')
+      );
       expect(components.length).toBe(4);
     });
-
   });
 
   describe('when has plain properties', () => {
@@ -74,9 +76,10 @@ describe('HealthInfoComponentComponent', () => {
     });
 
     it('should display property', () => {
-      const property = fixture.debugElement.queryAll(By.css('[data-test="property"]'));
+      const property = fixture.debugElement.queryAll(
+        By.css('[data-test="property"]')
+      );
       expect(property.length).toBe(1);
     });
-
   });
 });

@@ -4,9 +4,7 @@ import { Router } from '@angular/router';
 import { RouterStub } from '../../../shared/testing/router.stub';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AdvancedWorkflowActionsDirective } from './advanced-workflow-actions.directive';
-import {
-  rendersAdvancedWorkflowTaskOption
-} from '../../../shared/mydspace-actions/claimed-task/switcher/claimed-task-actions-decorator';
+import { rendersAdvancedWorkflowTaskOption } from '../../../shared/mydspace-actions/claimed-task/switcher/claimed-task-actions-decorator';
 import { By } from '@angular/platform-browser';
 import { PAGE_NOT_FOUND_PATH } from '../../../app-routing-paths';
 
@@ -26,15 +24,15 @@ describe('AdvancedWorkflowActionsLoaderComponent', () => {
         AdvancedWorkflowActionsDirective,
         AdvancedWorkflowActionsLoaderComponent,
       ],
-      providers: [
-        { provide: Router, useValue: router },
-      ],
-    }).overrideComponent(AdvancedWorkflowActionsLoaderComponent, {
-      set: {
-        changeDetection: ChangeDetectionStrategy.Default,
-        entryComponents: [AdvancedWorkflowActionTestComponent],
-      },
-    }).compileComponents();
+      providers: [{ provide: Router, useValue: router }],
+    })
+      .overrideComponent(AdvancedWorkflowActionsLoaderComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          entryComponents: [AdvancedWorkflowActionTestComponent],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -50,24 +48,36 @@ describe('AdvancedWorkflowActionsLoaderComponent', () => {
 
   describe('When the component is rendered', () => {
     it('should display the AdvancedWorkflowActionTestComponent when the type has been defined in a rendersAdvancedWorkflowTaskOption', () => {
-      spyOn(component, 'getComponentByWorkflowTaskOption').and.returnValue(AdvancedWorkflowActionTestComponent);
+      spyOn(component, 'getComponentByWorkflowTaskOption').and.returnValue(
+        AdvancedWorkflowActionTestComponent
+      );
 
       component.ngOnInit();
       fixture.detectChanges();
 
-      expect(component.getComponentByWorkflowTaskOption).toHaveBeenCalledWith(ADVANCED_WORKFLOW_ACTION_TEST);
-      expect(fixture.debugElement.query(By.css('#AdvancedWorkflowActionsLoaderComponent'))).not.toBeNull();
+      expect(component.getComponentByWorkflowTaskOption).toHaveBeenCalledWith(
+        ADVANCED_WORKFLOW_ACTION_TEST
+      );
+      expect(
+        fixture.debugElement.query(
+          By.css('#AdvancedWorkflowActionsLoaderComponent')
+        )
+      ).not.toBeNull();
       expect(router.navigate).not.toHaveBeenCalled();
     });
 
     it('should redirect to page not found when the type has not been defined in a rendersAdvancedWorkflowTaskOption', () => {
-      spyOn(component, 'getComponentByWorkflowTaskOption').and.returnValue(undefined);
+      spyOn(component, 'getComponentByWorkflowTaskOption').and.returnValue(
+        undefined
+      );
       component.type = 'nonexistingaction';
 
       component.ngOnInit();
       fixture.detectChanges();
 
-      expect(component.getComponentByWorkflowTaskOption).toHaveBeenCalledWith('nonexistingaction');
+      expect(component.getComponentByWorkflowTaskOption).toHaveBeenCalledWith(
+        'nonexistingaction'
+      );
       expect(router.navigate).toHaveBeenCalledWith([PAGE_NOT_FOUND_PATH]);
     });
   });
@@ -79,5 +89,4 @@ describe('AdvancedWorkflowActionsLoaderComponent', () => {
   selector: '',
   template: '<span id="AdvancedWorkflowActionsLoaderComponent"></span>',
 })
-class AdvancedWorkflowActionTestComponent {
-}
+class AdvancedWorkflowActionTestComponent {}

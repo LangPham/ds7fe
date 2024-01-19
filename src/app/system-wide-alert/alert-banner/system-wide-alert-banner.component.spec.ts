@@ -1,4 +1,11 @@
-import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  discardPeriodicTasks,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { SystemWideAlertBannerComponent } from './system-wide-alert-banner.component';
 import { SystemWideAlertDataService } from '../../core/data/system-wide-alert-data.service';
 import { SystemWideAlert } from '../system-wide-alert.model';
@@ -11,7 +18,6 @@ import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { NotificationsServiceStub } from '../../shared/testing/notifications-service.stub';
-
 
 describe('SystemWideAlertBannerComponent', () => {
   let comp: SystemWideAlertBannerComponent;
@@ -33,20 +39,31 @@ describe('SystemWideAlertBannerComponent', () => {
       alertId: 1,
       message: 'Test alert message',
       active: true,
-      countdownTo: utcToZonedTime(countDownDate, 'UTC').toISOString()
+      countdownTo: utcToZonedTime(countDownDate, 'UTC').toISOString(),
     });
 
-    systemWideAlertDataService = jasmine.createSpyObj('systemWideAlertDataService', {
-      searchBy: createSuccessfulRemoteDataObject$(createPaginatedList([systemWideAlert])),
-    });
+    systemWideAlertDataService = jasmine.createSpyObj(
+      'systemWideAlertDataService',
+      {
+        searchBy: createSuccessfulRemoteDataObject$(
+          createPaginatedList([systemWideAlert])
+        ),
+      }
+    );
 
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [SystemWideAlertBannerComponent],
       providers: [
-        {provide: SystemWideAlertDataService, useValue: systemWideAlertDataService},
-        {provide: NotificationsService, useValue: new NotificationsServiceStub()},
-      ]
+        {
+          provide: SystemWideAlertDataService,
+          useValue: systemWideAlertDataService,
+        },
+        {
+          provide: NotificationsService,
+          useValue: new NotificationsServiceStub(),
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -70,7 +87,6 @@ describe('SystemWideAlertBannerComponent', () => {
       expect(comp.countDownHours.next).toHaveBeenCalled();
       expect(comp.countDownMinutes.next).toHaveBeenCalled();
       discardPeriodicTasks();
-
     }));
   });
 
@@ -84,12 +100,22 @@ describe('SystemWideAlertBannerComponent', () => {
       const banner = fixture.debugElement.queryAll(By.css('span'));
       expect(banner.length).toEqual(6);
 
-      expect(banner[0].nativeElement.innerHTML).toContain('system-wide-alert-banner.countdown.prefix');
-      expect(banner[0].nativeElement.innerHTML).toContain('system-wide-alert-banner.countdown.days');
-      expect(banner[0].nativeElement.innerHTML).toContain('system-wide-alert-banner.countdown.hours');
-      expect(banner[0].nativeElement.innerHTML).toContain('system-wide-alert-banner.countdown.minutes');
+      expect(banner[0].nativeElement.innerHTML).toContain(
+        'system-wide-alert-banner.countdown.prefix'
+      );
+      expect(banner[0].nativeElement.innerHTML).toContain(
+        'system-wide-alert-banner.countdown.days'
+      );
+      expect(banner[0].nativeElement.innerHTML).toContain(
+        'system-wide-alert-banner.countdown.hours'
+      );
+      expect(banner[0].nativeElement.innerHTML).toContain(
+        'system-wide-alert-banner.countdown.minutes'
+      );
 
-      expect(banner[5].nativeElement.innerHTML).toContain(systemWideAlert.message);
+      expect(banner[5].nativeElement.innerHTML).toContain(
+        systemWideAlert.message
+      );
     });
 
     it('should display the alert message but no timer when no timer is present', () => {
@@ -100,7 +126,9 @@ describe('SystemWideAlertBannerComponent', () => {
 
       const banner = fixture.debugElement.queryAll(By.css('span'));
       expect(banner.length).toEqual(2);
-      expect(banner[1].nativeElement.innerHTML).toContain(systemWideAlert.message);
+      expect(banner[1].nativeElement.innerHTML).toContain(
+        systemWideAlert.message
+      );
     });
 
     it('should not display an alert when none is present', () => {

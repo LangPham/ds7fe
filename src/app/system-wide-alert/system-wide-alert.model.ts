@@ -44,12 +44,11 @@ export class SystemWideAlert implements CacheableObject {
   @autoserialize
   active: boolean;
 
-
   /**
    * The {@link HALLink}s for this system-wide alert
    */
   @deserialize
   _links: {
-    self: HALLink,
+    self: HALLink;
   };
 }

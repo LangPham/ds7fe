@@ -9,12 +9,8 @@ describe('AdvancedWorkflowActionPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-      ],
-      declarations: [
-        AdvancedWorkflowActionPageComponent,
-      ],
+      imports: [TranslateModule.forRoot()],
+      declarations: [AdvancedWorkflowActionPageComponent],
       providers: [
         {
           provide: ActivatedRoute,

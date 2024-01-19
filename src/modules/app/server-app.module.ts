@@ -2,14 +2,17 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule, TransferState } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ServerModule, ServerTransferStateModule } from '@angular/platform-server';
+import {
+  ServerModule,
+  ServerTransferStateModule,
+} from '@angular/platform-server';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import {
   Angulartics2,
   Angulartics2GoogleAnalytics,
-  Angulartics2GoogleGlobalSiteTag
+  Angulartics2GoogleGlobalSiteTag,
 } from 'angulartics2';
 
 import { AppComponent } from '../../app/app.component';
@@ -39,23 +42,27 @@ import { ReferrerService } from '../../app/core/services/referrer.service';
 import { ServerReferrerService } from '../../app/core/services/server.referrer.service';
 
 export function createTranslateLoader(transferState: TransferState) {
-  return new TranslateServerLoader(transferState, 'dist/server/assets/i18n/', '.json');
+  return new TranslateServerLoader(
+    transferState,
+    'dist/server/assets/i18n/',
+    '.json'
+  );
 }
 
 @NgModule({
   bootstrap: [AppComponent],
   imports: [
     BrowserModule.withServerTransition({
-      appId: 'dspace-angular'
+      appId: 'dspace-angular',
     }),
     NoopAnimationsModule,
     ServerTransferStateModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [TransferState]
-      }
+        useFactory: createTranslateLoader,
+        deps: [TransferState],
+      },
     }),
     AppModule,
     ServerModule,
@@ -64,31 +71,31 @@ export function createTranslateLoader(transferState: TransferState) {
     ...ServerInitService.providers(),
     {
       provide: Angulartics2,
-      useClass: Angulartics2Mock
+      useClass: Angulartics2Mock,
     },
     {
       provide: Angulartics2GoogleAnalytics,
-      useClass: AngularticsProviderMock
+      useClass: AngularticsProviderMock,
     },
     {
       provide: Angulartics2GoogleGlobalSiteTag,
-      useClass: AngularticsProviderMock
+      useClass: AngularticsProviderMock,
     },
     {
       provide: Angulartics2DSpace,
-      useClass: AngularticsProviderMock
+      useClass: AngularticsProviderMock,
     },
     {
       provide: AuthService,
-      useClass: ServerAuthService
+      useClass: ServerAuthService,
     },
     {
       provide: CookieService,
-      useClass: ServerCookieService
+      useClass: ServerCookieService,
     },
     {
       provide: SubmissionService,
-      useClass: ServerSubmissionService
+      useClass: ServerSubmissionService,
     },
     {
       provide: AuthRequestService,
@@ -96,13 +103,13 @@ export function createTranslateLoader(transferState: TransferState) {
     },
     {
       provide: LocaleService,
-      useClass: ServerLocaleService
+      useClass: ServerLocaleService,
     },
     // register ForwardClientIpInterceptor as HttpInterceptor
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ForwardClientIpInterceptor,
-      multi: true
+      multi: true,
     },
     {
       provide: HardRedirectService,
@@ -116,7 +123,6 @@ export function createTranslateLoader(transferState: TransferState) {
       provide: ReferrerService,
       useClass: ServerReferrerService,
     },
-  ]
+  ],
 })
-export class ServerAppModule {
-}
+export class ServerAppModule {}

@@ -1,5 +1,10 @@
 // ... test imports
-import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  inject,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 
@@ -24,22 +29,28 @@ let de: DebugElement;
 let el: HTMLElement;
 
 describe('Footer component', () => {
-
   // waitForAsync beforeEach
   beforeEach(waitForAsync(() => {
     return TestBed.configureTestingModule({
-      imports: [CommonModule, StoreModule.forRoot({}, storeModuleConfig), TranslateModule.forRoot({
-        loader: {
-          provide: TranslateLoader,
-          useClass: TranslateLoaderMock
-        }
-      })],
+      imports: [
+        CommonModule,
+        StoreModule.forRoot({}, storeModuleConfig),
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateLoaderMock,
+          },
+        }),
+      ],
       declarations: [FooterComponent], // declare the test component
       providers: [
         FooterComponent,
-        { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
+        {
+          provide: AuthorizationDataService,
+          useClass: AuthorizationDataServiceStub,
+        },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
   }));
 
@@ -54,9 +65,11 @@ describe('Footer component', () => {
     el = de.nativeElement;
   });
 
-  it('should create footer', inject([FooterComponent], (app: FooterComponent) => {
-    // Perform test using fixture and service
-    expect(app).toBeTruthy();
-  }));
-
+  it('should create footer', inject(
+    [FooterComponent],
+    (app: FooterComponent) => {
+      // Perform test using fixture and service
+      expect(app).toBeTruthy();
+    }
+  ));
 });

@@ -29,10 +29,7 @@ export class MediaViewerImageComponent implements OnChanges, OnInit {
    */
   isAuthenticated$: Observable<boolean>;
 
-  constructor(
-    protected authService: AuthService,
-  ) {
-  }
+  constructor(protected authService: AuthService) {}
 
   ngOnChanges(): void {
     this.galleryOptions = [
@@ -77,12 +74,8 @@ export class MediaViewerImageComponent implements OnChanges, OnInit {
     for (const image of medias) {
       if (image.format === 'image') {
         mappedImages.push({
-          small: image.thumbnail
-            ? image.thumbnail
-            : this.thumbnailPlaceholder,
-          medium: image.thumbnail
-            ? image.thumbnail
-            : this.thumbnailPlaceholder,
+          small: image.thumbnail ? image.thumbnail : this.thumbnailPlaceholder,
+          medium: image.thumbnail ? image.thumbnail : this.thumbnailPlaceholder,
           big: image.bitstream._links.content.href,
         });
       }

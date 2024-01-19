@@ -12,7 +12,9 @@ import { ThemedComponent } from '../../shared/theme-support/themed.component';
   templateUrl: '../../shared/theme-support/themed.component.html',
 })
 export class ThemedItemAlertsComponent extends ThemedComponent<ItemAlertsComponent> {
-  protected inAndOutputNames: (keyof ItemAlertsComponent & keyof this)[] = ['item'];
+  protected inAndOutputNames: (keyof ItemAlertsComponent & keyof this)[] = [
+    'item',
+  ];
 
   @Input() item: Item;
 
@@ -21,7 +23,9 @@ export class ThemedItemAlertsComponent extends ThemedComponent<ItemAlertsCompone
   }
 
   protected importThemedComponent(themeName: string): Promise<any> {
-    return import(`../../../themes/${themeName}/app/item-page/alerts/item-alerts.component`);
+    return import(
+      `../../../themes/${themeName}/app/item-page/alerts/item-alerts.component`
+    );
   }
 
   protected importUnthemedComponent(): Promise<any> {

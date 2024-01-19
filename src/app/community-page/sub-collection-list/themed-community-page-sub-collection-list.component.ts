@@ -11,18 +11,20 @@ import { Community } from '../../core/shared/community.model';
 export class ThemedCollectionPageSubCollectionListComponent extends ThemedComponent<CommunityPageSubCollectionListComponent> {
   @Input() community: Community;
   @Input() pageSize: number;
-  protected inAndOutputNames: (keyof CommunityPageSubCollectionListComponent & keyof this)[] = ['community', 'pageSize'];
+  protected inAndOutputNames: (keyof CommunityPageSubCollectionListComponent &
+    keyof this)[] = ['community', 'pageSize'];
 
   protected getComponentName(): string {
     return 'CommunityPageSubCollectionListComponent';
   }
 
   protected importThemedComponent(themeName: string): Promise<any> {
-    return import(`../../../themes/${themeName}/app/community-page/sub-collection-list/community-page-sub-collection-list.component`);
+    return import(
+      `../../../themes/${themeName}/app/community-page/sub-collection-list/community-page-sub-collection-list.component`
+    );
   }
 
   protected importUnthemedComponent(): Promise<any> {
     return import(`./community-page-sub-collection-list.component`);
   }
-
 }

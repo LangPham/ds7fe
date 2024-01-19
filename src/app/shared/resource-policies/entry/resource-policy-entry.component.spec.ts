@@ -37,17 +37,17 @@ const groupRP: any = {
   uuid: 'resource-policy-1',
   _links: {
     eperson: {
-      href: 'https://rest.api/rest/api/resourcepolicies/1/eperson'
+      href: 'https://rest.api/rest/api/resourcepolicies/1/eperson',
     },
     group: {
-      href: 'https://rest.api/rest/api/resourcepolicies/1/group'
+      href: 'https://rest.api/rest/api/resourcepolicies/1/group',
     },
     self: {
-      href: 'https://rest.api/rest/api/resourcepolicies/1'
+      href: 'https://rest.api/rest/api/resourcepolicies/1',
     },
   },
   eperson: observableOf(createSuccessfulRemoteDataObject(undefined)),
-  group: observableOf(createSuccessfulRemoteDataObject(GroupMock))
+  group: observableOf(createSuccessfulRemoteDataObject(GroupMock)),
 };
 
 const epersonRP: any = {
@@ -62,24 +62,24 @@ const epersonRP: any = {
   uuid: 'resource-policy-1',
   _links: {
     eperson: {
-      href: 'https://rest.api/rest/api/resourcepolicies/1/eperson'
+      href: 'https://rest.api/rest/api/resourcepolicies/1/eperson',
     },
     group: {
-      href: 'https://rest.api/rest/api/resourcepolicies/1/group'
+      href: 'https://rest.api/rest/api/resourcepolicies/1/group',
     },
     self: {
-      href: 'https://rest.api/rest/api/resourcepolicies/1'
+      href: 'https://rest.api/rest/api/resourcepolicies/1',
     },
   },
   eperson: observableOf(createSuccessfulRemoteDataObject(EPersonMock)),
-  group: observableOf(createSuccessfulRemoteDataObject(undefined))
+  group: observableOf(createSuccessfulRemoteDataObject(undefined)),
 };
 
 const item = Object.assign(new Item(), {
   uuid: 'itemUUID',
   id: 'itemUUID',
   _links: {
-    self: { href: 'item-selflink' }
+    self: { href: 'item-selflink' },
   },
 });
 
@@ -99,34 +99,28 @@ describe('ResourcePolicyEntryComponent', () => {
 
   beforeEach(() => {
     dsoNameService = createSpyObj('dsoNameMock', {
-      getName: 'NAME'
+      getName: 'NAME',
     });
     groupService = jasmine.createSpyObj('groupService', {
       findByHref: jasmine.createSpy('findByHref'),
     });
     routeStub = {
       data: observableOf({
-        item: createSuccessfulRemoteDataObject(item)
-      })
+        item: createSuccessfulRemoteDataObject(item),
+      }),
     };
     routerStub = Object.assign(new RouterStub(), {
-      url: `url/edit`
+      url: `url/edit`,
     });
 
-
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        TranslateModule.forRoot()
-      ],
-      declarations: [
-        ResourcePolicyEntryComponent,
-      ],
+      imports: [CommonModule, TranslateModule.forRoot()],
+      declarations: [ResourcePolicyEntryComponent],
       providers: [
         { provide: ActivatedRoute, useValue: routeStub },
         { provide: Router, useValue: routerStub },
         { provide: GroupDataService, useValue: groupService },
-        { provide: DSONameService, useValue: dsoNameService }
+        { provide: DSONameService, useValue: dsoNameService },
       ],
       // schemas: [
       //   NO_ERRORS_SCHEMA
@@ -151,11 +145,15 @@ describe('ResourcePolicyEntryComponent', () => {
     });
 
     it('should have a valid epersonName$', () => {
-      expect(compAsAny.epersonName$).toBeObservable(cold('(n|)', { u: undefined, n: 'NAME' }));
+      expect(compAsAny.epersonName$).toBeObservable(
+        cold('(n|)', { u: undefined, n: 'NAME' })
+      );
     });
 
     it('should have an undefined groupName$', () => {
-      expect(compAsAny.groupName$).toBeObservable(cold('(u|)', { u: undefined, n: 'NAME' }));
+      expect(compAsAny.groupName$).toBeObservable(
+        cold('(u|)', { u: undefined, n: 'NAME' })
+      );
     });
   });
 
@@ -170,11 +168,15 @@ describe('ResourcePolicyEntryComponent', () => {
     });
 
     it('should have a valid groupName$', () => {
-      expect(compAsAny.groupName$).toBeObservable(cold('(n|)', { u: undefined, n: 'NAME' }));
+      expect(compAsAny.groupName$).toBeObservable(
+        cold('(n|)', { u: undefined, n: 'NAME' })
+      );
     });
 
     it('should have an undefined epersonName$', () => {
-      expect(compAsAny.epersonName$).toBeObservable(cold('(u|)', { u: undefined, n: 'NAME' }));
+      expect(compAsAny.epersonName$).toBeObservable(
+        cold('(u|)', { u: undefined, n: 'NAME' })
+      );
     });
   });
 
@@ -193,13 +195,14 @@ describe('ResourcePolicyEntryComponent', () => {
     });
 
     it('should redirect to ResourcePolicy edit page', () => {
-
       comp.redirectToResourcePolicyEditPage();
       expect(compAsAny.router.navigate).toHaveBeenCalled();
     });
 
     it('should redirect to Group edit page', () => {
-      compAsAny.groupService.findByHref.and.returnValue(observableOf(createSuccessfulRemoteDataObject(GroupMock)));
+      compAsAny.groupService.findByHref.and.returnValue(
+        observableOf(createSuccessfulRemoteDataObject(GroupMock))
+      );
 
       comp.redirectToGroupEditPage();
       expect(compAsAny.router.navigate).toHaveBeenCalled();
@@ -208,7 +211,9 @@ describe('ResourcePolicyEntryComponent', () => {
     it('should emit new state when checkbox is toggled', () => {
       spyOn(comp.toggleCheckbox, 'emit');
 
-      const checkbox = fixture.debugElement.query(By.css('input[type="checkbox"]'));
+      const checkbox = fixture.debugElement.query(
+        By.css('input[type="checkbox"]')
+      );
 
       comp.entry.checked = false;
       checkbox.triggerEventHandler('ngModelChange', true);

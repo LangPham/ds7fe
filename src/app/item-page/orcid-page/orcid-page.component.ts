@@ -6,7 +6,10 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { OrcidAuthService } from '../../core/orcid/orcid-auth.service';
-import { getFirstCompletedRemoteData, getFirstSucceededRemoteDataPayload } from '../../core/shared/operators';
+import {
+  getFirstCompletedRemoteData,
+  getFirstSucceededRemoteDataPayload,
+} from '../../core/shared/operators';
 import { RemoteData } from '../../core/data/remote-data';
 import { Item } from '../../core/shared/item.model';
 import { getItemPageRoute } from '../item-page-routing-paths';
@@ -22,14 +25,15 @@ import { ResearcherProfile } from '../../core/profile/model/researcher-profile.m
 @Component({
   selector: 'ds-orcid-page',
   templateUrl: './orcid-page.component.html',
-  styleUrls: ['./orcid-page.component.scss']
+  styleUrls: ['./orcid-page.component.scss'],
 })
 export class OrcidPageComponent implements OnInit {
-
   /**
    * A boolean representing if the connection operation with orcid profile is in progress
    */
-  connectionStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  connectionStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
 
   /**
    * The item for which showing the orcid settings
@@ -44,7 +48,9 @@ export class OrcidPageComponent implements OnInit {
   /**
    * A boolean representing if the connection operation with orcid profile is in progress
    */
-  processingConnection: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  processingConnection: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    true
+  );
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
@@ -53,8 +59,7 @@ export class OrcidPageComponent implements OnInit {
     private orcidAuthService: OrcidAuthService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-  }
+  ) {}
 
   /**
    * Retrieve the item for which showing the orcid settings
@@ -63,7 +68,7 @@ export class OrcidPageComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       const codeParam$ = this.route.queryParamMap.pipe(
         take(1),
-        map((paramMap: ParamMap) => paramMap.get('code')),
+        map((paramMap: ParamMap) => paramMap.get('code'))
       );
 
       const item$ = this.route.data.pipe(
@@ -110,13 +115,14 @@ export class OrcidPageComponent implements OnInit {
    */
   updateItem(): void {
     this.clearRouteParams();
-    this.itemService.findById(this.itemId, false).pipe(
-      getFirstCompletedRemoteData()
-    ).subscribe((itemRD: RemoteData<Item>) => {
-      if (itemRD.hasSucceeded) {
-        this.item.next(itemRD.payload);
-      }
-    });
+    this.itemService
+      .findById(this.itemId, false)
+      .pipe(getFirstCompletedRemoteData())
+      .subscribe((itemRD: RemoteData<Item>) => {
+        if (itemRD.hasSucceeded) {
+          this.item.next(itemRD.payload);
+        }
+      });
   }
 
   /**
@@ -126,19 +132,20 @@ export class OrcidPageComponent implements OnInit {
    * @param code The auth-code received from ORCID
    */
   private linkProfileToOrcid(person: Item, code: string) {
-    this.orcidAuthService.linkOrcidByItem(person, code).pipe(
-      getFirstCompletedRemoteData()
-    ).subscribe((profileRD: RemoteData<ResearcherProfile>) => {
-      this.processingConnection.next(false);
-      if (profileRD.hasSucceeded) {
-        this.connectionStatus.next(true);
-        this.updateItem();
-      } else {
-        this.item.next(person);
-        this.connectionStatus.next(false);
-        this.clearRouteParams();
-      }
-    });
+    this.orcidAuthService
+      .linkOrcidByItem(person, code)
+      .pipe(getFirstCompletedRemoteData())
+      .subscribe((profileRD: RemoteData<ResearcherProfile>) => {
+        this.processingConnection.next(false);
+        if (profileRD.hasSucceeded) {
+          this.connectionStatus.next(true);
+          this.updateItem();
+        } else {
+          this.item.next(person);
+          this.connectionStatus.next(false);
+          this.clearRouteParams();
+        }
+      });
   }
 
   /**

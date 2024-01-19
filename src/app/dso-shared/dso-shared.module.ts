@@ -9,9 +9,7 @@ import { DsoEditMetadataValueHeadersComponent } from './dso-edit-metadata/dso-ed
 import { ThemedDsoEditMetadataComponent } from './dso-edit-metadata/themed-dso-edit-metadata.component';
 
 @NgModule({
-  imports: [
-    SharedModule,
-  ],
+  imports: [SharedModule],
   declarations: [
     DsoEditMetadataComponent,
     ThemedDsoEditMetadataComponent,
@@ -31,6 +29,4 @@ import { ThemedDsoEditMetadataComponent } from './dso-edit-metadata/themed-dso-e
     DsoEditMetadataValueHeadersComponent,
   ],
 })
-export class DsoSharedModule {
-
-}
+export class DsoSharedModule {}

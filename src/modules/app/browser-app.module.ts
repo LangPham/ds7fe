@@ -1,6 +1,11 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { BrowserModule, BrowserTransferStateModule, makeStateKey, TransferState } from '@angular/platform-browser';
+import {
+  BrowserModule,
+  BrowserTransferStateModule,
+  makeStateKey,
+  TransferState,
+} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 
@@ -15,7 +20,10 @@ import { AppModule } from '../../app/app.module';
 import { ClientCookieService } from '../../app/core/services/client-cookie.service';
 import { CookieService } from '../../app/core/services/cookie.service';
 import { AuthService } from '../../app/core/auth/auth.service';
-import { Angulartics2GoogleTagManager, Angulartics2RouterlessModule } from 'angulartics2';
+import {
+  Angulartics2GoogleTagManager,
+  Angulartics2RouterlessModule,
+} from 'angulartics2';
 import { SubmissionService } from '../../app/submission/submission.service';
 import { StatisticsModule } from '../../app/statistics/statistics.module';
 import { BrowserKlaroService } from '../../app/shared/cookies/browser-klaro.service';
@@ -24,7 +32,7 @@ import { HardRedirectService } from '../../app/core/services/hard-redirect.servi
 import {
   BrowserHardRedirectService,
   locationProvider,
-  LocationToken
+  LocationToken,
 } from '../../app/core/services/browser-hard-redirect.service';
 import { LocaleService } from '../../app/core/locale/locale.service';
 import { GoogleAnalyticsService } from '../../app/statistics/google-analytics.service';
@@ -36,8 +44,16 @@ import { BrowserReferrerService } from '../../app/core/services/browser.referrer
 
 export const REQ_KEY = makeStateKey<string>('req');
 
-export function createTranslateLoader(transferState: TransferState, http: HttpClient) {
-  return new TranslateBrowserLoader(transferState, http, 'assets/i18n/', '.json');
+export function createTranslateLoader(
+  transferState: TransferState,
+  http: HttpClient
+) {
+  return new TranslateBrowserLoader(
+    transferState,
+    http,
+    'assets/i18n/',
+    '.json'
+  );
 }
 
 export function getRequest(transferState: TransferState): any {
@@ -48,7 +64,7 @@ export function getRequest(transferState: TransferState): any {
   bootstrap: [AppComponent],
   imports: [
     BrowserModule.withServerTransition({
-      appId: 'dspace-angular'
+      appId: 'dspace-angular',
     }),
     HttpClientModule,
     // forRoot ensures the providers are only created once
@@ -60,38 +76,38 @@ export function getRequest(transferState: TransferState): any {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [TransferState, HttpClient]
-      }
+        useFactory: createTranslateLoader,
+        deps: [TransferState, HttpClient],
+      },
     }),
-    AppModule
+    AppModule,
   ],
   providers: [
     ...BrowserInitService.providers(),
     {
       provide: REQUEST,
       useFactory: getRequest,
-      deps: [TransferState]
+      deps: [TransferState],
     },
     {
       provide: AuthService,
-      useClass: AuthService
+      useClass: AuthService,
     },
     {
       provide: CookieService,
-      useClass: ClientCookieService
+      useClass: ClientCookieService,
     },
     {
       provide: KlaroService,
-      useClass: BrowserKlaroService
+      useClass: BrowserKlaroService,
     },
     {
       provide: SubmissionService,
-      useClass: SubmissionService
+      useClass: SubmissionService,
     },
     {
       provide: LocaleService,
-      useClass: LocaleService
+      useClass: LocaleService,
     },
     {
       provide: HardRedirectService,
@@ -103,7 +119,7 @@ export function getRequest(transferState: TransferState): any {
     },
     {
       provide: Angulartics2GoogleTagManager,
-      useClass: Angulartics2GoogleTagManager
+      useClass: Angulartics2GoogleTagManager,
     },
     {
       provide: AuthRequestService,
@@ -116,8 +132,7 @@ export function getRequest(transferState: TransferState): any {
     {
       provide: LocationToken,
       useFactory: locationProvider,
-    }
-  ]
+    },
+  ],
 })
-export class BrowserAppModule {
-}
+export class BrowserAppModule {}

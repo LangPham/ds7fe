@@ -8,7 +8,10 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { MetadataService } from '../core/metadata/metadata.service';
 import { HostWindowState } from '../shared/search/host-window.reducer';
-import { NativeWindowRef, NativeWindowService } from '../core/services/window.service';
+import {
+  NativeWindowRef,
+  NativeWindowService,
+} from '../core/services/window.service';
 import { AuthService } from '../core/auth/auth.service';
 import { CSSVariableService } from '../shared/sass-helper/css-variable.service';
 import { MenuService } from '../shared/menu/menu.service';
@@ -62,17 +65,25 @@ export class RootComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sidebarVisible = this.menuService.isMenuVisibleWithVisibleSections(MenuID.ADMIN);
+    this.sidebarVisible = this.menuService.isMenuVisibleWithVisibleSections(
+      MenuID.ADMIN
+    );
 
-    this.collapsedSidebarWidth = this.cssService.getVariable('--ds-collapsed-sidebar-width').pipe(hasValueOperator());
-    this.totalSidebarWidth = this.cssService.getVariable('--ds-total-sidebar-width').pipe(hasValueOperator());
+    this.collapsedSidebarWidth = this.cssService
+      .getVariable('--ds-collapsed-sidebar-width')
+      .pipe(hasValueOperator());
+    this.totalSidebarWidth = this.cssService
+      .getVariable('--ds-total-sidebar-width')
+      .pipe(hasValueOperator());
 
     const sidebarCollapsed = this.menuService.isMenuCollapsed(MenuID.ADMIN);
-    this.slideSidebarOver = combineLatestObservable([sidebarCollapsed, this.windowService.isXsOrSm()])
-      .pipe(
-        map(([collapsed, mobile]) => collapsed || mobile),
-        startWith(true),
-      );
+    this.slideSidebarOver = combineLatestObservable([
+      sidebarCollapsed,
+      this.windowService.isXsOrSm(),
+    ]).pipe(
+      map(([collapsed, mobile]) => collapsed || mobile),
+      startWith(true)
+    );
 
     if (this.router.url === getPageInternalServerErrorRoute()) {
       this.shouldShowRouteLoader = false;

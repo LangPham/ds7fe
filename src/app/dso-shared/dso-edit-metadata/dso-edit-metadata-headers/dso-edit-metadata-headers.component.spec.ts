@@ -14,9 +14,8 @@ describe('DsoEditMetadataHeadersComponent', () => {
     TestBed.configureTestingModule({
       declarations: [DsoEditMetadataHeadersComponent, VarDirective],
       imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
-      providers: [
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+      providers: [],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -27,6 +26,8 @@ describe('DsoEditMetadataHeadersComponent', () => {
   });
 
   it('should display three headers', () => {
-    expect(fixture.debugElement.queryAll(By.css('.ds-flex-cell')).length).toEqual(3);
+    expect(
+      fixture.debugElement.queryAll(By.css('.ds-flex-cell')).length
+    ).toEqual(3);
   });
 });

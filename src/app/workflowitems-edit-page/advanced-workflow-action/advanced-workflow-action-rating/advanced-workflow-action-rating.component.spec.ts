@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import {
   AdvancedWorkflowActionRatingComponent,
-  ADVANCED_WORKFLOW_TASK_OPTION_RATING
+  ADVANCED_WORKFLOW_TASK_OPTION_RATING,
 } from './advanced-workflow-action-rating.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of as observableOf } from 'rxjs';
@@ -22,7 +22,10 @@ import { VarDirective } from '../../../shared/utils/var.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WorkflowItem } from '../../../core/submission/models/workflowitem.model';
-import { createSuccessfulRemoteDataObject$, createSuccessfulRemoteDataObject } from '../../../shared/remote-data.utils';
+import {
+  createSuccessfulRemoteDataObject$,
+  createSuccessfulRemoteDataObject,
+} from '../../../shared/remote-data.utils';
 import { Item } from '../../../core/shared/item.model';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ProcessTaskResponse } from '../../../core/tasks/models/process-task-response';
@@ -58,10 +61,7 @@ describe('AdvancedWorkflowActionRatingComponent', () => {
         ReactiveFormsModule,
         TranslateModule.forRoot(),
       ],
-      declarations: [
-        AdvancedWorkflowActionRatingComponent,
-        VarDirective,
-      ],
+      declarations: [AdvancedWorkflowActionRatingComponent, VarDirective],
       providers: [
         {
           provide: ActivatedRoute,
@@ -83,7 +83,10 @@ describe('AdvancedWorkflowActionRatingComponent', () => {
         { provide: NotificationsService, useValue: notificationService },
         { provide: RouteService, useValue: routeServiceStub },
         { provide: Router, useValue: new RouterStub() },
-        { provide: WorkflowActionDataService, useValue: workflowActionDataService },
+        {
+          provide: WorkflowActionDataService,
+          useValue: workflowActionDataService,
+        },
         { provide: WorkflowItemDataService, useValue: workflowItemDataService },
         { provide: RequestService, useClass: RequestServiceStub },
       ],
@@ -106,7 +109,9 @@ describe('AdvancedWorkflowActionRatingComponent', () => {
     beforeEach(() => {
       ratingAdvancedWorkflowInfo = new RatingAdvancedWorkflowInfo();
       ratingAdvancedWorkflowInfo.maxValue = 5;
-      spyOn(component, 'getAdvancedInfo').and.returnValue(ratingAdvancedWorkflowInfo);
+      spyOn(component, 'getAdvancedInfo').and.returnValue(
+        ratingAdvancedWorkflowInfo
+      );
       spyOn(component, 'previousPage');
       // The form validators are set in the HTML code so the getAdvancedInfo needs to return a value
       fixture.detectChanges();
@@ -119,7 +124,9 @@ describe('AdvancedWorkflowActionRatingComponent', () => {
       });
 
       it('should call the claimedTaskDataService with the rating and the required description when it has been rated and return to the mydspace page', () => {
-        spyOn(claimedTaskDataService, 'submitTask').and.returnValue(observableOf(new ProcessTaskResponse(true)));
+        spyOn(claimedTaskDataService, 'submitTask').and.returnValue(
+          observableOf(new ProcessTaskResponse(true))
+        );
         component.ratingForm.setValue({
           review: 'Good job!',
           rating: 4,
@@ -127,17 +134,22 @@ describe('AdvancedWorkflowActionRatingComponent', () => {
 
         component.performAction();
 
-        expect(claimedTaskDataService.submitTask).toHaveBeenCalledWith(claimedTaskId, {
-          [ADVANCED_WORKFLOW_TASK_OPTION_RATING]: true,
-          review: 'Good job!',
-          score: 4,
-        });
+        expect(claimedTaskDataService.submitTask).toHaveBeenCalledWith(
+          claimedTaskId,
+          {
+            [ADVANCED_WORKFLOW_TASK_OPTION_RATING]: true,
+            review: 'Good job!',
+            score: 4,
+          }
+        );
         expect(notificationService.success).toHaveBeenCalled();
         expect(component.previousPage).toHaveBeenCalled();
       });
 
       it('should not call the claimedTaskDataService when the required description is empty', () => {
-        spyOn(claimedTaskDataService, 'submitTask').and.returnValue(observableOf(new ProcessTaskResponse(true)));
+        spyOn(claimedTaskDataService, 'submitTask').and.returnValue(
+          observableOf(new ProcessTaskResponse(true))
+        );
         component.ratingForm.setValue({
           review: '',
           rating: 4,
@@ -158,7 +170,9 @@ describe('AdvancedWorkflowActionRatingComponent', () => {
       });
 
       it('should call the claimedTaskDataService with the optional review when provided and return to the mydspace page', () => {
-        spyOn(claimedTaskDataService, 'submitTask').and.returnValue(observableOf(new ProcessTaskResponse(true)));
+        spyOn(claimedTaskDataService, 'submitTask').and.returnValue(
+          observableOf(new ProcessTaskResponse(true))
+        );
         component.ratingForm.setValue({
           review: 'Good job!',
           rating: 4,
@@ -166,17 +180,22 @@ describe('AdvancedWorkflowActionRatingComponent', () => {
 
         component.performAction();
 
-        expect(claimedTaskDataService.submitTask).toHaveBeenCalledWith(claimedTaskId, {
-          [ADVANCED_WORKFLOW_TASK_OPTION_RATING]: true,
-          review: 'Good job!',
-          score: 4,
-        });
+        expect(claimedTaskDataService.submitTask).toHaveBeenCalledWith(
+          claimedTaskId,
+          {
+            [ADVANCED_WORKFLOW_TASK_OPTION_RATING]: true,
+            review: 'Good job!',
+            score: 4,
+          }
+        );
         expect(notificationService.success).toHaveBeenCalled();
         expect(component.previousPage).toHaveBeenCalled();
       });
 
       it('should call the claimedTaskDataService when the optional description is empty and return to the mydspace page', () => {
-        spyOn(claimedTaskDataService, 'submitTask').and.returnValue(observableOf(new ProcessTaskResponse(true)));
+        spyOn(claimedTaskDataService, 'submitTask').and.returnValue(
+          observableOf(new ProcessTaskResponse(true))
+        );
         component.ratingForm.setValue({
           review: '',
           rating: 4,
@@ -184,10 +203,13 @@ describe('AdvancedWorkflowActionRatingComponent', () => {
 
         component.performAction();
 
-        expect(claimedTaskDataService.submitTask).toHaveBeenCalledWith(claimedTaskId, {
-          [ADVANCED_WORKFLOW_TASK_OPTION_RATING]: true,
-          score: 4,
-        });
+        expect(claimedTaskDataService.submitTask).toHaveBeenCalledWith(
+          claimedTaskId,
+          {
+            [ADVANCED_WORKFLOW_TASK_OPTION_RATING]: true,
+            score: 4,
+          }
+        );
         expect(notificationService.success).toHaveBeenCalled();
         expect(component.previousPage).toHaveBeenCalled();
       });

@@ -23,24 +23,25 @@ const mockItemWithMetadata: ItemSearchResult = Object.assign(
         'dc.title': [
           {
             language: 'en_US',
-            value: 'This is just another title'
-          }
+            value: 'This is just another title',
+          },
         ],
         'journal.title': [
           {
             language: 'en_US',
-            value: 'This is just another journal title'
-          }
+            value: 'This is just another journal title',
+          },
         ],
         'publicationvolume.volumeNumber': [
           {
             language: 'en_US',
-            value: '1234'
-          }
-        ]
-      }
-    })
-  });
+            value: '1234',
+          },
+        ],
+      },
+    }),
+  }
+);
 const mockItemWithoutMetadata: ItemSearchResult = Object.assign(
   new ItemSearchResult(),
   {
@@ -50,45 +51,52 @@ const mockItemWithoutMetadata: ItemSearchResult = Object.assign(
         'dc.title': [
           {
             language: 'en_US',
-            value: 'This is just another title'
-          }
-        ]
-      }
-    })
-  });
+            value: 'This is just another title',
+          },
+        ],
+      },
+    }),
+  }
+);
 
 const environmentUseThumbs = {
   browseBy: {
-    showThumbnails: true
-  }
+    showThumbnails: true,
+  },
 };
 
 const enviromentNoThumbs = {
   browseBy: {
-    showThumbnails: false
-  }
+    showThumbnails: false,
+  },
 };
 
 describe('JournalVolumeSearchResultListElementComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [JournalVolumeSearchResultListElementComponent, TruncatePipe],
+      declarations: [
+        JournalVolumeSearchResultListElementComponent,
+        TruncatePipe,
+      ],
       providers: [
         { provide: TruncatableService, useValue: {} },
         { provide: DSONameService, useClass: DSONameServiceMock },
-        { provide: APP_CONFIG, useValue: environmentUseThumbs }
+        { provide: APP_CONFIG, useValue: environmentUseThumbs },
       ],
 
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(JournalVolumeSearchResultListElementComponent, {
-      set: { changeDetection: ChangeDetectionStrategy.Default }
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(JournalVolumeSearchResultListElementComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
-    fixture = TestBed.createComponent(JournalVolumeSearchResultListElementComponent);
+    fixture = TestBed.createComponent(
+      JournalVolumeSearchResultListElementComponent
+    );
     journalVolumeListElementComponent = fixture.componentInstance;
-
   }));
 
   describe('with environment.browseBy.showThumbnails set to true', () => {
@@ -101,7 +109,9 @@ describe('JournalVolumeSearchResultListElementComponent', () => {
     });
 
     it('should add thumbnail element', () => {
-      const thumbnailElement = fixture.debugElement.query(By.css('ds-thumbnail'));
+      const thumbnailElement = fixture.debugElement.query(
+        By.css('ds-thumbnail')
+      );
       expect(thumbnailElement).toBeTruthy();
     });
   });
@@ -113,7 +123,9 @@ describe('JournalVolumeSearchResultListElementComponent', () => {
     });
 
     it('should show the journal title span', () => {
-      const journalTitleField = fixture.debugElement.query(By.css('span.item-list-journal-volumes'));
+      const journalTitleField = fixture.debugElement.query(
+        By.css('span.item-list-journal-volumes')
+      );
       expect(journalTitleField).not.toBeNull();
     });
   });
@@ -125,7 +137,9 @@ describe('JournalVolumeSearchResultListElementComponent', () => {
     });
 
     it('should not show the journal title span', () => {
-      const journalTitleField = fixture.debugElement.query(By.css('span.item-list-journal-volumes'));
+      const journalTitleField = fixture.debugElement.query(
+        By.css('span.item-list-journal-volumes')
+      );
       expect(journalTitleField).toBeNull();
     });
   });
@@ -137,7 +151,9 @@ describe('JournalVolumeSearchResultListElementComponent', () => {
     });
 
     it('should show the journal identifiers span', () => {
-      const journalIdentifierField = fixture.debugElement.query(By.css('span.item-list-journal-volume-identifiers'));
+      const journalIdentifierField = fixture.debugElement.query(
+        By.css('span.item-list-journal-volume-identifiers')
+      );
       expect(journalIdentifierField).not.toBeNull();
     });
   });
@@ -149,31 +165,39 @@ describe('JournalVolumeSearchResultListElementComponent', () => {
     });
 
     it('should not show the journal identifiers span', () => {
-      const journalIdentifierField = fixture.debugElement.query(By.css('span.item-list-journal-volume-identifiers'));
+      const journalIdentifierField = fixture.debugElement.query(
+        By.css('span.item-list-journal-volume-identifiers')
+      );
       expect(journalIdentifierField).toBeNull();
     });
   });
 });
 
 describe('JournalVolumeSearchResultListElementComponent', () => {
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [JournalVolumeSearchResultListElementComponent, TruncatePipe],
+      declarations: [
+        JournalVolumeSearchResultListElementComponent,
+        TruncatePipe,
+      ],
       providers: [
-        {provide: TruncatableService, useValue: {}},
-        {provide: DSONameService, useClass: DSONameServiceMock},
-        { provide: APP_CONFIG, useValue: enviromentNoThumbs }
+        { provide: TruncatableService, useValue: {} },
+        { provide: DSONameService, useClass: DSONameServiceMock },
+        { provide: APP_CONFIG, useValue: enviromentNoThumbs },
       ],
 
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(JournalVolumeSearchResultListElementComponent, {
-      set: {changeDetection: ChangeDetectionStrategy.Default}
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(JournalVolumeSearchResultListElementComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
-    fixture = TestBed.createComponent(JournalVolumeSearchResultListElementComponent);
+    fixture = TestBed.createComponent(
+      JournalVolumeSearchResultListElementComponent
+    );
     journalVolumeListElementComponent = fixture.componentInstance;
   }));
 
@@ -184,7 +208,9 @@ describe('JournalVolumeSearchResultListElementComponent', () => {
     });
 
     it('should not add thumbnail element', () => {
-      const thumbnailElement = fixture.debugElement.query(By.css('ds-thumbnail'));
+      const thumbnailElement = fixture.debugElement.query(
+        By.css('ds-thumbnail')
+      );
       expect(thumbnailElement).toBeFalsy();
     });
   });

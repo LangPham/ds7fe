@@ -1,14 +1,14 @@
 {
-    "apps": [
-        {
-           "name": "dspace-ui-new",
-           "cwd": "/home/langpx@nguyenhoang.nhg.vn/ds7fe",
-           "script": "dist/server/main.js",
-           "instances": 4,
-           "exec_mode": "cluster",
-           "env": {
-              "NODE_ENV": "production"
-           }
-        }
-    ]
+  "apps": [
+    {
+      "name": "dspace-ui-new",
+      "cwd": "/home/langpx@nguyenhoang.nhg.vn/ds7fe",
+      "script": "dist/server/main.js",
+      "instances": 4,
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
 }

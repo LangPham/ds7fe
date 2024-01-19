@@ -1,6 +1,10 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
 import { WorkflowItemActionPageComponent } from './workflow-item-action-page.component';
 import { NotificationsService } from '../shared/notifications/notifications.service';
 import { RouteService } from '../core/services/route.service';
@@ -11,7 +15,10 @@ import { WorkflowItem } from '../core/submission/models/workflowitem.model';
 import { Observable, of as observableOf } from 'rxjs';
 import { VarDirective } from '../shared/utils/var.directive';
 import { By } from '@angular/platform-browser';
-import { createSuccessfulRemoteDataObject, createSuccessfulRemoteDataObject$ } from '../shared/remote-data.utils';
+import {
+  createSuccessfulRemoteDataObject,
+  createSuccessfulRemoteDataObject$,
+} from '../shared/remote-data.utils';
 import { TranslateLoaderMock } from '../shared/mocks/translate-loader.mock';
 import { ActivatedRouteStub } from '../shared/testing/active-router.stub';
 import { RouterStub } from '../shared/testing/router.stub';
@@ -32,7 +39,7 @@ describe('WorkflowItemActionPageComponent', () => {
 
   function init() {
     wfiService = jasmine.createSpyObj('workflowItemService', {
-      sendBack: observableOf(true)
+      sendBack: observableOf(true),
     });
     itemRD$ = createSuccessfulRemoteDataObject$(itemRD$);
     wfi = new WorkflowItem();
@@ -43,15 +50,23 @@ describe('WorkflowItemActionPageComponent', () => {
   beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot({
-        loader: {
-          provide: TranslateLoader,
-          useClass: TranslateLoaderMock
-        }
-      })],
+      imports: [
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateLoaderMock,
+          },
+        }),
+      ],
       declarations: [TestComponent, VarDirective],
       providers: [
-        { provide: ActivatedRoute, useValue: new ActivatedRouteStub({}, { wfi: createSuccessfulRemoteDataObject(wfi) }) },
+        {
+          provide: ActivatedRoute,
+          useValue: new ActivatedRouteStub(
+            {},
+            { wfi: createSuccessfulRemoteDataObject(wfi) }
+          ),
+        },
         { provide: Router, useClass: RouterStub },
         { provide: RouteService, useValue: {} },
         { provide: Location, useValue: new LocationStub() },
@@ -59,9 +74,8 @@ describe('WorkflowItemActionPageComponent', () => {
         { provide: WorkflowItemDataService, useValue: wfiService },
         { provide: RequestService, useClass: RequestServiceStub },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -84,7 +98,9 @@ describe('WorkflowItemActionPageComponent', () => {
     });
 
     it('should call performAction on clicking the btn-danger', () => {
-      const button = fixture.debugElement.query(By.css('.btn-danger')).nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('.btn-danger')
+      ).nativeElement;
       button.click();
       fixture.detectChanges();
       expect(component.performAction).toHaveBeenCalled();
@@ -97,7 +113,9 @@ describe('WorkflowItemActionPageComponent', () => {
     });
 
     it('should call performAction on clicking the btn-default', () => {
-      const button = fixture.debugElement.query(By.css('.btn-default')).nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('.btn-default')
+      ).nativeElement;
       button.click();
       fixture.detectChanges();
       expect(component.previousPage).toHaveBeenCalled();
@@ -106,21 +124,30 @@ describe('WorkflowItemActionPageComponent', () => {
 });
 
 @Component({
-    selector: 'ds-workflow-item-test-action-page',
-    templateUrl: 'workflow-item-action-page.component.html'
-  }
-)
+  selector: 'ds-workflow-item-test-action-page',
+  templateUrl: 'workflow-item-action-page.component.html',
+})
 class TestComponent extends WorkflowItemActionPageComponent {
-  constructor(protected route: ActivatedRoute,
-              protected workflowItemService: WorkflowItemDataService,
-              protected router: Router,
-              protected routeService: RouteService,
-              protected notificationsService: NotificationsService,
-              protected translationService: TranslateService,
-              protected requestService: RequestService,
-              protected location: Location,
+  constructor(
+    protected route: ActivatedRoute,
+    protected workflowItemService: WorkflowItemDataService,
+    protected router: Router,
+    protected routeService: RouteService,
+    protected notificationsService: NotificationsService,
+    protected translationService: TranslateService,
+    protected requestService: RequestService,
+    protected location: Location
   ) {
-    super(route, workflowItemService, router, routeService, notificationsService, translationService, requestService, location);
+    super(
+      route,
+      workflowItemService,
+      router,
+      routeService,
+      notificationsService,
+      translationService,
+      requestService,
+      location
+    );
   }
 
   getType(): string {

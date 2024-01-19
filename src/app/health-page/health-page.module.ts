@@ -13,14 +13,13 @@ import { HealthComponentComponent } from './health-panel/health-component/health
 import { HealthInfoComponent } from './health-info/health-info.component';
 import { HealthInfoComponentComponent } from './health-info/health-info-component/health-info-component.component';
 
-
 @NgModule({
   imports: [
     CommonModule,
     HealthPageRoutingModule,
     NgbModule,
     SharedModule,
-    TranslateModule
+    TranslateModule,
   ],
   declarations: [
     HealthPageComponent,
@@ -29,7 +28,6 @@ import { HealthInfoComponentComponent } from './health-info/health-info-componen
     HealthComponentComponent,
     HealthInfoComponent,
     HealthInfoComponentComponent,
-  ]
+  ],
 })
-export class HealthPageModule {
-}
+export class HealthPageModule {}

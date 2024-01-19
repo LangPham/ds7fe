@@ -3,7 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { Community } from '../../../core/shared/community.model';
-import { getRemoteDataPayload, getFirstSucceededRemoteData } from '../../../core/shared/operators';
+import {
+  getRemoteDataPayload,
+  getFirstSucceededRemoteData,
+} from '../../../core/shared/operators';
 import { RemoteData } from '../../../core/data/remote-data';
 import { HALLink } from '../../../core/shared/hal-link.model';
 
@@ -15,7 +18,6 @@ import { HALLink } from '../../../core/shared/hal-link.model';
   templateUrl: './community-roles.component.html',
 })
 export class CommunityRolesComponent implements OnInit {
-
   dsoRD$: Observable<RemoteData<Community>>;
 
   /**
@@ -28,20 +30,17 @@ export class CommunityRolesComponent implements OnInit {
    */
   community$: Observable<Community>;
 
-  constructor(
-    protected route: ActivatedRoute,
-  ) {
-  }
+  constructor(protected route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.dsoRD$ = this.route.parent.data.pipe(
       first(),
-      map((data) => data.dso),
+      map((data) => data.dso)
     );
 
     this.community$ = this.dsoRD$.pipe(
       getFirstSucceededRemoteData(),
-      getRemoteDataPayload(),
+      getRemoteDataPayload()
     );
 
     /**
@@ -53,7 +52,7 @@ export class CommunityRolesComponent implements OnInit {
           name: 'community-admin',
           href: community._links.adminGroup.href,
         },
-      ]),
+      ])
     );
   }
 }

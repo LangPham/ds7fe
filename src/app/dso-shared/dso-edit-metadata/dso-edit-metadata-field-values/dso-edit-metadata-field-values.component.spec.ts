@@ -56,9 +56,8 @@ describe('DsoEditMetadataFieldValuesComponent', () => {
     TestBed.configureTestingModule({
       declarations: [DsoEditMetadataFieldValuesComponent, VarDirective],
       imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
-      providers: [
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+      providers: [],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -80,7 +79,9 @@ describe('DsoEditMetadataFieldValuesComponent', () => {
     });
 
     it('should not disable the list', () => {
-      expect(fixture.debugElement.query(By.css('.ds-drop-list.disabled'))).toBeNull();
+      expect(
+        fixture.debugElement.query(By.css('.ds-drop-list.disabled'))
+      ).toBeNull();
     });
   });
 
@@ -91,7 +92,9 @@ describe('DsoEditMetadataFieldValuesComponent', () => {
     });
 
     it('should disable the list', () => {
-      expect(fixture.debugElement.query(By.css('.ds-drop-list.disabled'))).toBeTruthy();
+      expect(
+        fixture.debugElement.query(By.css('.ds-drop-list.disabled'))
+      ).toBeTruthy();
     });
   });
 
@@ -102,16 +105,20 @@ describe('DsoEditMetadataFieldValuesComponent', () => {
     });
 
     it('should not disable the list', () => {
-      expect(fixture.debugElement.query(By.css('.ds-drop-list.disabled'))).toBeNull();
+      expect(
+        fixture.debugElement.query(By.css('.ds-drop-list.disabled'))
+      ).toBeNull();
     });
   });
 
   describe('dropping a value on a different index', () => {
     beforeEach(() => {
-      component.drop(Object.assign({
-        previousIndex: 0,
-        currentIndex: 2,
-      }));
+      component.drop(
+        Object.assign({
+          previousIndex: 0,
+          currentIndex: 2,
+        })
+      );
     });
 
     it('should physically move the relevant metadata value within the form', () => {

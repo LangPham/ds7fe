@@ -8,17 +8,17 @@ import { Component } from '@angular/core';
   templateUrl: '../shared/theme-support/themed.component.html',
 })
 export class ThemedSearchNavbarComponent extends ThemedComponent<SearchNavbarComponent> {
-
   protected getComponentName(): string {
     return 'SearchNavbarComponent';
   }
 
   protected importThemedComponent(themeName: string): Promise<any> {
-    return import(`../../themes/${themeName}/app/search-navbar/search-navbar.component`);
+    return import(
+      `../../themes/${themeName}/app/search-navbar/search-navbar.component`
+    );
   }
 
   protected importUnthemedComponent(): Promise<any> {
     return import(`./search-navbar.component`);
   }
-
 }

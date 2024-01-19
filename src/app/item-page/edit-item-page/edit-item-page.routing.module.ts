@@ -27,7 +27,7 @@ import {
   ITEM_EDIT_PUBLIC_PATH,
   ITEM_EDIT_REINSTATE_PATH,
   ITEM_EDIT_WITHDRAW_PATH,
-  ITEM_EDIT_REGISTER_DOI_PATH
+  ITEM_EDIT_REGISTER_DOI_PATH,
 } from './edit-item-page.routing-paths';
 import { ItemPageReinstateGuard } from './item-page-reinstate.guard';
 import { ItemPageWithdrawGuard } from './item-page-withdraw.guard';
@@ -55,7 +55,7 @@ import { ItemAccessControlComponent } from './item-access-control/item-access-co
       {
         path: '',
         resolve: {
-          breadcrumb: I18nBreadcrumbResolver
+          breadcrumb: I18nBreadcrumbResolver,
         },
         data: { breadcrumbKey: 'item.edit' },
         children: [
@@ -66,37 +66,52 @@ import { ItemAccessControlComponent } from './item-access-control/item-access-co
               {
                 path: '',
                 redirectTo: 'status',
-                pathMatch: 'full'
+                pathMatch: 'full',
               },
               {
                 path: 'status',
                 component: ThemedItemStatusComponent,
-                data: { title: 'item.edit.tabs.status.title', showBreadcrumbs: true },
-                canActivate: [ItemPageStatusGuard]
+                data: {
+                  title: 'item.edit.tabs.status.title',
+                  showBreadcrumbs: true,
+                },
+                canActivate: [ItemPageStatusGuard],
               },
               {
                 path: 'bitstreams',
                 component: ItemBitstreamsComponent,
-                data: { title: 'item.edit.tabs.bitstreams.title', showBreadcrumbs: true },
-                canActivate: [ItemPageBitstreamsGuard]
+                data: {
+                  title: 'item.edit.tabs.bitstreams.title',
+                  showBreadcrumbs: true,
+                },
+                canActivate: [ItemPageBitstreamsGuard],
               },
               {
                 path: 'metadata',
                 component: ThemedDsoEditMetadataComponent,
-                data: { title: 'item.edit.tabs.metadata.title', showBreadcrumbs: true },
-                canActivate: [ItemPageMetadataGuard]
+                data: {
+                  title: 'item.edit.tabs.metadata.title',
+                  showBreadcrumbs: true,
+                },
+                canActivate: [ItemPageMetadataGuard],
               },
               {
                 path: 'curate',
                 component: ItemCurateComponent,
-                data: { title: 'item.edit.tabs.curate.title', showBreadcrumbs: true },
-                canActivate: [ItemPageCurateGuard]
+                data: {
+                  title: 'item.edit.tabs.curate.title',
+                  showBreadcrumbs: true,
+                },
+                canActivate: [ItemPageCurateGuard],
               },
               {
                 path: 'relationships',
                 component: ItemRelationshipsComponent,
-                data: { title: 'item.edit.tabs.relationships.title', showBreadcrumbs: true },
-                canActivate: [ItemPageRelationshipsGuard]
+                data: {
+                  title: 'item.edit.tabs.relationships.title',
+                  showBreadcrumbs: true,
+                },
+                canActivate: [ItemPageRelationshipsGuard],
               },
               /* TODO - uncomment & fix when view page exists
               {
@@ -113,22 +128,31 @@ import { ItemAccessControlComponent } from './item-access-control/item-access-co
               {
                 path: 'versionhistory',
                 component: ItemVersionHistoryComponent,
-                data: { title: 'item.edit.tabs.versionhistory.title', showBreadcrumbs: true },
-                canActivate: [ItemPageVersionHistoryGuard]
+                data: {
+                  title: 'item.edit.tabs.versionhistory.title',
+                  showBreadcrumbs: true,
+                },
+                canActivate: [ItemPageVersionHistoryGuard],
               },
               {
                 path: 'access-control',
                 component: ItemAccessControlComponent,
-                data: { title: 'item.edit.tabs.access-control.title', showBreadcrumbs: true },
-                canActivate: [ItemPageAccessControlGuard]
+                data: {
+                  title: 'item.edit.tabs.access-control.title',
+                  showBreadcrumbs: true,
+                },
+                canActivate: [ItemPageAccessControlGuard],
               },
               {
                 path: 'mapper',
                 component: ItemCollectionMapperComponent,
-                data: { title: 'item.edit.tabs.item-mapper.title', showBreadcrumbs: true },
-                canActivate: [ItemPageCollectionMapperGuard]
-              }
-            ]
+                data: {
+                  title: 'item.edit.tabs.item-mapper.title',
+                  showBreadcrumbs: true,
+                },
+                canActivate: [ItemPageCollectionMapperGuard],
+              },
+            ],
           },
           {
             path: 'mapper',
@@ -137,12 +161,12 @@ import { ItemAccessControlComponent } from './item-access-control/item-access-co
           {
             path: ITEM_EDIT_WITHDRAW_PATH,
             component: ItemWithdrawComponent,
-            canActivate: [ItemPageWithdrawGuard]
+            canActivate: [ItemPageWithdrawGuard],
           },
           {
             path: ITEM_EDIT_REINSTATE_PATH,
             component: ItemReinstateComponent,
-            canActivate: [ItemPageReinstateGuard]
+            canActivate: [ItemPageReinstateGuard],
           },
           {
             path: ITEM_EDIT_PRIVATE_PATH,
@@ -173,29 +197,29 @@ import { ItemAccessControlComponent } from './item-access-control/item-access-co
               {
                 path: 'create',
                 resolve: {
-                  resourcePolicyTarget: ResourcePolicyTargetResolver
+                  resourcePolicyTarget: ResourcePolicyTargetResolver,
                 },
                 component: ResourcePolicyCreateComponent,
-                data: { title: 'resource-policies.create.page.title' }
+                data: { title: 'resource-policies.create.page.title' },
               },
               {
                 path: 'edit',
                 resolve: {
-                  resourcePolicy: ResourcePolicyResolver
+                  resourcePolicy: ResourcePolicyResolver,
                 },
                 component: ResourcePolicyEditComponent,
-                data: { title: 'resource-policies.edit.page.title' }
+                data: { title: 'resource-policies.edit.page.title' },
               },
               {
                 path: '',
                 component: ItemAuthorizationsComponent,
-                data: { title: 'item.edit.authorizations.title' }
-              }
-            ]
-          }
-        ]
-      }
-    ])
+                data: { title: 'item.edit.authorizations.title' },
+              },
+            ],
+          },
+        ],
+      },
+    ]),
   ],
   providers: [
     I18nBreadcrumbResolver,
@@ -214,8 +238,6 @@ import { ItemAccessControlComponent } from './item-access-control/item-access-co
     ItemPageCollectionMapperGuard,
     ItemPageAccessControlGuard,
     ItemPageRegisterDoiGuard,
-  ]
+  ],
 })
-export class EditItemPageRoutingModule {
-
-}
+export class EditItemPageRoutingModule {}

@@ -10,7 +10,6 @@ import { RemoteData } from '../core/data/remote-data';
   templateUrl: '../shared/theme-support/themed.component.html',
 })
 export class ThemedThumbnailComponent extends ThemedComponent<ThumbnailComponent> {
-
   @Input() thumbnail: Bitstream | RemoteData<Bitstream>;
 
   @Input() defaultImage?: string | null;
@@ -34,11 +33,12 @@ export class ThemedThumbnailComponent extends ThemedComponent<ThumbnailComponent
   }
 
   protected importThemedComponent(themeName: string): Promise<any> {
-    return import(`../../themes/${themeName}/app/thumbnail/thumbnail.component`);
+    return import(
+      `../../themes/${themeName}/app/thumbnail/thumbnail.component`
+    );
   }
 
   protected importUnthemedComponent(): Promise<any> {
     return import('./thumbnail.component');
   }
-
 }

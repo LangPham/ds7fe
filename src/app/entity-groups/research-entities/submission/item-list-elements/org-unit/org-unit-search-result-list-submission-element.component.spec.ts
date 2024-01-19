@@ -42,52 +42,52 @@ let nameVariant;
 let mockRelationshipService;
 
 function init() {
-  mockItemWithMetadata = Object.assign(
-    new ItemSearchResult(),
-    {
-      indexableObject: Object.assign(new Item(), {
-        bundles: createSuccessfulRemoteDataObject$(buildPaginatedList(undefined, [])),
-        metadata: {
-          'dc.title': [
-            {
-              language: 'en_US',
-              value: 'This is just another title'
-            }
-          ],
-          'organization.address.addressLocality': [
-            {
-              language: 'en_US',
-              value: 'Europe'
-            }
-          ],
-          'organization.address.addressCountry': [
-            {
-              language: 'en_US',
-              value: 'Belgium'
-            }
-          ]
-        }
-      })
-    });
-  mockItemWithoutMetadata = Object.assign(
-    new ItemSearchResult(),
-    {
-      indexableObject: Object.assign(new Item(), {
-        bundles: createSuccessfulRemoteDataObject$(buildPaginatedList(undefined, [])),
-        metadata: {
-          'dc.title': [
-            {
-              language: 'en_US',
-              value: 'This is just another title'
-            }
-          ]
-        }
-      })
-    });
+  mockItemWithMetadata = Object.assign(new ItemSearchResult(), {
+    indexableObject: Object.assign(new Item(), {
+      bundles: createSuccessfulRemoteDataObject$(
+        buildPaginatedList(undefined, [])
+      ),
+      metadata: {
+        'dc.title': [
+          {
+            language: 'en_US',
+            value: 'This is just another title',
+          },
+        ],
+        'organization.address.addressLocality': [
+          {
+            language: 'en_US',
+            value: 'Europe',
+          },
+        ],
+        'organization.address.addressCountry': [
+          {
+            language: 'en_US',
+            value: 'Belgium',
+          },
+        ],
+      },
+    }),
+  });
+  mockItemWithoutMetadata = Object.assign(new ItemSearchResult(), {
+    indexableObject: Object.assign(new Item(), {
+      bundles: createSuccessfulRemoteDataObject$(
+        buildPaginatedList(undefined, [])
+      ),
+      metadata: {
+        'dc.title': [
+          {
+            language: 'en_US',
+            value: 'This is just another title',
+          },
+        ],
+      },
+    }),
+  });
 
   nameVariant = 'Doe J.';
   mockRelationshipService = {
-    getNameVariant: () => observableOf(nameVariant)
+    getNameVariant: () => observableOf(nameVariant),
   };
 }
 
@@ -97,10 +97,13 @@ describe('OrgUnitSearchResultListSubmissionElementComponent', () => {
     const mockBitstreamDataService = {
       getThumbnailFor(item: Item): Observable<RemoteData<Bitstream>> {
         return createSuccessfulRemoteDataObject$(new Bitstream());
-      }
+      },
     };
     TestBed.configureTestingModule({
-      declarations: [OrgUnitSearchResultListSubmissionElementComponent, TruncatePipe],
+      declarations: [
+        OrgUnitSearchResultListSubmissionElementComponent,
+        TruncatePipe,
+      ],
       providers: [
         { provide: TruncatableService, useValue: {} },
         { provide: RelationshipDataService, useValue: mockRelationshipService },
@@ -120,19 +123,22 @@ describe('OrgUnitSearchResultListSubmissionElementComponent', () => {
         { provide: DefaultChangeAnalyzer, useValue: {} },
         { provide: BitstreamDataService, useValue: mockBitstreamDataService },
         { provide: DSONameService, useClass: DSONameServiceMock },
-        { provide: APP_CONFIG, useValue: environment }
+        { provide: APP_CONFIG, useValue: environment },
       ],
 
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(OrgUnitSearchResultListSubmissionElementComponent, {
-      set: { changeDetection: ChangeDetectionStrategy.Default }
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(OrgUnitSearchResultListSubmissionElementComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
-    fixture = TestBed.createComponent(OrgUnitSearchResultListSubmissionElementComponent);
+    fixture = TestBed.createComponent(
+      OrgUnitSearchResultListSubmissionElementComponent
+    );
     personListElementComponent = fixture.componentInstance;
-
   }));
 
   describe('When the item has a address locality span', () => {
@@ -142,7 +148,9 @@ describe('OrgUnitSearchResultListSubmissionElementComponent', () => {
     });
 
     it('should show the address locality span', () => {
-      const jobTitleField = fixture.debugElement.query(By.css('span.item-list-address-locality'));
+      const jobTitleField = fixture.debugElement.query(
+        By.css('span.item-list-address-locality')
+      );
       expect(jobTitleField).not.toBeNull();
     });
   });
@@ -154,7 +162,9 @@ describe('OrgUnitSearchResultListSubmissionElementComponent', () => {
     });
 
     it('should not show the address locality span', () => {
-      const jobTitleField = fixture.debugElement.query(By.css('span.item-list-address-locality'));
+      const jobTitleField = fixture.debugElement.query(
+        By.css('span.item-list-address-locality')
+      );
       expect(jobTitleField).toBeNull();
     });
   });
@@ -166,7 +176,9 @@ describe('OrgUnitSearchResultListSubmissionElementComponent', () => {
     });
 
     it('should show the address country span', () => {
-      const jobTitleField = fixture.debugElement.query(By.css('span.item-list-address-country'));
+      const jobTitleField = fixture.debugElement.query(
+        By.css('span.item-list-address-country')
+      );
       expect(jobTitleField).not.toBeNull();
     });
   });
@@ -178,10 +190,10 @@ describe('OrgUnitSearchResultListSubmissionElementComponent', () => {
     });
 
     it('should not show the address country span', () => {
-      const jobTitleField = fixture.debugElement.query(By.css('span.item-list-address-country'));
+      const jobTitleField = fixture.debugElement.query(
+        By.css('span.item-list-address-country')
+      );
       expect(jobTitleField).toBeNull();
     });
   });
-
 });
-

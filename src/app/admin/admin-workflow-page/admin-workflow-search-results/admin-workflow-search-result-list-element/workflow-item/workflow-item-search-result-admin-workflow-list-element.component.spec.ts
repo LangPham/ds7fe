@@ -9,15 +9,11 @@ import { CollectionElementLinkType } from '../../../../../shared/object-collecti
 import { ViewMode } from '../../../../../core/shared/view-mode.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { WorkflowItem } from '../../../../../core/submission/models/workflowitem.model';
-import {
-  WorkflowItemSearchResultAdminWorkflowListElementComponent
-} from './workflow-item-search-result-admin-workflow-list-element.component';
+import { WorkflowItemSearchResultAdminWorkflowListElementComponent } from './workflow-item-search-result-admin-workflow-list-element.component';
 import { LinkService } from '../../../../../core/cache/builders/link.service';
 import { followLink } from '../../../../../shared/utils/follow-link-config.model';
 import { Item } from '../../../../../core/shared/item.model';
-import {
-  WorkflowItemSearchResult
-} from '../../../../../shared/object-collection/shared/workflow-item-search-result.model';
+import { WorkflowItemSearchResult } from '../../../../../shared/object-collection/shared/workflow-item-search-result.model';
 import { createSuccessfulRemoteDataObject$ } from '../../../../../shared/remote-data.utils';
 import { getMockLinkService } from '../../../../../shared/mocks/link-service.mock';
 import { DSONameService } from '../../../../../core/breadcrumbs/dso-name.service';
@@ -46,28 +42,28 @@ describe('WorkflowItemSearchResultAdminWorkflowListElementComponent', () => {
 
   beforeEach(waitForAsync(() => {
     init();
-    TestBed.configureTestingModule(
-      {
-        declarations: [WorkflowItemSearchResultAdminWorkflowListElementComponent],
-        imports: [
-          NoopAnimationsModule,
-          TranslateModule.forRoot(),
-          RouterTestingModule.withRoutes([]),
-        ],
-        providers: [
-          { provide: TruncatableService, useValue: mockTruncatableService },
-          { provide: LinkService, useValue: linkService },
-          { provide: DSONameService, useClass: DSONameServiceMock },
-          { provide: APP_CONFIG, useValue: environment }
-        ],
-        schemas: [NO_ERRORS_SCHEMA]
-      })
-      .compileComponents();
+    TestBed.configureTestingModule({
+      declarations: [WorkflowItemSearchResultAdminWorkflowListElementComponent],
+      imports: [
+        NoopAnimationsModule,
+        TranslateModule.forRoot(),
+        RouterTestingModule.withRoutes([]),
+      ],
+      providers: [
+        { provide: TruncatableService, useValue: mockTruncatableService },
+        { provide: LinkService, useValue: linkService },
+        { provide: DSONameService, useClass: DSONameServiceMock },
+        { provide: APP_CONFIG, useValue: environment },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     linkService.resolveLink.and.callFake((a) => a);
-    fixture = TestBed.createComponent(WorkflowItemSearchResultAdminWorkflowListElementComponent);
+    fixture = TestBed.createComponent(
+      WorkflowItemSearchResultAdminWorkflowListElementComponent
+    );
     component = fixture.componentInstance;
     component.object = object;
     component.linkTypes = CollectionElementLinkType;
@@ -81,6 +77,9 @@ describe('WorkflowItemSearchResultAdminWorkflowListElementComponent', () => {
   });
 
   it('should retrieve the item using the link service', () => {
-    expect(linkService.resolveLink).toHaveBeenCalledWith(wfi, followLink('item'));
+    expect(linkService.resolveLink).toHaveBeenCalledWith(
+      wfi,
+      followLink('item')
+    );
   });
 });

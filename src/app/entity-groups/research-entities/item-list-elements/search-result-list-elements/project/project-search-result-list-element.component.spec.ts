@@ -23,8 +23,8 @@ const mockItemWithMetadata: ItemSearchResult = Object.assign(
         'dc.title': [
           {
             language: 'en_US',
-            value: 'This is just another title'
-          }
+            value: 'This is just another title',
+          },
         ],
         // 'project.identifier.status': [
         //   {
@@ -32,9 +32,10 @@ const mockItemWithMetadata: ItemSearchResult = Object.assign(
         //     value: 'A status about the project'
         //   }
         // ]
-      }
-    })
-  });
+      },
+    }),
+  }
+);
 
 const mockItemWithoutMetadata: ItemSearchResult = Object.assign(
   new ItemSearchResult(),
@@ -45,23 +46,24 @@ const mockItemWithoutMetadata: ItemSearchResult = Object.assign(
         'dc.title': [
           {
             language: 'en_US',
-            value: 'This is just another title'
-          }
-        ]
-      }
-    })
-  });
+            value: 'This is just another title',
+          },
+        ],
+      },
+    }),
+  }
+);
 
 const environmentUseThumbs = {
   browseBy: {
-    showThumbnails: true
-  }
+    showThumbnails: true,
+  },
 };
 
 const enviromentNoThumbs = {
   browseBy: {
-    showThumbnails: false
-  }
+    showThumbnails: false,
+  },
 };
 
 describe('ProjectSearchResultListElementComponent', () => {
@@ -71,19 +73,20 @@ describe('ProjectSearchResultListElementComponent', () => {
       providers: [
         { provide: TruncatableService, useValue: {} },
         { provide: DSONameService, useClass: DSONameServiceMock },
-        { provide: APP_CONFIG, useValue: environmentUseThumbs }
+        { provide: APP_CONFIG, useValue: environmentUseThumbs },
       ],
 
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(ProjectSearchResultListElementComponent, {
-      set: { changeDetection: ChangeDetectionStrategy.Default }
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(ProjectSearchResultListElementComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ProjectSearchResultListElementComponent);
     projectListElementComponent = fixture.componentInstance;
-
   }));
 
   describe('with environment.browseBy.showThumbnails set to true', () => {
@@ -96,7 +99,9 @@ describe('ProjectSearchResultListElementComponent', () => {
     });
 
     it('should add thumbnail element', () => {
-      const thumbnailElement = fixture.debugElement.query(By.css('ds-thumbnail'));
+      const thumbnailElement = fixture.debugElement.query(
+        By.css('ds-thumbnail')
+      );
       expect(thumbnailElement).toBeTruthy();
     });
   });
@@ -127,21 +132,21 @@ describe('ProjectSearchResultListElementComponent', () => {
 });
 
 describe('ProjectSearchResultListElementComponent', () => {
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProjectSearchResultListElementComponent, TruncatePipe],
       providers: [
-        {provide: TruncatableService, useValue: {}},
-        {provide: DSONameService, useClass: DSONameServiceMock},
-        { provide: APP_CONFIG, useValue: enviromentNoThumbs }
-
+        { provide: TruncatableService, useValue: {} },
+        { provide: DSONameService, useClass: DSONameServiceMock },
+        { provide: APP_CONFIG, useValue: enviromentNoThumbs },
       ],
 
-      schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(ProjectSearchResultListElementComponent, {
-      set: {changeDetection: ChangeDetectionStrategy.Default}
-    }).compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(ProjectSearchResultListElementComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(waitForAsync(() => {
@@ -151,13 +156,14 @@ describe('ProjectSearchResultListElementComponent', () => {
 
   describe('with environment.browseBy.showThumbnails set to false', () => {
     beforeEach(() => {
-
       projectListElementComponent.object = mockItemWithMetadata;
       fixture.detectChanges();
     });
 
     it('should not add thumbnail element', () => {
-      const thumbnailElement = fixture.debugElement.query(By.css('ds-thumbnail'));
+      const thumbnailElement = fixture.debugElement.query(
+        By.css('ds-thumbnail')
+      );
       expect(thumbnailElement).toBeFalsy();
     });
   });

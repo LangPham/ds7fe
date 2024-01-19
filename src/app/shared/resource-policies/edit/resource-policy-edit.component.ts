@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { BehaviorSubject, Observable, of, combineLatest as observableCombineLatest, } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  of,
+  combineLatest as observableCombineLatest,
+} from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -16,10 +21,9 @@ import { getFirstCompletedRemoteData } from '../../../core/shared/operators';
 
 @Component({
   selector: 'ds-resource-policy-edit',
-  templateUrl: './resource-policy-edit.component.html'
+  templateUrl: './resource-policy-edit.component.html',
 })
 export class ResourcePolicyEditComponent implements OnInit {
-
   /**
    * The resource policy object to edit
    */
@@ -45,19 +49,23 @@ export class ResourcePolicyEditComponent implements OnInit {
     private resourcePolicyService: ResourcePolicyDataService,
     private route: ActivatedRoute,
     private router: Router,
-    private translate: TranslateService) {
-  }
+    private translate: TranslateService
+  ) {}
 
   /**
    * Initialize the component
    */
   ngOnInit(): void {
-    this.route.data.pipe(
-      map((data) => data),
-      take(1)
-    ).subscribe((data: any) => {
-      this.resourcePolicy = (data.resourcePolicy as RemoteData<ResourcePolicy>).payload;
-    });
+    this.route.data
+      .pipe(
+        map((data) => data),
+        take(1)
+      )
+      .subscribe((data: any) => {
+        this.resourcePolicy = (
+          data.resourcePolicy as RemoteData<ResourcePolicy>
+        ).payload;
+      });
   }
 
   /**
@@ -73,7 +81,9 @@ export class ResourcePolicyEditComponent implements OnInit {
    * Redirect to the authorizations page
    */
   redirectToAuthorizationsPage() {
-    this.router.navigate([`../../${ITEM_EDIT_AUTHORIZATIONS_PATH}`], { relativeTo: this.route });
+    this.router.navigate([`../../${ITEM_EDIT_AUTHORIZATIONS_PATH}`], {
+      relativeTo: this.route,
+    });
   }
 
   /**
@@ -86,35 +96,64 @@ export class ResourcePolicyEditComponent implements OnInit {
     const updatedObject = Object.assign({}, event.object, {
       id: this.resourcePolicy.id,
       type: RESOURCE_POLICY.value,
-      _links: this.resourcePolicy._links
+      _links: this.resourcePolicy._links,
     });
 
-    const updateTargetSucceeded$ = event.updateTarget ? this.resourcePolicyService.updateTarget(
-      this.resourcePolicy.id, this.resourcePolicy._links.self.href, event.target.uuid, event.target.type
-    ).pipe(
-      getFirstCompletedRemoteData(),
-      map((responseRD) => responseRD && responseRD.hasSucceeded)
-    ) : of(true);
+    const updateTargetSucceeded$ = event.updateTarget
+      ? this.resourcePolicyService
+          .updateTarget(
+            this.resourcePolicy.id,
+            this.resourcePolicy._links.self.href,
+            event.target.uuid,
+            event.target.type
+          )
+          .pipe(
+            getFirstCompletedRemoteData(),
+            map((responseRD) => responseRD && responseRD.hasSucceeded)
+          )
+      : of(true);
 
-    const updateResourcePolicySucceeded$ = this.resourcePolicyService.update(updatedObject).pipe(
-      getFirstCompletedRemoteData(),
-      map((responseRD) => responseRD && responseRD.hasSucceeded)
-    );
+    const updateResourcePolicySucceeded$ = this.resourcePolicyService
+      .update(updatedObject)
+      .pipe(
+        getFirstCompletedRemoteData(),
+        map((responseRD) => responseRD && responseRD.hasSucceeded)
+      );
 
-    observableCombineLatest([updateTargetSucceeded$, updateResourcePolicySucceeded$]).subscribe(
-      ([updateTargetSucceeded, updateResourcePolicySucceeded]) => {
-        this.processing$.next(false);
-        if (updateTargetSucceeded && updateResourcePolicySucceeded) {
-          this.notificationsService.success(null, this.translate.get('resource-policies.edit.page.success.content'));
-          this.redirectToAuthorizationsPage();
-        } else if (updateResourcePolicySucceeded) { // everything except target has been updated
-          this.notificationsService.error(null, this.translate.get('resource-policies.edit.page.target-failure.content'));
-        } else if (updateTargetSucceeded) { // only target has been updated
-          this.notificationsService.error(null, this.translate.get('resource-policies.edit.page.other-failure.content'));
-        } else { // nothing has been updated
-          this.notificationsService.error(null, this.translate.get('resource-policies.edit.page.failure.content'));
-        }
+    observableCombineLatest([
+      updateTargetSucceeded$,
+      updateResourcePolicySucceeded$,
+    ]).subscribe(([updateTargetSucceeded, updateResourcePolicySucceeded]) => {
+      this.processing$.next(false);
+      if (updateTargetSucceeded && updateResourcePolicySucceeded) {
+        this.notificationsService.success(
+          null,
+          this.translate.get('resource-policies.edit.page.success.content')
+        );
+        this.redirectToAuthorizationsPage();
+      } else if (updateResourcePolicySucceeded) {
+        // everything except target has been updated
+        this.notificationsService.error(
+          null,
+          this.translate.get(
+            'resource-policies.edit.page.target-failure.content'
+          )
+        );
+      } else if (updateTargetSucceeded) {
+        // only target has been updated
+        this.notificationsService.error(
+          null,
+          this.translate.get(
+            'resource-policies.edit.page.other-failure.content'
+          )
+        );
+      } else {
+        // nothing has been updated
+        this.notificationsService.error(
+          null,
+          this.translate.get('resource-policies.edit.page.failure.content')
+        );
       }
-    );
+    });
   }
 }

@@ -1,4 +1,13 @@
-import { Component, OnDestroy, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -31,10 +40,13 @@ enum SubKey {
 @Component({
   selector: 'ds-reviewers-list',
   // templateUrl: './reviewers-list.component.html',
-  templateUrl: '../../../../access-control/group-registry/group-form/members-list/members-list.component.html',
+  templateUrl:
+    '../../../../access-control/group-registry/group-form/members-list/members-list.component.html',
 })
-export class ReviewersListComponent extends MembersListComponent implements OnInit, OnChanges, OnDestroy {
-
+export class ReviewersListComponent
+  extends MembersListComponent
+  implements OnInit, OnChanges, OnDestroy
+{
   @Input()
   groupId: string | null;
 
@@ -57,16 +69,25 @@ export class ReviewersListComponent extends MembersListComponent implements OnIn
     protected formBuilder: UntypedFormBuilder,
     protected paginationService: PaginationService,
     protected router: Router,
-    public dsoNameService: DSONameService,
+    public dsoNameService: DSONameService
   ) {
-    super(groupService, ePersonDataService, translateService, notificationsService, formBuilder, paginationService, router, dsoNameService);
+    super(
+      groupService,
+      ePersonDataService,
+      translateService,
+      notificationsService,
+      formBuilder,
+      paginationService,
+      router,
+      dsoNameService
+    );
   }
 
   ngOnInit() {
-    this.searchForm = this.formBuilder.group(({
+    this.searchForm = this.formBuilder.group({
       scope: 'metadata',
       query: '',
-    }));
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -75,15 +96,19 @@ export class ReviewersListComponent extends MembersListComponent implements OnIn
       if (this.groupId === null) {
         this.retrieveMembers(this.config.currentPage);
       } else {
-        this.subs.set(SubKey.ActiveGroup, this.groupService.findById(this.groupId).pipe(
-          getFirstSucceededRemoteDataPayload(),
-        ).subscribe((activeGroup: Group) => {
-          if (activeGroup != null) {
-            this.groupDataService.editGroup(activeGroup);
-            this.groupBeingEdited = activeGroup;
-            this.retrieveMembers(this.config.currentPage);
-          }
-        }));
+        this.subs.set(
+          SubKey.ActiveGroup,
+          this.groupService
+            .findById(this.groupId)
+            .pipe(getFirstSucceededRemoteDataPayload())
+            .subscribe((activeGroup: Group) => {
+              if (activeGroup != null) {
+                this.groupDataService.editGroup(activeGroup);
+                this.groupBeingEdited = activeGroup;
+                this.retrieveMembers(this.config.currentPage);
+              }
+            })
+        );
       }
     }
   }
@@ -98,7 +123,8 @@ export class ReviewersListComponent extends MembersListComponent implements OnIn
     this.config.currentPage = page;
     if (this.groupId === null) {
       this.unsubFrom(SubKey.Members);
-      const paginatedListOfEPersons: PaginatedList<EPerson> = new PaginatedList();
+      const paginatedListOfEPersons: PaginatedList<EPerson> =
+        new PaginatedList();
       paginatedListOfEPersons.page = this.selectedReviewers;
       this.ePeopleMembersOfGroup.next(paginatedListOfEPersons);
     } else {
@@ -132,5 +158,4 @@ export class ReviewersListComponent extends MembersListComponent implements OnIn
     this.selectedReviewers.push(eperson);
     this.selectedReviewersUpdated.emit(this.selectedReviewers);
   }
-
 }

@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+} from '@angular/core';
 
 import { Observable, of as observableOf, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
@@ -32,7 +39,6 @@ import isEqual from 'lodash/isEqual';
   templateUrl: './submission-form.component.html',
 })
 export class SubmissionFormComponent implements OnChanges, OnDestroy {
-
   /**
    * The collection id this submission belonging to
    * @type {string}
@@ -46,7 +52,6 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
    * @type {booelan}
    */
   @Input() collectionModifiable: boolean | null = null;
-
 
   /**
    * The list of submission's sections
@@ -133,7 +138,8 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private halService: HALEndpointService,
     private submissionService: SubmissionService,
-    private sectionsService: SectionsService) {
+    private sectionsService: SectionsService
+  ) {
     this.isActive = true;
   }
 
@@ -141,39 +147,59 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
    * Initialize all instance variables and retrieve form configuration
    */
   ngOnChanges(changes: SimpleChanges) {
-    if ((changes.collectionId && this.collectionId) && (changes.submissionId && this.submissionId)) {
+    if (
+      changes.collectionId &&
+      this.collectionId &&
+      changes.submissionId &&
+      this.submissionId
+    ) {
       this.isActive = true;
 
       // retrieve submission's section list
-      this.submissionSections = this.submissionService.getSubmissionObject(this.submissionId).pipe(
-        filter(() => this.isActive),
-        map((submission: SubmissionObjectEntry) => submission.isLoading),
-        map((isLoading: boolean) => isLoading),
-        distinctUntilChanged(),
-        switchMap((isLoading: boolean) => {
-          if (!isLoading) {
-            return this.getSectionsList();
-          } else {
-            return observableOf([]);
-          }
-        }));
-      this.uploadEnabled$ = this.sectionsService.isSectionTypeAvailable(this.submissionId, SectionsType.Upload);
+      this.submissionSections = this.submissionService
+        .getSubmissionObject(this.submissionId)
+        .pipe(
+          filter(() => this.isActive),
+          map((submission: SubmissionObjectEntry) => submission.isLoading),
+          map((isLoading: boolean) => isLoading),
+          distinctUntilChanged(),
+          switchMap((isLoading: boolean) => {
+            if (!isLoading) {
+              return this.getSectionsList();
+            } else {
+              return observableOf([]);
+            }
+          })
+        );
+      this.uploadEnabled$ = this.sectionsService.isSectionTypeAvailable(
+        this.submissionId,
+        SectionsType.Upload
+      );
 
       // check if is submission loading
-      this.loading = this.submissionService.getSubmissionObject(this.submissionId).pipe(
-        filter(() => this.isActive),
-        map((submission: SubmissionObjectEntry) => submission.isLoading),
-        map((isLoading: boolean) => isLoading),
-        distinctUntilChanged());
+      this.loading = this.submissionService
+        .getSubmissionObject(this.submissionId)
+        .pipe(
+          filter(() => this.isActive),
+          map((submission: SubmissionObjectEntry) => submission.isLoading),
+          map((isLoading: boolean) => isLoading),
+          distinctUntilChanged()
+        );
 
       // init submission state
       this.subs.push(
-        this.halService.getEndpoint(this.submissionService.getSubmissionObjectLinkName()).pipe(
-          filter((href: string) => isNotEmpty(href)),
-          distinctUntilChanged())
+        this.halService
+          .getEndpoint(this.submissionService.getSubmissionObjectLinkName())
+          .pipe(
+            filter((href: string) => isNotEmpty(href)),
+            distinctUntilChanged()
+          )
           .subscribe((endpointURL) => {
-            this.uploadFilesOptions.authToken = this.authService.buildAuthHeader();
-            this.uploadFilesOptions.url = endpointURL.concat(`/${this.submissionId}`);
+            this.uploadFilesOptions.authToken =
+              this.authService.buildAuthHeader();
+            this.uploadFilesOptions.url = endpointURL.concat(
+              `/${this.submissionId}`
+            );
             this.definitionId = this.submissionDefinition.name;
             this.submissionService.dispatchInit(
               this.collectionId,
@@ -182,7 +208,8 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
               this.submissionDefinition,
               this.sections,
               this.item,
-              this.submissionErrors);
+              this.submissionErrors
+            );
             this.changeDetectorRef.detectChanges();
           })
       );
@@ -197,11 +224,13 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
    */
   private getCollectionVisibility(): SubmissionSectionVisibility {
     const submissionSectionModel: SubmissionSectionModel =
-      this.submissionDefinition.sections.page.find(
-        (section) => isEqual(section.sectionType, SectionsType.Collection)
+      this.submissionDefinition.sections.page.find((section) =>
+        isEqual(section.sectionType, SectionsType.Collection)
       );
 
-   return isNotUndefined(submissionSectionModel.visibility) ? submissionSectionModel.visibility : null;
+    return isNotUndefined(submissionSectionModel.visibility)
+      ? submissionSectionModel.visibility
+      : null;
   }
 
   /**
@@ -250,9 +279,13 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
    */
   onCollectionChange(submissionObject: SubmissionObject) {
     this.collectionId = (submissionObject.collection as Collection).id;
-    if (this.definitionId !== (submissionObject.submissionDefinition as SubmissionDefinitionsModel).name) {
+    if (
+      this.definitionId !==
+      (submissionObject.submissionDefinition as SubmissionDefinitionsModel).name
+    ) {
       this.sections = submissionObject.sections;
-      this.submissionDefinition = (submissionObject.submissionDefinition as SubmissionDefinitionsModel);
+      this.submissionDefinition =
+        submissionObject.submissionDefinition as SubmissionDefinitionsModel;
       this.definitionId = this.submissionDefinition.name;
       this.submissionService.resetSubmissionObject(
         this.collectionId,
@@ -260,7 +293,8 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
         submissionObject._links.self.href,
         this.submissionDefinition,
         this.sections,
-        this.item);
+        this.item
+      );
     } else {
       this.changeDetectorRef.detectChanges();
     }
@@ -280,7 +314,11 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
     return this.submissionService.getSubmissionSections(this.submissionId).pipe(
       filter((sections: SectionDataObject[]) => isNotEmpty(sections)),
       map((sections: SectionDataObject[]) =>
-        sections.filter((section: SectionDataObject) => !isEqual(section.sectionType,SectionsType.Collection))),
+        sections.filter(
+          (section: SectionDataObject) =>
+            !isEqual(section.sectionType, SectionsType.Collection)
+        )
+      )
     );
   }
 }

@@ -7,10 +7,9 @@ import { ItemComponent } from '../../../../item-page/simple/item-types/shared/it
 @Component({
   selector: 'ds-journal-volume',
   styleUrls: ['./journal-volume.component.scss'],
-  templateUrl: './journal-volume.component.html'
+  templateUrl: './journal-volume.component.html',
 })
 /**
  * The component for displaying metadata and relations of an item of the type Journal Volume
  */
-export class JournalVolumeComponent extends ItemComponent {
-}
+export class JournalVolumeComponent extends ItemComponent {}

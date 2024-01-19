@@ -39,7 +39,7 @@ describe('CommunityAdminSearchResultGridElementComponent', () => {
   }
 
   const linkService = jasmine.createSpyObj('linkService', {
-    resolveLink: {}
+    resolveLink: {},
   });
 
   beforeEach(waitForAsync(() => {
@@ -49,7 +49,7 @@ describe('CommunityAdminSearchResultGridElementComponent', () => {
         NoopAnimationsModule,
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([]),
-        SharedModule
+        SharedModule,
       ],
       declarations: [CommunityAdminSearchResultGridElementComponent],
       providers: [
@@ -58,16 +58,20 @@ describe('CommunityAdminSearchResultGridElementComponent', () => {
         { provide: LinkService, useValue: linkService },
         { provide: AuthService, useClass: AuthServiceStub },
         { provide: FileService, useClass: FileServiceStub },
-        { provide: AuthorizationDataService, useClass: AuthorizationDataServiceStub },
+        {
+          provide: AuthorizationDataService,
+          useClass: AuthorizationDataServiceStub,
+        },
         { provide: ThemeService, useValue: getMockThemeService() },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CommunityAdminSearchResultGridElementComponent);
+    fixture = TestBed.createComponent(
+      CommunityAdminSearchResultGridElementComponent
+    );
     component = fixture.componentInstance;
     component.object = searchResult;
     component.linkTypes = CollectionElementLinkType;

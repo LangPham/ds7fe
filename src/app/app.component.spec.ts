@@ -1,5 +1,10 @@
 import { Store, StoreModule } from '@ngrx/store';
-import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  inject,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,7 +16,10 @@ import { HostWindowState } from './shared/search/host-window.reducer';
 import { HostWindowResizeAction } from './shared/host-window.actions';
 import { MetadataService } from './core/metadata/metadata.service';
 
-import { NativeWindowRef, NativeWindowService } from './core/services/window.service';
+import {
+  NativeWindowRef,
+  NativeWindowService,
+} from './core/services/window.service';
 import { TranslateLoaderMock } from './shared/mocks/translate-loader.mock';
 import { MetadataServiceMock } from './shared/mocks/metadata-service.mock';
 import { AngularticsProviderMock } from './shared/mocks/angulartics-provider.service.mock';
@@ -41,17 +49,16 @@ let comp: AppComponent;
 let fixture: ComponentFixture<AppComponent>;
 const menuService = new MenuServiceStub();
 const initialState = {
-  core: { auth: { loading: false } }
+  core: { auth: { loading: false } },
 };
 
 export function getMockLocaleService(): LocaleService {
   return jasmine.createSpyObj('LocaleService', {
-    setCurrentLanguageCode: jasmine.createSpy('setCurrentLanguageCode')
+    setCurrentLanguageCode: jasmine.createSpy('setCurrentLanguageCode'),
   });
 }
 
 describe('App component', () => {
-
   let breadcrumbsServiceSpy;
 
   const getDefaultTestBedConf = () => {
@@ -64,30 +71,36 @@ describe('App component', () => {
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: TranslateLoaderMock
-          }
+            useClass: TranslateLoaderMock,
+          },
         }),
       ],
       declarations: [AppComponent], // declare the test component
       providers: [
         { provide: NativeWindowService, useValue: new NativeWindowRef() },
         { provide: MetadataService, useValue: new MetadataServiceMock() },
-        { provide: Angulartics2DSpace, useValue: new AngularticsProviderMock() },
+        {
+          provide: Angulartics2DSpace,
+          useValue: new AngularticsProviderMock(),
+        },
         { provide: AuthService, useValue: new AuthServiceMock() },
         { provide: Router, useValue: new RouterMock() },
         { provide: ActivatedRoute, useValue: new MockActivatedRoute() },
         { provide: MenuService, useValue: menuService },
         { provide: CSSVariableService, useClass: CSSVariableServiceStub },
-        { provide: HostWindowService, useValue: new HostWindowServiceStub(800) },
+        {
+          provide: HostWindowService,
+          useValue: new HostWindowServiceStub(800),
+        },
         { provide: LocaleService, useValue: getMockLocaleService() },
         { provide: ThemeService, useValue: getMockThemeService() },
         { provide: BreadcrumbsService, useValue: breadcrumbsServiceSpy },
         { provide: APP_CONFIG, useValue: environment },
         provideMockStore({ initialState }),
         AppComponent,
-        RouteService
+        RouteService,
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     };
   };
 
@@ -114,7 +127,9 @@ describe('App component', () => {
     let store: Store<HostWindowState>;
 
     beforeEach(() => {
-      store = fixture.debugElement.injector.get(Store) as Store<HostWindowState>;
+      store = fixture.debugElement.injector.get(
+        Store
+      ) as Store<HostWindowState>;
       spyOn(store, 'dispatch');
 
       window.dispatchEvent(new Event('resize'));
@@ -123,8 +138,9 @@ describe('App component', () => {
     });
 
     it('should dispatch a HostWindowResizeAction with the width and height of the window as its payload', () => {
-      expect(store.dispatch).toHaveBeenCalledWith(new HostWindowResizeAction(width, height));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new HostWindowResizeAction(width, height)
+      );
     });
-
   });
 });

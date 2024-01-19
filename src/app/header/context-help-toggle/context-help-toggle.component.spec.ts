@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 
 import { ContextHelpToggleComponent } from './context-help-toggle.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,17 +18,17 @@ describe('ContextHelpToggleComponent', () => {
 
   beforeEach(async () => {
     contextHelpService = jasmine.createSpyObj('contextHelpService', [
-      'tooltipCount$', 'toggleIcons'
+      'tooltipCount$',
+      'toggleIcons',
     ]);
     contextHelpService.tooltipCount$.and.returnValue(observableOf(0));
     await TestBed.configureTestingModule({
-      declarations: [ ContextHelpToggleComponent ],
+      declarations: [ContextHelpToggleComponent],
       providers: [
         { provide: ContextHelpService, useValue: contextHelpService },
       ],
-      imports: [ TranslateModule.forRoot() ]
-    })
-      .compileComponents();
+      imports: [TranslateModule.forRoot()],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -59,5 +64,4 @@ describe('ContextHelpToggleComponent', () => {
       });
     }));
   });
-
 });

@@ -6,7 +6,12 @@ import { PaginatedList } from '../../core/data/paginated-list.model';
 import { SystemWideAlert } from '../system-wide-alert.model';
 import { hasValue, isNotEmpty } from '../../shared/empty.util';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 import { RemoteData } from '../../core/data/remote-data';
@@ -15,17 +20,15 @@ import { Router } from '@angular/router';
 import { RequestService } from '../../core/data/request.service';
 import { TranslateService } from '@ngx-translate/core';
 
-
 /**
  * Component responsible for rendering the form to update a system-wide alert
  */
 @Component({
   selector: 'ds-system-wide-alert-form',
   styleUrls: ['./system-wide-alert-form.component.scss'],
-  templateUrl: './system-wide-alert-form.component.html'
+  templateUrl: './system-wide-alert-form.component.html',
 })
 export class SystemWideAlertFormComponent implements OnInit {
-
   /**
    * Observable to track an existing system-wide alert
    */
@@ -59,7 +62,9 @@ export class SystemWideAlertFormComponent implements OnInit {
   /**
    * Behaviour subject to track whether the counter is enabled
    */
-  counterEnabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  counterEnabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
 
   /**
    * The amount of minutes to be used in the banner preview
@@ -76,15 +81,13 @@ export class SystemWideAlertFormComponent implements OnInit {
    */
   previewDays: number;
 
-
   constructor(
     protected systemWideAlertDataService: SystemWideAlertDataService,
     protected notificationsService: NotificationsService,
     protected router: Router,
     protected requestService: RequestService,
     protected translateService: TranslateService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.systemWideAlert$ = this.systemWideAlertDataService.findAll().pipe(
@@ -93,7 +96,9 @@ export class SystemWideAlertFormComponent implements OnInit {
         if (rd.hasSucceeded) {
           return rd.payload;
         } else {
-          this.notificationsService.error('system-wide-alert-form.retrieval.error');
+          this.notificationsService.error(
+            'system-wide-alert-form.retrieval.error'
+          );
         }
       }),
       map((payload: PaginatedList<SystemWideAlert>) => payload.page),
@@ -103,8 +108,11 @@ export class SystemWideAlertFormComponent implements OnInit {
     this.createForm();
 
     const currentDate = new Date();
-    this.minDate = {year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()};
-
+    this.minDate = {
+      year: currentDate.getFullYear(),
+      month: currentDate.getMonth() + 1,
+      day: currentDate.getDate(),
+    };
 
     this.systemWideAlert$.subscribe((alert) => {
       this.currentAlert = alert;
@@ -117,12 +125,11 @@ export class SystemWideAlertFormComponent implements OnInit {
    */
   createForm() {
     this.alertForm = new UntypedFormBuilder().group({
-        formMessage: new UntypedFormControl('', {
-          validators: [Validators.required],
-        }),
-        formActive: new UntypedFormControl(false),
-      }
-    );
+      formMessage: new UntypedFormControl('', {
+        validators: [Validators.required],
+      }),
+      formActive: new UntypedFormControl(false),
+    });
     this.setDateTime(new Date());
   }
 
@@ -138,7 +145,6 @@ export class SystemWideAlertFormComponent implements OnInit {
       this.counterEnabled$.next(true);
       this.setDateTime(countDownTo);
     }
-
   }
 
   /**
@@ -166,10 +172,13 @@ export class SystemWideAlertFormComponent implements OnInit {
     }
   }
 
-
   private setDateTime(dateToSet) {
-    this.time = {hour: dateToSet.getHours(), minute: dateToSet.getMinutes()};
-    this.date = {year: dateToSet.getFullYear(), month: dateToSet.getMonth() + 1, day: dateToSet.getDate()};
+    this.time = { hour: dateToSet.getHours(), minute: dateToSet.getMinutes() };
+    this.date = {
+      year: dateToSet.getFullYear(),
+      month: dateToSet.getMonth() + 1,
+      day: dateToSet.getDate(),
+    };
 
     this.updatePreviewTime();
   }
@@ -178,7 +187,13 @@ export class SystemWideAlertFormComponent implements OnInit {
    * Update the preview time based on the configured countdown date and the current time
    */
   updatePreviewTime() {
-    const countDownTo = new Date(this.date.year, this.date.month - 1, this.date.day, this.time.hour, this.time.minute);
+    const countDownTo = new Date(
+      this.date.year,
+      this.date.month - 1,
+      this.date.day,
+      this.time.hour,
+      this.time.minute
+    );
     const timeDifference = countDownTo.getTime() - new Date().getTime();
     this.allocateTimeUnits(timeDifference);
   }
@@ -188,11 +203,10 @@ export class SystemWideAlertFormComponent implements OnInit {
    * @param timeDifference  - The time difference to calculate and push the time units for
    */
   private allocateTimeUnits(timeDifference) {
-    this.previewMinutes = Math.floor((timeDifference) / (1000 * 60) % 60);
-    this.previewHours = Math.floor((timeDifference) / (1000 * 60 * 60) % 24);
-    this.previewDays = Math.floor((timeDifference) / (1000 * 60 * 60 * 24));
+    this.previewMinutes = Math.floor((timeDifference / (1000 * 60)) % 60);
+    this.previewHours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);
+    this.previewDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
   }
-
 
   get formMessage() {
     return this.alertForm.get('formMessage');
@@ -209,38 +223,67 @@ export class SystemWideAlertFormComponent implements OnInit {
    *
    * @param navigateToHomePage  - Whether the user should be navigated back on successful save or not
    */
-  save(navigateToHomePage  = true) {
+  save(navigateToHomePage = true) {
     const alert = new SystemWideAlert();
     alert.message = this.formMessage.value;
     alert.active = this.formActive.value;
     if (this.counterEnabled$.getValue()) {
-      const countDownTo = new Date(this.date.year, this.date.month - 1, this.date.day, this.time.hour, this.time.minute);
+      const countDownTo = new Date(
+        this.date.year,
+        this.date.month - 1,
+        this.date.day,
+        this.time.hour,
+        this.time.minute
+      );
       alert.countdownTo = utcToZonedTime(countDownTo, 'UTC').toUTCString();
     } else {
       alert.countdownTo = null;
     }
     if (hasValue(this.currentAlert)) {
-      const updatedAlert = Object.assign(new SystemWideAlert(), this.currentAlert, alert);
-      this.handleResponse(this.systemWideAlertDataService.put(updatedAlert), 'system-wide-alert.form.update', navigateToHomePage);
+      const updatedAlert = Object.assign(
+        new SystemWideAlert(),
+        this.currentAlert,
+        alert
+      );
+      this.handleResponse(
+        this.systemWideAlertDataService.put(updatedAlert),
+        'system-wide-alert.form.update',
+        navigateToHomePage
+      );
     } else {
-      this.handleResponse(this.systemWideAlertDataService.create(alert), 'system-wide-alert.form.create', navigateToHomePage);
+      this.handleResponse(
+        this.systemWideAlertDataService.create(alert),
+        'system-wide-alert.form.create',
+        navigateToHomePage
+      );
     }
   }
 
-  private handleResponse(response$: Observable<RemoteData<SystemWideAlert>>, messagePrefix, navigateToHomePage: boolean) {
-    response$.pipe(
-      getFirstCompletedRemoteData()
-    ).subscribe((response: RemoteData<SystemWideAlert>) => {
-      if (response.hasSucceeded) {
-        this.notificationsService.success(this.translateService.get(`${messagePrefix}.success`));
-        this.requestService.setStaleByHrefSubstring('systemwidealerts');
-        if (navigateToHomePage) {
-          this.back();
+  private handleResponse(
+    response$: Observable<RemoteData<SystemWideAlert>>,
+    messagePrefix,
+    navigateToHomePage: boolean
+  ) {
+    response$
+      .pipe(getFirstCompletedRemoteData())
+      .subscribe((response: RemoteData<SystemWideAlert>) => {
+        if (response.hasSucceeded) {
+          this.notificationsService.success(
+            this.translateService.get(`${messagePrefix}.success`)
+          );
+          this.requestService.setStaleByHrefSubstring('systemwidealerts');
+          if (navigateToHomePage) {
+            this.back();
+          }
+        } else {
+          this.notificationsService.error(
+            this.translateService.get(
+              `${messagePrefix}.error`,
+              response.errorMessage
+            )
+          );
         }
-      } else {
-        this.notificationsService.error(this.translateService.get(`${messagePrefix}.error`, response.errorMessage));
-      }
-    });
+      });
   }
 
   /**
@@ -249,6 +292,4 @@ export class SystemWideAlertFormComponent implements OnInit {
   back() {
     this.router.navigate(['/home']);
   }
-
-
 }

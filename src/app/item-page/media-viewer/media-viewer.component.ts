@@ -40,13 +40,12 @@ export class MediaViewerComponent implements OnDestroy, OnInit {
 
   subs: Subscription[] = [];
 
-  constructor(
-    protected bitstreamDataService: BitstreamDataService,
-  ) {
-  }
+  constructor(protected bitstreamDataService: BitstreamDataService) {}
 
   ngOnDestroy(): void {
-    this.subs.forEach((subscription: Subscription) => subscription.unsubscribe());
+    this.subs.forEach((subscription: Subscription) =>
+      subscription.unsubscribe()
+    );
   }
 
   /**
@@ -58,36 +57,53 @@ export class MediaViewerComponent implements OnDestroy, OnInit {
       ...(this.mediaOptions.video ? ['audio', 'video'] : []),
     ];
     this.thumbnailsRD$ = this.loadRemoteData('THUMBNAIL');
-    this.subs.push(this.loadRemoteData('ORIGINAL').subscribe((bitstreamsRD: RemoteData<PaginatedList<Bitstream>>) => {
-      if (bitstreamsRD.payload.page.length === 0) {
-        this.isLoading = false;
-        this.mediaList$.next([]);
-      } else {
-        this.subs.push(this.thumbnailsRD$.subscribe((thumbnailsRD: RemoteData<PaginatedList<Bitstream>>) => {
-          for (
-            let index = 0;
-            index < bitstreamsRD.payload.page.length;
-            index++
-          ) {
-            this.subs.push(bitstreamsRD.payload.page[index].format
-              .pipe(getFirstSucceededRemoteDataPayload())
-              .subscribe((format: BitstreamFormat) => {
-                const mediaItem = this.createMediaViewerItem(
-                  bitstreamsRD.payload.page[index],
-                  format,
-                  thumbnailsRD.payload && thumbnailsRD.payload.page[index]
-                );
-                if (types.includes(mediaItem.format)) {
-                  this.mediaList$.next([...this.mediaList$.getValue(), mediaItem]);
-                } else if (format.mimetype === 'text/vtt') {
-                  this.captions$.next([...this.captions$.getValue(), bitstreamsRD.payload.page[index]]);
+    this.subs.push(
+      this.loadRemoteData('ORIGINAL').subscribe(
+        (bitstreamsRD: RemoteData<PaginatedList<Bitstream>>) => {
+          if (bitstreamsRD.payload.page.length === 0) {
+            this.isLoading = false;
+            this.mediaList$.next([]);
+          } else {
+            this.subs.push(
+              this.thumbnailsRD$.subscribe(
+                (thumbnailsRD: RemoteData<PaginatedList<Bitstream>>) => {
+                  for (
+                    let index = 0;
+                    index < bitstreamsRD.payload.page.length;
+                    index++
+                  ) {
+                    this.subs.push(
+                      bitstreamsRD.payload.page[index].format
+                        .pipe(getFirstSucceededRemoteDataPayload())
+                        .subscribe((format: BitstreamFormat) => {
+                          const mediaItem = this.createMediaViewerItem(
+                            bitstreamsRD.payload.page[index],
+                            format,
+                            thumbnailsRD.payload &&
+                              thumbnailsRD.payload.page[index]
+                          );
+                          if (types.includes(mediaItem.format)) {
+                            this.mediaList$.next([
+                              ...this.mediaList$.getValue(),
+                              mediaItem,
+                            ]);
+                          } else if (format.mimetype === 'text/vtt') {
+                            this.captions$.next([
+                              ...this.captions$.getValue(),
+                              bitstreamsRD.payload.page[index],
+                            ]);
+                          }
+                        })
+                    );
+                  }
+                  this.isLoading = false;
                 }
-              }));
+              )
+            );
           }
-          this.isLoading = false;
-        }));
-      }
-    }));
+        }
+      )
+    );
   }
 
   /**
@@ -110,7 +126,8 @@ export class MediaViewerComponent implements OnDestroy, OnInit {
         filter(
           (bitstreamsRD: RemoteData<PaginatedList<Bitstream>>) =>
             hasValue(bitstreamsRD) &&
-            (hasValue(bitstreamsRD.errorMessage) || hasValue(bitstreamsRD.payload))
+            (hasValue(bitstreamsRD.errorMessage) ||
+              hasValue(bitstreamsRD.payload))
         ),
         take(1)
       );
@@ -122,7 +139,11 @@ export class MediaViewerComponent implements OnDestroy, OnInit {
    * @param format original bitstream format
    * @param thumbnail thumbnail bitstream
    */
-  createMediaViewerItem(original: Bitstream, format: BitstreamFormat, thumbnail: Bitstream): MediaViewerItem {
+  createMediaViewerItem(
+    original: Bitstream,
+    format: BitstreamFormat,
+    thumbnail: Bitstream
+  ): MediaViewerItem {
     const mediaItem = new MediaViewerItem();
     mediaItem.bitstream = original;
     mediaItem.format = format.mimetype.split('/')[0];

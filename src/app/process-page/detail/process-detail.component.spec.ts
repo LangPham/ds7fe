@@ -11,7 +11,7 @@ import {
   flush,
   flushMicrotasks,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 import { VarDirective } from '../../shared/utils/var.directive';
 import { TranslateModule } from '@ngx-translate/core';
@@ -28,14 +28,14 @@ import { DSONameService } from '../../core/breadcrumbs/dso-name.service';
 import {
   createFailedRemoteDataObject$,
   createSuccessfulRemoteDataObject,
-  createSuccessfulRemoteDataObject$
+  createSuccessfulRemoteDataObject$,
 } from '../../shared/remote-data.utils';
 import { createPaginatedList } from '../../shared/testing/utils.test';
 import { NotificationsServiceStub } from '../../shared/testing/notifications-service.stub';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { getProcessListRoute } from '../process-page-routing.paths';
-import {ProcessStatus} from '../processes/process-status.model';
+import { ProcessStatus } from '../processes/process-status.model';
 
 describe('ProcessDetailComponent', () => {
   let component: ProcessDetailComponent;
@@ -67,21 +67,21 @@ describe('ProcessDetailComponent', () => {
       parameters: [
         {
           name: '-f',
-          value: 'file.xml'
+          value: 'file.xml',
         },
         {
           name: '-i',
-          value: 'identifier'
-        }
+          value: 'identifier',
+        },
       ],
       _links: {
         self: {
-          href: 'https://rest.api/processes/1'
+          href: 'https://rest.api/processes/1',
         },
         output: {
-          href: 'https://rest.api/processes/1/output'
-        }
-      }
+          href: 'https://rest.api/processes/1/output',
+        },
+      },
     });
     fileName = 'fake-file-name';
     files = [
@@ -91,20 +91,20 @@ describe('ProcessDetailComponent', () => {
           'dc.title': [
             {
               value: fileName,
-              language: null
-            }
-          ]
+              language: null,
+            },
+          ],
         },
         _links: {
-          content: { href: 'file-selflink' }
-        }
-      })
+          content: { href: 'file-selflink' },
+        },
+      }),
     ];
     const logBitstream = Object.assign(new Bitstream(), {
       id: 'output.log',
       _links: {
-        content: { href: 'log-selflink' }
-      }
+        content: { href: 'log-selflink' },
+      },
     });
     processService = jasmine.createSpyObj('processService', {
       getFiles: createSuccessfulRemoteDataObject$(createPaginatedList(files)),
@@ -112,42 +112,54 @@ describe('ProcessDetailComponent', () => {
       findById: createSuccessfulRemoteDataObject$(process),
     });
     bitstreamDataService = jasmine.createSpyObj('bitstreamDataService', {
-      findByHref: createSuccessfulRemoteDataObject$(logBitstream)
+      findByHref: createSuccessfulRemoteDataObject$(logBitstream),
     });
     nameService = jasmine.createSpyObj('nameService', {
-      getName: fileName
+      getName: fileName,
     });
     httpClient = jasmine.createSpyObj('httpClient', {
-      get: observableOf(processOutput)
+      get: observableOf(processOutput),
     });
 
     modalService = jasmine.createSpyObj('modalService', {
-      open: {}
+      open: {},
     });
 
     notificationsService = new NotificationsServiceStub();
 
     router = jasmine.createSpyObj('router', {
-      navigateByUrl:{}
+      navigateByUrl: {},
     });
 
     route = jasmine.createSpyObj('route', {
-      data: observableOf({ process: createSuccessfulRemoteDataObject(process) }),
+      data: observableOf({
+        process: createSuccessfulRemoteDataObject(process),
+      }),
       snapshot: {
-        params: { id: process.processId }
-      }
+        params: { id: process.processId },
+      },
     });
   }
 
   beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
-      declarations: [ProcessDetailComponent, ProcessDetailFieldComponent, VarDirective, FileSizePipe],
+      declarations: [
+        ProcessDetailComponent,
+        ProcessDetailFieldComponent,
+        VarDirective,
+        FileSizePipe,
+      ],
       imports: [TranslateModule.forRoot()],
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { data: observableOf({ process: createSuccessfulRemoteDataObject(process) }), snapshot: { params: { id: 1 } } },
+          useValue: {
+            data: observableOf({
+              process: createSuccessfulRemoteDataObject(process),
+            }),
+            snapshot: { params: { id: 1 } },
+          },
         },
         { provide: ProcessDataService, useValue: processService },
         { provide: BitstreamDataService, useValue: bitstreamDataService },
@@ -158,7 +170,7 @@ describe('ProcessDetailComponent', () => {
         { provide: NotificationsService, useValue: notificationsService },
         { provide: Router, useValue: router },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -175,23 +187,29 @@ describe('ProcessDetailComponent', () => {
     component = null;
   }));
 
-  it('should display the script\'s name', () => {
+  it("should display the script's name", () => {
     fixture.detectChanges();
-    const name = fixture.debugElement.query(By.css('#process-name')).nativeElement;
+    const name = fixture.debugElement.query(
+      By.css('#process-name')
+    ).nativeElement;
     expect(name.textContent).toContain(process.scriptName);
   });
 
-  it('should display the process\'s parameters', () => {
+  it("should display the process's parameters", () => {
     fixture.detectChanges();
-    const args = fixture.debugElement.query(By.css('#process-arguments')).nativeElement;
+    const args = fixture.debugElement.query(
+      By.css('#process-arguments')
+    ).nativeElement;
     process.parameters.forEach((param) => {
       expect(args.textContent).toContain(`${param.name} ${param.value}`);
     });
   });
 
-  it('should display the process\'s output files', () => {
+  it("should display the process's output files", () => {
     fixture.detectChanges();
-    const processFiles = fixture.debugElement.query(By.css('#process-files')).nativeElement;
+    const processFiles = fixture.debugElement.query(
+      By.css('#process-files')
+    ).nativeElement;
     expect(processFiles.textContent).toContain(fileName);
   });
 
@@ -200,19 +218,24 @@ describe('ProcessDetailComponent', () => {
       spyOn(component, 'showProcessOutputLogs').and.callThrough();
       fixture.detectChanges();
 
-      const showOutputButton = fixture.debugElement.query(By.css('#showOutputButton'));
+      const showOutputButton = fixture.debugElement.query(
+        By.css('#showOutputButton')
+      );
       showOutputButton.triggerEventHandler('click', {
-        preventDefault: () => {/**/
-        }
+        preventDefault: () => {
+          /**/
+        },
       });
       tick();
     }));
     it('should trigger showProcessOutputLogs', () => {
       expect(component.showProcessOutputLogs).toHaveBeenCalled();
     });
-    it('should display the process\'s output logs', () => {
+    it("should display the process's output logs", () => {
       fixture.detectChanges();
-      const outputProcess = fixture.debugElement.query(By.css('#process-output pre'));
+      const outputProcess = fixture.debugElement.query(
+        By.css('#process-output pre')
+      );
       expect(outputProcess.nativeElement.textContent).toContain(processOutput);
     });
   });
@@ -225,20 +248,27 @@ describe('ProcessDetailComponent', () => {
       component = fixture.componentInstance;
       spyOn(component, 'showProcessOutputLogs').and.callThrough();
       fixture.detectChanges();
-      const showOutputButton = fixture.debugElement.query(By.css('#showOutputButton'));
+      const showOutputButton = fixture.debugElement.query(
+        By.css('#showOutputButton')
+      );
       showOutputButton.triggerEventHandler('click', {
-        preventDefault: () => {/**/
-        }
+        preventDefault: () => {
+          /**/
+        },
       });
       tick();
       fixture.detectChanges();
     }));
-    it('should not display the process\'s output logs', () => {
-      const outputProcess = fixture.debugElement.query(By.css('#process-output pre'));
+    it("should not display the process's output logs", () => {
+      const outputProcess = fixture.debugElement.query(
+        By.css('#process-output pre')
+      );
       expect(outputProcess).toBeNull();
     });
     it('should display message saying there are no output logs', () => {
-      const noOutputProcess = fixture.debugElement.query(By.css('#no-output-logs-message')).nativeElement;
+      const noOutputProcess = fixture.debugElement.query(
+        By.css('#no-output-logs-message')
+      ).nativeElement;
       expect(noOutputProcess).toBeDefined();
     });
   });
@@ -261,7 +291,9 @@ describe('ProcessDetailComponent', () => {
       expect(router.navigateByUrl).toHaveBeenCalledWith(getProcessListRoute());
     });
     it('should delete the process and not navigate on error', () => {
-      (processService.delete as jasmine.Spy).and.returnValue(createFailedRemoteDataObject$());
+      (processService.delete as jasmine.Spy).and.returnValue(
+        createFailedRemoteDataObject$()
+      );
       spyOn(component, 'closeModal');
 
       component.deleteProcess(process);
@@ -274,15 +306,18 @@ describe('ProcessDetailComponent', () => {
   });
 
   describe('refresh counter', () => {
-    const queryRefreshCounter = () => fixture.debugElement.query(By.css('.refresh-counter'));
+    const queryRefreshCounter = () =>
+      fixture.debugElement.query(By.css('.refresh-counter'));
 
     describe('if process is completed', () => {
       beforeEach(() => {
         process.processStatus = ProcessStatus.COMPLETED;
-        route.data = observableOf({process: createSuccessfulRemoteDataObject(process)});
+        route.data = observableOf({
+          process: createSuccessfulRemoteDataObject(process),
+        });
       });
 
-      it('should not show',  () => {
+      it('should not show', () => {
         spyOn(component, 'startRefreshTimer');
 
         const refreshCounter = queryRefreshCounter();
@@ -295,12 +330,14 @@ describe('ProcessDetailComponent', () => {
     describe('if process is not finished', () => {
       beforeEach(() => {
         process.processStatus = ProcessStatus.RUNNING;
-        route.data = observableOf({process: createSuccessfulRemoteDataObject(process)});
+        route.data = observableOf({
+          process: createSuccessfulRemoteDataObject(process),
+        });
         fixture.detectChanges();
         component.stopRefreshTimer();
       });
 
-      it('should call startRefreshTimer',  () => {
+      it('should call startRefreshTimer', () => {
         spyOn(component, 'startRefreshTimer');
 
         component.ngOnInit();
@@ -316,7 +353,9 @@ describe('ProcessDetailComponent', () => {
         // start off with a running process in order for the refresh counter starts counting up
         process.processStatus = ProcessStatus.RUNNING;
         // set findbyId to return a completed process
-        (processService.findById as jasmine.Spy).and.returnValue(observableOf(createSuccessfulRemoteDataObject(process)));
+        (processService.findById as jasmine.Spy).and.returnValue(
+          observableOf(createSuccessfulRemoteDataObject(process))
+        );
 
         component.ngOnInit();
         fixture.detectChanges(); // subscribe to process observable with async pipe
@@ -339,7 +378,9 @@ describe('ProcessDetailComponent', () => {
 
         // set the process to completed right before the counter checks the process
         process.processStatus = ProcessStatus.COMPLETED;
-        (processService.findById as jasmine.Spy).and.returnValue(observableOf(createSuccessfulRemoteDataObject(process)));
+        (processService.findById as jasmine.Spy).and.returnValue(
+          observableOf(createSuccessfulRemoteDataObject(process))
+        );
 
         tick(1000); // 1 second
 
@@ -362,8 +403,6 @@ describe('ProcessDetailComponent', () => {
         const refreshCounter = queryRefreshCounter();
         expect(refreshCounter).not.toBeNull();
       });
-
     });
-
   });
 });

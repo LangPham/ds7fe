@@ -14,9 +14,7 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { ThemedNavbarComponent } from './themed-navbar.component';
 
-const effects = [
-  NavbarEffects
-];
+const effects = [NavbarEffects];
 
 const ENTRY_COMPONENTS = [
   // put only entry components that use custom decorator
@@ -32,19 +30,15 @@ const ENTRY_COMPONENTS = [
     MenuModule,
     FormsModule,
     EffectsModule.forFeature(effects),
-    CoreModule.forRoot()
+    CoreModule.forRoot(),
   ],
-  declarations: [
-    ...ENTRY_COMPONENTS,
-    NavbarComponent,
-    ThemedNavbarComponent,
-  ],
+  declarations: [...ENTRY_COMPONENTS, NavbarComponent, ThemedNavbarComponent],
   providers: [],
   exports: [
     ThemedNavbarComponent,
     NavbarSectionComponent,
-    ThemedExpandableNavbarSectionComponent
-  ]
+    ThemedExpandableNavbarSectionComponent,
+  ],
 })
 
 /**
@@ -58,8 +52,7 @@ export class NavbarModule {
   static withEntryComponents() {
     return {
       ngModule: NavbarModule,
-      providers: ENTRY_COMPONENTS.map((component) => ({provide: component}))
+      providers: ENTRY_COMPONENTS.map((component) => ({ provide: component })),
     };
   }
-
 }

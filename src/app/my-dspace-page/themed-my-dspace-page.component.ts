@@ -8,16 +8,17 @@ import { MyDSpacePageComponent } from './my-dspace-page.component';
 @Component({
   selector: 'ds-themed-my-dspace-page',
   styleUrls: [],
-  templateUrl: './../shared/theme-support/themed.component.html'
+  templateUrl: './../shared/theme-support/themed.component.html',
 })
 export class ThemedMyDSpacePageComponent extends ThemedComponent<MyDSpacePageComponent> {
-
   protected getComponentName(): string {
     return 'MyDSpacePageComponent';
   }
 
   protected importThemedComponent(themeName: string): Promise<any> {
-    return import(`../../themes/${themeName}/app/my-dspace-page/my-dspace-page.component`);
+    return import(
+      `../../themes/${themeName}/app/my-dspace-page/my-dspace-page.component`
+    );
   }
 
   protected importUnthemedComponent(): Promise<any> {

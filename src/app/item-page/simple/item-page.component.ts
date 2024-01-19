@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
 
@@ -20,7 +27,10 @@ import { ServerResponseService } from '../../core/services/server-response.servi
 import { SignpostingDataService } from '../../core/data/signposting-data.service';
 import { SignpostingLink } from '../../core/data/signposting-links.model';
 import { isNotEmpty } from '../../shared/empty.util';
-import { LinkDefinition, LinkHeadService } from '../../core/services/link-head.service';
+import {
+  LinkDefinition,
+  LinkHeadService,
+} from '../../core/services/link-head.service';
 
 /**
  * This component renders a simple item page.
@@ -32,10 +42,9 @@ import { LinkDefinition, LinkHeadService } from '../../core/services/link-head.s
   styleUrls: ['./item-page.component.scss'],
   templateUrl: './item-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [fadeInOut]
+  animations: [fadeInOut],
 })
 export class ItemPageComponent implements OnInit, OnDestroy {
-
   /**
    * The item's id
    */
@@ -95,8 +104,9 @@ export class ItemPageComponent implements OnInit, OnDestroy {
       map((item) => getItemPageRoute(item))
     );
 
-    this.isAdmin$ = this.authorizationService.isAuthorized(FeatureID.AdministratorOf);
-
+    this.isAdmin$ = this.authorizationService.isAuthorized(
+      FeatureID.AdministratorOf
+    );
   }
 
   /**
@@ -105,29 +115,36 @@ export class ItemPageComponent implements OnInit, OnDestroy {
    * @private
    */
   private initPageLinks(): void {
-    this.route.params.subscribe(params => {
-      this.signpostingDataService.getLinks(params.id).pipe(take(1)).subscribe((signpostingLinks: SignpostingLink[]) => {
-        let links = '';
-        this.signpostingLinks = signpostingLinks;
+    this.route.params.subscribe((params) => {
+      this.signpostingDataService
+        .getLinks(params.id)
+        .pipe(take(1))
+        .subscribe((signpostingLinks: SignpostingLink[]) => {
+          let links = '';
+          this.signpostingLinks = signpostingLinks;
 
-        signpostingLinks.forEach((link: SignpostingLink) => {
-          links = links + (isNotEmpty(links) ? ', ' : '') + `<${link.href}> ; rel="${link.rel}"` + (isNotEmpty(link.type) ? ` ; type="${link.type}" ` : ' ');
-          let tag: LinkDefinition = {
-            href: link.href,
-            rel: link.rel
-          };
-          if (isNotEmpty(link.type)) {
-            tag = Object.assign(tag, {
-              type: link.type
-            });
+          signpostingLinks.forEach((link: SignpostingLink) => {
+            links =
+              links +
+              (isNotEmpty(links) ? ', ' : '') +
+              `<${link.href}> ; rel="${link.rel}"` +
+              (isNotEmpty(link.type) ? ` ; type="${link.type}" ` : ' ');
+            let tag: LinkDefinition = {
+              href: link.href,
+              rel: link.rel,
+            };
+            if (isNotEmpty(link.type)) {
+              tag = Object.assign(tag, {
+                type: link.type,
+              });
+            }
+            this.linkHeadService.addTag(tag);
+          });
+
+          if (isPlatformServer(this.platformId)) {
+            this.responseService.setHeader('Link', links);
           }
-          this.linkHeadService.addTag(tag);
         });
-
-        if (isPlatformServer(this.platformId)) {
-          this.responseService.setHeader('Link', links);
-        }
-      });
     });
   }
 

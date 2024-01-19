@@ -1,4 +1,10 @@
-import { Component, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { MetadataValue } from '../../../core/shared/metadata.models';
 import { APP_CONFIG, AppConfig } from '../../../../config/app-config.interface';
 import { BrowseDefinition } from '../../../core/shared/browse-definition.model';
@@ -12,14 +18,10 @@ import { VALUE_LIST_BROWSE_DEFINITION } from '../../../core/shared/value-list-br
 @Component({
   selector: 'ds-metadata-values',
   styleUrls: ['./metadata-values.component.scss'],
-  templateUrl: './metadata-values.component.html'
+  templateUrl: './metadata-values.component.html',
 })
 export class MetadataValuesComponent implements OnChanges {
-
-  constructor(
-    @Inject(APP_CONFIG) private appConfig: AppConfig,
-  ) {
-  }
+  constructor(@Inject(APP_CONFIG) private appConfig: AppConfig) {}
 
   /**
    * The metadata values to display
@@ -56,7 +58,8 @@ export class MetadataValuesComponent implements OnChanges {
   @Input() browseDefinition?: BrowseDefinition;
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.renderMarkdown = !!this.appConfig.markdown.enabled && this.enableMarkdown;
+    this.renderMarkdown =
+      !!this.appConfig.markdown.enabled && this.enableMarkdown;
   }
 
   /**
@@ -84,9 +87,12 @@ export class MetadataValuesComponent implements OnChanges {
    * @param value the specific metadata value being linked
    */
   getQueryParams(value) {
-    let queryParams = {startsWith: value};
-    if (this.browseDefinition.getRenderType() === VALUE_LIST_BROWSE_DEFINITION.value) {
-      return {value: value};
+    let queryParams = { startsWith: value };
+    if (
+      this.browseDefinition.getRenderType() ===
+      VALUE_LIST_BROWSE_DEFINITION.value
+    ) {
+      return { value: value };
     }
     return queryParams;
   }

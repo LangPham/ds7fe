@@ -13,26 +13,24 @@ import { Bitstream } from '../../../core/shared/bitstream.model';
   templateUrl: '../../../shared/theme-support/themed.component.html',
 })
 export class ThemedMediaViewerVideoComponent extends ThemedComponent<MediaViewerVideoComponent> {
-
   @Input() medias: MediaViewerItem[];
 
   @Input() captions: Bitstream[];
 
-  protected inAndOutputNames: (keyof MediaViewerVideoComponent & keyof this)[] = [
-    'medias',
-    'captions',
-  ];
+  protected inAndOutputNames: (keyof MediaViewerVideoComponent & keyof this)[] =
+    ['medias', 'captions'];
 
   protected getComponentName(): string {
     return 'MediaViewerVideoComponent';
   }
 
   protected importThemedComponent(themeName: string): Promise<any> {
-    return import(`../../../../themes/${themeName}/app/item-page/media-viewer/media-viewer-video/media-viewer-video.component`);
+    return import(
+      `../../../../themes/${themeName}/app/item-page/media-viewer/media-viewer-video/media-viewer-video.component`
+    );
   }
 
   protected importUnthemedComponent(): Promise<any> {
     return import('./media-viewer-video.component');
   }
-
 }

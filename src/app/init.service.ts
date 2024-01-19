@@ -52,10 +52,8 @@ export abstract class InitService {
     protected metadata: MetadataService,
     protected breadcrumbsService: BreadcrumbsService,
     protected themeService: ThemeService,
-    protected menuService: MenuService,
-
-  ) {
-  }
+    protected menuService: MenuService
+  ) {}
 
   /**
    * The initialization providers to use in `*AppModule`
@@ -82,12 +80,12 @@ export abstract class InitService {
           this.resolveAppConfig(transferState);
           return environment;
         },
-        deps: [ TransferState ]
+        deps: [TransferState],
       },
       {
         provide: APP_INITIALIZER,
         useFactory: (initService: InitService) => initService.init(),
-        deps: [ InitService ],
+        deps: [InitService],
         multi: true,
       },
     ];
@@ -102,9 +100,7 @@ export abstract class InitService {
    * In this case that means that we must transfer the configuration from the SSR state during pre-initialization.
    * @protected
    */
-  protected static resolveAppConfig(
-    transferState: TransferState
-  ): void {
+  protected static resolveAppConfig(transferState: TransferState): void {
     // overriden in subclasses if applicable
   }
 
@@ -158,8 +154,8 @@ export abstract class InitService {
     // Load all the languages that are defined as active from the config file
     this.translate.addLangs(
       environment.languages
-                 .filter((LangConfig) => LangConfig.active === true)
-                 .map((a) => a.code)
+        .filter((LangConfig) => LangConfig.active === true)
+        .map((a) => a.code)
     );
 
     // Load the default language from the config file

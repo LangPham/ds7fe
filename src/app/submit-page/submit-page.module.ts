@@ -17,6 +17,4 @@ import { FormModule } from '../shared/form/form.module';
 /**
  * This module handles all modules that need to access the submit page.
  */
-export class SubmitPageModule {
-
-}
+export class SubmitPageModule {}

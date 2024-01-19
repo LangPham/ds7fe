@@ -4,7 +4,10 @@ import { getAccessControlModuleRoute } from '../app-routing-paths';
 export const EPERSON_PATH = 'epeople';
 
 export function getEPersonsRoute(): string {
-  return new URLCombiner(getAccessControlModuleRoute(), EPERSON_PATH).toString();
+  return new URLCombiner(
+    getAccessControlModuleRoute(),
+    EPERSON_PATH
+  ).toString();
 }
 
 export function getEPersonEditRoute(id: string): string {

@@ -29,21 +29,21 @@ describe('ItemAdminSearchResultListElementComponent', () => {
   beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([])
-      ],
+      imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
       declarations: [ItemAdminSearchResultListElementComponent],
-      providers: [{ provide: TruncatableService, useValue: {} },
+      providers: [
+        { provide: TruncatableService, useValue: {} },
         { provide: DSONameService, useClass: DSONameServiceMock },
-        { provide: APP_CONFIG, useValue: environment }],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+        { provide: APP_CONFIG, useValue: environment },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ItemAdminSearchResultListElementComponent);
+    fixture = TestBed.createComponent(
+      ItemAdminSearchResultListElementComponent
+    );
     component = fixture.componentInstance;
     component.object = searchResult;
     component.linkTypes = CollectionElementLinkType;

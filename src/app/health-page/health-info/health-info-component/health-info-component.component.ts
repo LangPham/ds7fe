@@ -9,14 +9,13 @@ import { HealthComponentComponent } from '../../health-panel/health-component/he
 @Component({
   selector: 'ds-health-info-component',
   templateUrl: './health-info-component.component.html',
-  styleUrls: ['./health-info-component.component.scss']
+  styleUrls: ['./health-info-component.component.scss'],
 })
 export class HealthInfoComponentComponent extends HealthComponentComponent {
-
   /**
    * The HealthInfoComponent object to display
    */
-  @Input() healthInfoComponent: HealthInfoComponent|string;
+  @Input() healthInfoComponent: HealthInfoComponent | string;
 
   /**
    * The HealthInfoComponent object name
@@ -42,5 +41,4 @@ export class HealthInfoComponentComponent extends HealthComponentComponent {
   isPlainProperty(entry: HealthInfoComponent | string): boolean {
     return typeof entry === 'string';
   }
-
 }
