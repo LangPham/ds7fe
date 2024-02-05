@@ -1,0 +1,19 @@
+:host {
+    .background-image-search {
+        position: relative;
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+        .background-image>img {
+            background-color: var(--bs-info);
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: bottom;
+        }
+    }
+
+}
