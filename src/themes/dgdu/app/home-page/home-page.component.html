@@ -3,15 +3,6 @@
   <ng-container *ngIf="(site$ | async) as site">
     <ds-view-tracker [object]="site"></ds-view-tracker>
   </ng-container>
-  <!-- <div class="background-image-search">
-    <ds-themed-search-form [inPlaceSearch]="false" [searchPlaceholder]="'home.search-form.placeholder' | translate"></ds-themed-search-form>
-    <picture class="background-image">    
-        <img
-          alt=""
-          [src]="'assets/dspace/images/banner-gdu.png'"
-        />
-      </picture>
-  </div> -->
   
   <ds-themed-top-level-community-list></ds-themed-top-level-community-list>
   <ds-recent-item-list *ngIf="recentSubmissionspageSize>0"></ds-recent-item-list>
