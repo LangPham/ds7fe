@@ -1329,7 +1329,7 @@
   'login.form.forgot-password': 'Có phải bạn quên mật khẩu?',
   'login.form.header': 'Vui lòng đăng nhập vào DSpace',
   'login.form.new-user': 'Bạn là người dùng mới? \n Vui lòng nhấp vào đây để đăng kí.',
-  'login.form.oidc': 'Đăng nhập với Office 365 của đơn vị',
+  'login.form.oidc': 'Đăng nhập với OIDC',
   'login.form.orcid': 'Đăng nhập với ORCID',
   'login.form.or-divider': 'hoặc',
   'login.form.password': 'Mật khẩu',
