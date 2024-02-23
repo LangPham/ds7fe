@@ -1,0 +1,14 @@
+{
+    "apps": [
+        {
+           "name": "dspace-angular",
+           "cwd": "/home/dspace/ds7fe",
+           "script": "dist/server/main.js",
+           "instances": 4,
+           "exec_mode": "cluster",
+           "env": {
+              "NODE_ENV": "production"
+           }
+        }
+    ]
+}
