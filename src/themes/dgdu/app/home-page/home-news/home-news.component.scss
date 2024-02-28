@@ -17,17 +17,12 @@
       object-position: bottom;
     }
 
-    .gdu-name {
-      padding-top: 100px;
-      padding-bottom: 300px;
-      text-align: right;
-      display: block;
-      width: 100%;
-    }
 
     .container {
       position: relative;
       text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+      // padding-top: 10px;
+      // padding-bottom: 10px;
 
       &:before,
       &:after {

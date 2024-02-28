@@ -26,18 +26,22 @@
     <ds-system-wide-alert-banner></ds-system-wide-alert-banner>
     <ds-themed-header-navbar-wrapper></ds-themed-header-navbar-wrapper>
     <ds-themed-breadcrumbs></ds-themed-breadcrumbs>
-    <main class="my-cs" id="main-content">
-      <div
-        class="container d-flex justify-content-center align-items-center h-100"
-        *ngIf="shouldShowRouteLoader"
-      >
-        <ds-themed-loading [showMessage]="false"></ds-themed-loading>
+    <div class="container">
+      <div  class="row">        
+        <main class="col-md-9 ds-mx-n15" id="main-content" >
+          <div
+            class="container d-flex justify-content-center align-items-center h-100"
+            *ngIf="shouldShowRouteLoader"
+          >
+            <ds-themed-loading [showMessage]="false"></ds-themed-loading>
+          </div>
+          <div [class.d-none]="shouldShowRouteLoader">
+            <router-outlet></router-outlet>
+          </div>
+        </main>
+        <section class="col-md-3">MENU</section>
       </div>
-      <div [class.d-none]="shouldShowRouteLoader">
-        <router-outlet></router-outlet>
-      </div>
-    </main>
-
+    </div>
     <ds-themed-footer></ds-themed-footer>
   </div>
 </div>

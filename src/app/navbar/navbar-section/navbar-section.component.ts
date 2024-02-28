@@ -15,8 +15,7 @@ import { MenuID } from '../../shared/menu/menu-id.model';
 @rendersSectionForMenu(MenuID.PUBLIC, false)
 export class NavbarSectionComponent
   extends MenuSectionComponent
-  implements OnInit
-{
+  implements OnInit {
   /**
    * This section resides in the Public Navbar
    */

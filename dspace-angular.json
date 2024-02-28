@@ -2,7 +2,7 @@
     "apps": [
         {
            "name": "dspace-angular",
-           "cwd": "/home/dspace/ds7fe",
+           "cwd": "/hdd/Git/java_lang/dspace-fe",
            "script": "dist/server/main.js",
            "instances": 4,
            "exec_mode": "cluster",
