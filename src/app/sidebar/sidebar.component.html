@@ -6,8 +6,21 @@
     class="navbar-inner-container w-100"
     
   >
-    <div class="reset-padding-md w-100">
-      <div id="collapsingNav1">
+    <div class="reset-padding-md w-100 mt-2 mb-2">      
+      <ul class="list-group">
+        <li class="list-group-item active"><h3 class="">{{'menu.section.browse_global' | translate}}</h3></li>
+        <li class="list-group-item"><a href="/browse/dateissued">{{'browse.comcol.by.dateissued' | translate}} </a></li>
+        <li class="list-group-item"><a href="/browse/author">{{'browse.comcol.by.author' | translate}} </a></li>
+        <li class="list-group-item"><a href="/browse/title">{{'browse.comcol.by.title' | translate}} </a></li>
+        <li class="list-group-item"><a href="/browse/subject">{{'browse.comcol.by.subject' | translate}} </a></li>
+        <li class="list-group-item"><a href="/browse/srsc">{{'browse.comcol.by.srsc' | translate}} </a></li>
+      </ul>
+      
+      
+      
+      
+     
+      <!-- <div id="collapsingNav">
         <ul class="navbar-nav navbar-navigation mr-auto shadow-none">     
           <li *ngFor="let section of sections | async">
             <span class="badge">{{ section.id }}</span> :
@@ -20,7 +33,7 @@
             ></ng-container>
           </li>
         </ul>
-      </div>
+      </div> -->
     </div>
   </div>
 </nav>
