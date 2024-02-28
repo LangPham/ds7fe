@@ -50,6 +50,11 @@
                 "inject": false,
                 "bundleName": "base-theme"
               },
+              // {
+              //   "input": "src/themes/custom/styles/theme.scss",
+              //   "inject": false,
+              //   "bundleName": "custom-theme"
+              // },
               {
                 "input": "src/themes/dspace/styles/theme.scss",
                 "inject": false,

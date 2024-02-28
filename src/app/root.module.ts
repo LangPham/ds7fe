@@ -32,6 +32,8 @@ import { ThemedPageErrorComponent } from './page-error/themed-page-error.compone
 import { PageErrorComponent } from './page-error/page-error.component';
 import { ContextHelpToggleComponent } from './header/context-help-toggle/context-help-toggle.component';
 import { SystemWideAlertModule } from './system-wide-alert/system-wide-alert.module';
+import { ThemedSidebarComponent } from './sidebar/themed-sidebar.component';
+// import { SidebarComponent } from './sidebar/sidebar.component';
 
 const IMPORTS = [
   CommonModule,
@@ -39,6 +41,7 @@ const IMPORTS = [
   NavbarModule,
   SystemWideAlertModule,
   NgbModule,
+  // SidebarComponent
 ];
 
 const PROVIDERS = [];
@@ -70,6 +73,7 @@ const DECLARATIONS = [
   ThemedPageErrorComponent,
   PageErrorComponent,
   ContextHelpToggleComponent,
+  ThemedSidebarComponent
 ];
 
 const EXPORTS = [];
